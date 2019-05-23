@@ -40,7 +40,13 @@ float speed_x=0;
 float speed_y=0;
 float cam_x=0;
 float aspectRatio=1;
+float angle_x=0; //Aktualny kąt obrotu obiektu
+float angle_y=0;
+float angle_z=0; //Aktualny kąt obrotu obiektu
 
+float gd = 0;
+
+float pl = 0;
 GLuint tex;
 
 GLuint readTexture(char* filename) {
@@ -75,19 +81,28 @@ void error_callback(int error, const char* description) {
 void keyCallback(GLFWwindow* window,int key,int scancode,int action,int mods) {
 
     if (action==GLFW_PRESS) {
-        if (key==GLFW_KEY_LEFT) speed_x=-PI/2;
-        if (key==GLFW_KEY_RIGHT) speed_x=PI/2;
-        if (key==GLFW_KEY_UP) speed_y=10;
-        if (key==GLFW_KEY_DOWN) speed_y=-10;
+        if (key==GLFW_KEY_LEFT) angle_x-=PI/2;
+        if (key==GLFW_KEY_RIGHT) angle_x+=PI/2;
+        if (key==GLFW_KEY_UP) angle_y-=PI/2;
+        if (key==GLFW_KEY_DOWN) angle_y+=PI/2;
+        if (key==GLFW_KEY_N) angle_z-=PI/2;
+        if (key==GLFW_KEY_M) angle_z+=PI/2;
+
+        if (key==GLFW_KEY_W) gd += 1.0f;
+        if (key==GLFW_KEY_S) gd -= 1.0f;
+        if (key==GLFW_KEY_A) pl-=1.0f;
+        if (key==GLFW_KEY_D) pl+=1.0f;
+
+        if (key==GLFW_KEY_Z) speed_y=10;
+        if (key==GLFW_KEY_X) speed_y=-10;
         if (key==GLFW_KEY_Q) cam_x=-PI;
         if (key==GLFW_KEY_E) cam_x=PI;
     }
 
     if (action==GLFW_RELEASE) {
-        if (key==GLFW_KEY_LEFT) speed_x=0;
-        if (key==GLFW_KEY_RIGHT) speed_x=0;
-        if (key==GLFW_KEY_UP) speed_y=0;
-        if (key==GLFW_KEY_DOWN) speed_y=0;
+
+        if (key==GLFW_KEY_Z) speed_y=0;
+        if (key==GLFW_KEY_X) speed_y=0;
         if (key==GLFW_KEY_Q) cam_x=0;
         if (key==GLFW_KEY_E) cam_x=0;
     }
@@ -143,10 +158,17 @@ void drawScene(GLFWwindow* window,float angle_x,float angle_y, float velo, float
     //glUniformMatrix4fv(spLambert->u("P"),1,false,glm::value_ptr(P));
     //glUniformMatrix4fv(spLambert->u("V"),1,false,glm::value_ptr(V));
     glm::mat4 M=glm::mat4(1.0f);
-	//M=glm::rotate(M,angle_y,glm::vec3(1.0f,0.0f,0.0f)); //Wylicz macierz modelu
+
+
+
+
+    M=glm::translate(M,glm::vec3(pl,gd,velo));
+	M=glm::translate(M,glm::vec3(0.0f,0.0f,falling));
+	M=glm::rotate(M,angle_y,glm::vec3(1.0f,0.0f,0.0f)); //Wylicz macierz modelu
 	M=glm::rotate(M,angle_x,glm::vec3(0.0f,1.0f,0.0f)); //Wylicz macierz modelu
-	M=glm::translate(M,glm::vec3(0.0f,velo,0.f));
-	M=glm::translate(M,glm::vec3(0.0f,falling,0.0f));
+	M=glm::rotate(M,angle_z,glm::vec3(0.0f,0.0f,1.0f)); //Wylicz macierz modelu
+	//M=glm::rotate(M,angle_y,glm::vec3(1.0f,0.0f,0.0f)); //Wylicz macierz modelu
+
 	V=glm::rotate(V,cam_angle_x,glm::vec3(0.0f,1.0f,0.0f));
     //glUniformMatrix4fv(spLambert->u("M"),1,false,glm::value_ptr(M));
 
@@ -208,15 +230,15 @@ int main(void)
 	initOpenGLProgram(window); //Operacje inicjujące
 
 	//Główna pętla
-	float angle_x=0; //Aktualny kąt obrotu obiektu
-	float angle_y=0; //Aktualny kąt obrotu obiektu
+	//float angle_x=0; //Aktualny kąt obrotu obiektu
+	//float angle_y=0; //Aktualny kąt obrotu obiektu
 	float velo=0;
 	float cam_angle_x=0;
 	float falling=0;
 	glfwSetTime(0); //Zeruj timer
 	while (!glfwWindowShouldClose(window)) //Tak długo jak okno nie powinno zostać zamknięte
 	{
-        angle_x+=speed_x*glfwGetTime(); //Zwiększ/zmniejsz kąt obrotu na podstawie prędkości i czasu jaki upłynał od poprzedniej klatki
+       // angle_x+=speed_x; //Zwiększ/zmniejsz kąt obrotu na podstawie prędkości i czasu jaki upłynał od poprzedniej klatki
         //angle_y+=speed_y*glfwGetTime(); //Zwiększ/zmniejsz kąt obrotu na podstawie prędkości i czasu jaki upłynał od poprzedniej klatki
         velo+=speed_y*glfwGetTime();
         if (round(glfwGetTime())==1.0)
