@@ -38,7 +38,7 @@ Place, Fifth Floor, Boston, MA  02110 - 1301  USA
 
 float speed_x=0;
 float speed_y=0;
-float cam_x=0;
+float cam_z=0;
 float aspectRatio=1;
 float angle_x=0; //Aktualny kąt obrotu obiektu
 float angle_y=0;
@@ -81,30 +81,25 @@ void error_callback(int error, const char* description) {
 void keyCallback(GLFWwindow* window,int key,int scancode,int action,int mods) {
 
     if (action==GLFW_PRESS) {
-        if (key==GLFW_KEY_LEFT) angle_x-=PI/2;
+        /*if (key==GLFW_KEY_LEFT) angle_x-=PI/2;
         if (key==GLFW_KEY_RIGHT) angle_x+=PI/2;
         if (key==GLFW_KEY_UP) angle_y-=PI/2;
-        if (key==GLFW_KEY_DOWN) angle_y+=PI/2;
+        if (key==GLFW_KEY_DOWN) angle_y+=PI/2;*/
         if (key==GLFW_KEY_N) angle_z-=PI/2;
         if (key==GLFW_KEY_M) angle_z+=PI/2;
 
-        if (key==GLFW_KEY_W) gd += 1.0f;
-        if (key==GLFW_KEY_S) gd -= 1.0f;
-        if (key==GLFW_KEY_A) pl-=1.0f;
-        if (key==GLFW_KEY_D) pl+=1.0f;
+        if (key==GLFW_KEY_UP) gd += 2.0f;
+        if (key==GLFW_KEY_DOWN) gd -= 2.0f;
+        if (key==GLFW_KEY_LEFT) pl-=2.0f;
+        if (key==GLFW_KEY_RIGHT) pl+=2.0f;
 
-        if (key==GLFW_KEY_Z) speed_y=10;
-        if (key==GLFW_KEY_X) speed_y=-10;
-        if (key==GLFW_KEY_Q) cam_x=-PI;
-        if (key==GLFW_KEY_E) cam_x=PI;
+        if (key==GLFW_KEY_Q) cam_z=-PI/2;
+        if (key==GLFW_KEY_E) cam_z=PI/2;
     }
 
     if (action==GLFW_RELEASE) {
-
-        if (key==GLFW_KEY_Z) speed_y=0;
-        if (key==GLFW_KEY_X) speed_y=0;
-        if (key==GLFW_KEY_Q) cam_x=0;
-        if (key==GLFW_KEY_E) cam_x=0;
+        if (key==GLFW_KEY_Q) cam_z=0;
+        if (key==GLFW_KEY_E) cam_z=0;
     }
 }
 
@@ -136,16 +131,16 @@ void freeOpenGLProgram(GLFWwindow* window) {
 
 
 //Procedura rysująca zawartość sceny
-void drawScene(GLFWwindow* window,float angle_x,float angle_y, float velo, float cam_angle_x, float falling) {
+void drawScene(GLFWwindow* window,float angle_x,float angle_y, float velo, float cam_angle_z, float falling) {
 	//************Tutaj umieszczaj kod rysujący obraz******************l
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glm::mat4 V=glm::lookAt(
-         glm::vec3(0, 0, 30),
+         glm::vec3(0, -10, 30),
          glm::vec3(0,0,0),
          glm::vec3(0.0f,1.0f,0.0f)); //Wylicz macierz widoku
 
-    glm::mat4 P=glm::perspective(50.0f*PI/180.0f, aspectRatio, 0.01f, 50.0f); //Wylicz macierz rzutowania
+    glm::mat4 P=glm::perspective(50.0f*PI/180.0f, aspectRatio, 0.01f, 100.0f); //Wylicz macierz rzutowania
 
     float *verts = triangleCubeVertices;
     float *texCoords = triangleCubeTexCoords;
@@ -160,16 +155,16 @@ void drawScene(GLFWwindow* window,float angle_x,float angle_y, float velo, float
     glm::mat4 M=glm::mat4(1.0f);
 
 
-
+    // grawitacja
+    M=glm::translate(M,glm::vec3(0.0f,0.0f,falling));
 
     M=glm::translate(M,glm::vec3(pl,gd,velo));
-	M=glm::translate(M,glm::vec3(0.0f,0.0f,falling));
 	M=glm::rotate(M,angle_y,glm::vec3(1.0f,0.0f,0.0f)); //Wylicz macierz modelu
 	M=glm::rotate(M,angle_x,glm::vec3(0.0f,1.0f,0.0f)); //Wylicz macierz modelu
 	M=glm::rotate(M,angle_z,glm::vec3(0.0f,0.0f,1.0f)); //Wylicz macierz modelu
 	//M=glm::rotate(M,angle_y,glm::vec3(1.0f,0.0f,0.0f)); //Wylicz macierz modelu
+	V=glm::rotate(V,cam_angle_z,glm::vec3(0.0f,0.0f,1.0f));
 
-	V=glm::rotate(V,cam_angle_x,glm::vec3(0.0f,1.0f,0.0f));
     //glUniformMatrix4fv(spLambert->u("M"),1,false,glm::value_ptr(M));
 
 
@@ -233,7 +228,7 @@ int main(void)
 	//float angle_x=0; //Aktualny kąt obrotu obiektu
 	//float angle_y=0; //Aktualny kąt obrotu obiektu
 	float velo=0;
-	float cam_angle_x=0;
+	float cam_angle_z=0;
 	float falling=0;
 	glfwSetTime(0); //Zeruj timer
 	while (!glfwWindowShouldClose(window)) //Tak długo jak okno nie powinno zostać zamknięte
@@ -247,9 +242,9 @@ int main(void)
             glfwSetTime(0);
         }
 
-        cam_angle_x+=cam_x*glfwGetTime();
+        cam_angle_z+=cam_z*glfwGetTime();
         //glfwSetTime(0); //Zeruj timer
-		drawScene(window,angle_x,angle_y,velo,cam_angle_x,falling); //Wykonaj procedurę rysującą
+		drawScene(window,angle_x,angle_y,velo,cam_angle_z,falling); //Wykonaj procedurę rysującą
 		glfwPollEvents(); //Wykonaj procedury callback w zalezności od zdarzeń jakie zaszły.
 	}
 
