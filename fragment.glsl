@@ -2,31 +2,31 @@
 
 
 //Zmienne interpolowane
-in vec4 ic;
-in vec4 l;
-in vec4 n;
-in vec4 v;
+
+in vec4 l; //interpolowany wektor "do światła" w przestrzeni oka
+in vec4 n; //interpolowany wektor normalny w przestrzeni oka
+in vec4 v; //interpolowany wektor "do obserwatora" w przestrzeni oka
+in vec2 iTexCoord0; //interpolowane współrzędne teksturowania dla tekstury w textureMap0
+in vec2 iTexCoord1; //interpolowane współrzędne teksturowania dla tekstury w textureMap1
+
+uniform sampler2D textureMap0; //Jednostka teksturująca 0
+uniform sampler2D textureMap1; //Jednostka teksturująca 1
 
 out vec4 pixelColor; //Zmienna wyjsciowa fragment shadera. Zapisuje sie do niej ostateczny (prawie) kolor piksela
 
 void main(void) {
-    vec4 kd=ic; //Kolor obiektu
-    vec4 ld=vec4(1,1,1,1); //Kolor swiatla (bialy)
-    vec4 ks=vec4(1,1,1,1);
-    vec4 ls=ld;
+    vec4 kd=mix(texture(textureMap0,iTexCoord0),texture(textureMap1,iTexCoord1),0.25);  //Kolor materia?u dla ?wiat?a  rozpraszanego
+    vec4 ld=vec4(1,1,1,1); //Kolor ?wiat?a  rozpraszanego
+    vec4 ks=vec4(1,1,1,1); //Kolor odbi? materia?u
+    vec4 ls=vec4(1,1,1,1); //Kolor ?wiat?a odbijanego
 
     vec4 ml=normalize(l);
     vec4 mn=normalize(n);
     vec4 mv=normalize(v);
+    vec4 mr=reflect(-ml,mn); //Wektor kierunku odbicia w przestrzeni oka
 
-    vec4 mr=reflect(-ml,mn);
+    float nl=clamp(dot(mn,ml),0,1); //cos k?ta pomi?dzy wektorami n i l
+    float rv=pow(clamp(dot(mr,mv),0,1),25); //cos k?ta pomi?dzy wektorami r i v podniesiony do pot?gi (wyk?adnik Phonga)
 
-    float nl=clamp(dot(mn,ml),0,1);// clamp - jesli ujemne to zwraca 0
-    float rv=clamp(dot(mr,mv),0,1);
-    rv=pow(rv,50);//cosinus kata rv
-
-    nl=round(4*nl)/4;
-    rv=round(4*rv)/4;
-
-	pixelColor=vec4(kd.rgb*ld.rgb*nl + ks.rgb*ls.rgb*rv, kd.a);;
+	pixelColor=vec4(kd.rgb*ld.rgb*nl+ks.rgb*ls.rgb*rv,kd.a);
 }

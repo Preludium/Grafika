@@ -179,7 +179,7 @@ float triangleCubeVertices[]={
 			};
 
 
-float triangleCubeColors[]={//single Cube nie zmieniona
+    float triangleCubeColors[]={//single Cube nie zmieniona
                 //Œciana 1
 				1.0f,0.0f,0.0f,1.0f,
 				1.0f,0.0f,0.0f,1.0f,
@@ -235,8 +235,10 @@ float triangleCubeColors[]={//single Cube nie zmieniona
 				1.0f,1.0f,1.0f,1.0f,
 			};
 
-	float triangleCubeNormals[]={ //single Cube nie zmieniona
-				//Œciana 1
+	float triangleCubeNormals[]={
+                // prawy kwadrat
+
+				//Œciana 1 tylna
 				0.0f, 0.0f,-1.0f,0.0f,
 				0.0f, 0.0f,-1.0f,0.0f,
 				0.0f, 0.0f,-1.0f,0.0f,
@@ -245,7 +247,7 @@ float triangleCubeColors[]={//single Cube nie zmieniona
 				0.0f, 0.0f,-1.0f,0.0f,
 				0.0f, 0.0f,-1.0f,0.0f,
 
-				//Œciana 2
+				//Œciana 2 przednia
 				0.0f, 0.0f, 1.0f,0.0f,
 				0.0f, 0.0f, 1.0f,0.0f,
 				0.0f, 0.0f, 1.0f,0.0f,
@@ -254,7 +256,7 @@ float triangleCubeColors[]={//single Cube nie zmieniona
 				0.0f, 0.0f, 1.0f,0.0f,
 				0.0f, 0.0f, 1.0f,0.0f,
 
-				//Œciana 3
+				//Œciana 3 dolna
 				0.0f,-1.0f, 0.0f,0.0f,
 				0.0f,-1.0f, 0.0f,0.0f,
 				0.0f,-1.0f, 0.0f,0.0f,
@@ -263,7 +265,7 @@ float triangleCubeColors[]={//single Cube nie zmieniona
 				0.0f,-1.0f, 0.0f,0.0f,
 				0.0f,-1.0f, 0.0f,0.0f,
 
-				//Œciana 4
+				//Œciana 4 gorna
 				0.0f, 1.0f, 0.0f,0.0f,
 				0.0f, 1.0f, 0.0f,0.0f,
 				0.0f, 1.0f, 0.0f,0.0f,
@@ -272,7 +274,83 @@ float triangleCubeColors[]={//single Cube nie zmieniona
 				0.0f, 1.0f, 0.0f,0.0f,
 				0.0f, 1.0f, 0.0f,0.0f,
 
-				//Œciana 5
+				//Œciana 5 boczna prawa
+				1.0f, 0.0f, 0.0f,0.0f,
+				1.0f, 0.0f, 0.0f,0.0f,
+				1.0f, 0.0f, 0.0f,0.0f,
+
+				1.0f, 0.0f, 0.0f,0.0f,
+				1.0f, 0.0f, 0.0f,0.0f,
+				1.0f, 0.0f, 0.0f,0.0f,
+
+				// srodkowy kwadrat
+
+				//Œciana 1 tylna
+				0.0f, 0.0f,-1.0f,0.0f,
+				0.0f, 0.0f,-1.0f,0.0f,
+				0.0f, 0.0f,-1.0f,0.0f,
+
+				0.0f, 0.0f,-1.0f,0.0f,
+				0.0f, 0.0f,-1.0f,0.0f,
+				0.0f, 0.0f,-1.0f,0.0f,
+
+				//Œciana 2 przednia
+				0.0f, 0.0f, 1.0f,0.0f,
+				0.0f, 0.0f, 1.0f,0.0f,
+				0.0f, 0.0f, 1.0f,0.0f,
+
+				0.0f, 0.0f, 1.0f,0.0f,
+				0.0f, 0.0f, 1.0f,0.0f,
+				0.0f, 0.0f, 1.0f,0.0f,
+
+				//Œciana 3 dolna
+				0.0f,-1.0f, 0.0f,0.0f,
+				0.0f,-1.0f, 0.0f,0.0f,
+				0.0f,-1.0f, 0.0f,0.0f,
+
+				0.0f,-1.0f, 0.0f,0.0f,
+				0.0f,-1.0f, 0.0f,0.0f,
+				0.0f,-1.0f, 0.0f,0.0f,
+
+				//kwadrat lewy
+
+                //Œciana 1 tylna
+				0.0f, 0.0f,-1.0f,0.0f,
+				0.0f, 0.0f,-1.0f,0.0f,
+				0.0f, 0.0f,-1.0f,0.0f,
+
+				0.0f, 0.0f,-1.0f,0.0f,
+				0.0f, 0.0f,-1.0f,0.0f,
+				0.0f, 0.0f,-1.0f,0.0f,
+
+				//Œciana 2 przednia
+				0.0f, 0.0f, 1.0f,0.0f,
+				0.0f, 0.0f, 1.0f,0.0f,
+				0.0f, 0.0f, 1.0f,0.0f,
+
+				0.0f, 0.0f, 1.0f,0.0f,
+				0.0f, 0.0f, 1.0f,0.0f,
+				0.0f, 0.0f, 1.0f,0.0f,
+
+				//Œciana 3 dolna
+				0.0f,-1.0f, 0.0f,0.0f,
+				0.0f,-1.0f, 0.0f,0.0f,
+				0.0f,-1.0f, 0.0f,0.0f,
+
+				0.0f,-1.0f, 0.0f,0.0f,
+				0.0f,-1.0f, 0.0f,0.0f,
+				0.0f,-1.0f, 0.0f,0.0f,
+
+				//Œciana 4 gorna
+				0.0f, 1.0f, 0.0f,0.0f,
+				0.0f, 1.0f, 0.0f,0.0f,
+				0.0f, 1.0f, 0.0f,0.0f,
+
+				0.0f, 1.0f, 0.0f,0.0f,
+				0.0f, 1.0f, 0.0f,0.0f,
+				0.0f, 1.0f, 0.0f,0.0f,
+
+				//Œciana 5 boczna lewa
 				-1.0f, 0.0f, 0.0f,0.0f,
 				-1.0f, 0.0f, 0.0f,0.0f,
 				-1.0f, 0.0f, 0.0f,0.0f,
@@ -281,7 +359,45 @@ float triangleCubeColors[]={//single Cube nie zmieniona
 				-1.0f, 0.0f, 0.0f,0.0f,
 				-1.0f, 0.0f, 0.0f,0.0f,
 
-				//Œciana 6
+				// kwadrat srodkowy gorny
+
+                //Œciana 1 tylna
+				0.0f, 0.0f,-1.0f,0.0f,
+				0.0f, 0.0f,-1.0f,0.0f,
+				0.0f, 0.0f,-1.0f,0.0f,
+
+				0.0f, 0.0f,-1.0f,0.0f,
+				0.0f, 0.0f,-1.0f,0.0f,
+				0.0f, 0.0f,-1.0f,0.0f,
+
+				//Œciana 2 przednia
+				0.0f, 0.0f, 1.0f,0.0f,
+				0.0f, 0.0f, 1.0f,0.0f,
+				0.0f, 0.0f, 1.0f,0.0f,
+
+				0.0f, 0.0f, 1.0f,0.0f,
+				0.0f, 0.0f, 1.0f,0.0f,
+				0.0f, 0.0f, 1.0f,0.0f,
+
+				//Œciana 4 gorna
+				0.0f, 1.0f, 0.0f,0.0f,
+				0.0f, 1.0f, 0.0f,0.0f,
+				0.0f, 1.0f, 0.0f,0.0f,
+
+				0.0f, 1.0f, 0.0f,0.0f,
+				0.0f, 1.0f, 0.0f,0.0f,
+				0.0f, 1.0f, 0.0f,0.0f,
+
+				//Œciana 5 boczna lewa
+				-1.0f, 0.0f, 0.0f,0.0f,
+				-1.0f, 0.0f, 0.0f,0.0f,
+				-1.0f, 0.0f, 0.0f,0.0f,
+
+				-1.0f, 0.0f, 0.0f,0.0f,
+				-1.0f, 0.0f, 0.0f,0.0f,
+				-1.0f, 0.0f, 0.0f,0.0f,
+
+				//Œciana 5 boczna prawa
 				1.0f, 0.0f, 0.0f,0.0f,
 				1.0f, 0.0f, 0.0f,0.0f,
 				1.0f, 0.0f, 0.0f,0.0f,
