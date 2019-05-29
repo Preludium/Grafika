@@ -145,7 +145,7 @@ void freeOpenGLProgram(GLFWwindow* window) {
 }
 
 
-
+void drawMap();
 
 //Procedura rysująca zawartość sceny
 void drawScene(GLFWwindow* window,float angle_x,float angle_y, float velo, float cam_angle_z, float falling) {
@@ -206,13 +206,82 @@ void drawScene(GLFWwindow* window,float angle_x,float angle_y, float velo, float
     glEnableVertexAttribArray(sp->a("texCoord0"));  //Włącz przesyłanie danych do atrybutu texCoord0
     glVertexAttribPointer(sp->a("texCoord0"),2,GL_FLOAT,false,0,texCoords); //Wskaż tablicę z danymi dla atrybutu texCoord0
 
+
     glDrawArrays(GL_TRIANGLES,0,vertexCount); //Narysuj obiekt
 
     glDisableVertexAttribArray(sp->a("vertex"));  //Wyłącz przesyłanie danych do atrybutu vertex
     glDisableVertexAttribArray(sp->a("normal"));  //Wyłącz przesyłanie danych do atrybutu normal
     glDisableVertexAttribArray(sp->a("texCoord0"));  //Wyłącz przesyłanie danych do atrybutu texCoord0
 
-    glfwSwapBuffers(window); //Przerzuć tylny bufor na przedni
+    //drawMap();
+    //glfwSwapBuffers(window); //Przerzuć tylny bufor na przedni
+}
+
+void drawMap(){//(GLFWwindow* window,float angle_x,float angle_y, float velo, float cam_angle_z, float falling) {
+	//************Tutaj umieszczaj kod rysujący obraz******************l
+	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	/*glm::mat4 V=glm::lookAt(
+         glm::vec3(0, 0, 20),
+         glm::vec3(0,0,0),
+         glm::vec3(0.0f,1.0f,0.0f)); //Wylicz macierz widoku
+
+    glm::mat4 P=glm::perspective(50.0f*PI/180.0f, aspectRatio, 0.01f, 100.0f); //Wylicz macierz rzutowania
+*/
+    glm::mat4 M=glm::mat4(1.0f);
+	//M=glm::translate(M,glm::vec3(0.0f,0.0f,falling)); //opadanie
+
+    //M=glm::translate(M,glm::vec3(pl,gd,velo));
+	//M=glm::rotate(M,angle_y,glm::vec3(1.0f,0.0f,0.0f)); //Wylicz macierz modelu
+	//M=glm::rotate(M,angle_x,glm::vec3(0.0f,1.0f,0.0f)); //Wylicz macierz modelu
+	//M=glm::rotate(M,angle_z,glm::vec3(0.0f,0.0f,1.0f)); //Wylicz macierz modelu
+	//M=glm::rotate(M,angle_y,glm::vec3(1.0f,0.0f,0.0f)); //Wylicz macierz modelu
+	//V=glm::rotate(V,cam_angle_z,glm::vec3(0.0f,0.0f,1.0f));
+
+
+	float *verts=triangleCubeVertices;
+	float *normals=triangleCubeNormals;
+	float *texCoords=triangleCubeTexCoords;
+	unsigned int vertexCount=triangleCubeVertexCount;
+
+	//Czajnik
+	//float *verts=myTeapotVertices;
+	//float *normals=myTeapotVertexNormals;
+	//float *texCoords=myTeapotTexCoords;
+	//unsigned int vertexCount=myTeapotVertexCount;
+
+    sp->use();//Aktywacja programu cieniującego
+    //Przeslij parametry programu cieniującego do karty graficznej
+    //glUniformMatrix4fv(sp->u("P"),1,false,glm::value_ptr(P));
+    //glUniformMatrix4fv(sp->u("V"),1,false,glm::value_ptr(V));
+    glUniformMatrix4fv(sp->u("M"),1,false,glm::value_ptr(M));
+    //glUniform4f(sp->u("lp"),0,0,6,1); //Współrzędne źródła światła
+
+    glUniform1i(sp->u("textureMap0"),0);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D,tex0);
+
+    glUniform1i(sp->u("textureMap1"),1);
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D,tex1);
+
+
+    glEnableVertexAttribArray(sp->a("vertex"));  //Włącz przesyłanie danych do atrybutu vertex
+    glVertexAttribPointer(sp->a("vertex"),4,GL_FLOAT,false,0,verts); //Wskaż tablicę z danymi dla atrybutu vertex
+
+    glEnableVertexAttribArray(sp->a("normal"));  //Włącz przesyłanie danych do atrybutu normal
+    glVertexAttribPointer(sp->a("normal"),4,GL_FLOAT,false,0,normals); //Wskaż tablicę z danymi dla atrybutu normal
+
+    glEnableVertexAttribArray(sp->a("texCoord0"));  //Włącz przesyłanie danych do atrybutu texCoord0
+    glVertexAttribPointer(sp->a("texCoord0"),2,GL_FLOAT,false,0,texCoords); //Wskaż tablicę z danymi dla atrybutu texCoord0
+
+    glDrawArrays(GL_TRIANGLES,0,vertexCount); //Narysuj obiekt
+
+    glDisableVertexAttribArray(sp->a("vertex"));  //Wyłącz przesyłanie danych do atrybutu vertex
+    glDisableVertexAttribArray(sp->a("normal"));  //Wyłącz przesyłanie danych do atrybutu normal
+    glDisableVertexAttribArray(sp->a("texCoord0"));  //Wyłącz przesyłanie danych do atrybutu texCoord0
+
+    //glfwSwapBuffers(window); //Przerzuć tylny bufor na przedni
 }
 
 
@@ -250,17 +319,6 @@ int main(void)
 	float velo=0;
 	float cam_angle_z=0;
 	float falling=0;
-    unsigned int vbo; //our vbo handler
-    //triangle vertices on stack
-    std::vector<float> vertices = {
-                -1.0f,-1.0f, 3.0f,1.0f,
-				1.0f, 1.0f, 3.0f,1.0f,
-				1.0f,-1.0f, 3.0f,1.0f,
-
-				-1.0f,-1.0f, 3.0f,1.0f,
-				-1.0f, 1.0f, 3.0f,1.0f,
-				1.0f, 1.0f, 3.0f,1.0f};
-
 	glfwSetTime(0); //Zeruj timer
 	while (!glfwWindowShouldClose(window)) //Tak długo jak okno nie powinno zostać zamknięte
 	{
@@ -274,13 +332,14 @@ int main(void)
             falling+=-2;
             glfwSetTime(0);
         }
-
-        //glfwSetTime(0); //Zeruj timer
 		drawScene(window,angle_x,angle_y,velo,cam_angle_z,falling); //Wykonaj procedurę rysującą
+        drawMap();//(window,angle_x,angle_y,velo,cam_angle_z,falling);
+        //glfwSetTime(0); //Zeruj timer
         //glGenBuffers(1, &vbo);
         //glBindBuffer(GL_ARRAY_BUFFER, vbo);//bind to context
         //glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
 		// drawMap();
+		glfwSwapBuffers(window);
 		glfwPollEvents(); //Wykonaj procedury callback w zalezności od zdarzeń jakie zaszły.
 	}
 
