@@ -46,13 +46,17 @@
 			<Add directory="glfw/lib" />
 			<Add directory="glew/lib" />
 		</Linker>
+		<Unit filename="Double_Cube.h" />
+		<Unit filename="Quadruple_Cube.h" />
+		<Unit filename="Single_Cube.h" />
+		<Unit filename="Strange_Cube.h" />
+		<Unit filename="Triangle_Cube.h" />
+		<Unit filename="Triple_Cube.h" />
 		<Unit filename="constants.h" />
 		<Unit filename="fragment.glsl" />
 		<Unit filename="lodepng.cpp" />
 		<Unit filename="lodepng.h" />
 		<Unit filename="main_file.cpp" />
-		<Unit filename="myCube.h" />
-		<Unit filename="myTeapot.h" />
 		<Unit filename="shaderprogram.cpp" />
 		<Unit filename="shaderprogram.h" />
 		<Unit filename="vertex.glsl" />
