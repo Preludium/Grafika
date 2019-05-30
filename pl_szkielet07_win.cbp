@@ -13,6 +13,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add directory="include" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -22,6 +23,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -54,11 +56,13 @@
 		<Unit filename="Triple_Cube.h" />
 		<Unit filename="constants.h" />
 		<Unit filename="fragment.glsl" />
+		<Unit filename="include/cube.h" />
 		<Unit filename="lodepng.cpp" />
 		<Unit filename="lodepng.h" />
 		<Unit filename="main_file.cpp" />
 		<Unit filename="shaderprogram.cpp" />
 		<Unit filename="shaderprogram.h" />
+		<Unit filename="src/cube.cpp" />
 		<Unit filename="vertex.glsl" />
 		<Extensions>
 			<code_completion />

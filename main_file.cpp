@@ -37,11 +37,11 @@ ShaderProgram *sp;
 
 //Uchwyty na tekstury
 GLuint tex0;
-GLuint tex1;
-GLuint tex2;
-GLuint tex3;
+// GLuint tex1;
+// GLuint tex2;
+// GLuint tex3;
 
-int map[12][8][8];
+int map[12][7][7];
 
 
 //Procedura obsługi błędów
@@ -114,9 +114,9 @@ void initOpenGLProgram(GLFWwindow* window) {
 	sp=new ShaderProgram("vertex.glsl",NULL,"fragment.glsl");
 
     tex0=readTexture("block.png");
-    tex1=readTexture("sky.png");
-    tex2=readTexture("mapa.png");
-    tex3=readTexture("mapa.png");
+    // tex1=readTexture("sky.png");
+    // tex2=readTexture("mapa.png");
+    // tex3=readTexture("mapa.png");
 }
 
 
@@ -124,9 +124,9 @@ void initOpenGLProgram(GLFWwindow* window) {
 void freeOpenGLProgram(GLFWwindow* window) {
     //************Tutaj umieszczaj kod, który należy wykonać po zakończeniu pętli głównej************
     glDeleteTextures(1,&tex0);
-    glDeleteTextures(1,&tex1);
-    glDeleteTextures(1,&tex2);
-    glDeleteTextures(1,&tex3);
+    // glDeleteTextures(1,&tex1);
+    // glDeleteTextures(1,&tex2);
+    // glDeleteTextures(1,&tex3);
 
     delete sp;
 }
@@ -137,7 +137,7 @@ void drawScene(GLFWwindow* window,float angle_x,float angle_y, float velo, float
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glm::mat4 V=glm::lookAt(
-         glm::vec3(0, 45, -20),
+         glm::vec3(0, 55, -20),
          glm::vec3(0,0,0),
          glm::vec3(0.0f,1.0f,0.0f));
 
@@ -146,10 +146,10 @@ void drawScene(GLFWwindow* window,float angle_x,float angle_y, float velo, float
 
 
 	M=glm::translate(M,glm::vec3(0.0f,falling,0.0f)); //opadanie
-    M=glm::translate(M,glm::vec3(pl,gd,velo)); //przemieszczenie            -- swiruje dla strzalek gora dol
+    M=glm::translate(M,glm::vec3(pl,gd,0.0f));//,0.0f,gd)); //przemieszczenie            -- swiruje dla strzalek gora dol
     M=glm::rotate(M,PI/2,glm::vec3(1.0f, 0.0f,0.0f));
 
-    M=glm::translate(M,glm::vec3(1.0f,1.0f,-23.0f)); // na X i Y tylko dla niektorych klockow
+    M=glm::translate(M,glm::vec3(0.0f,0.0f,-23.0f)); // na X i Y tylko dla niektorych klockow
     //M=glm::translate(M,glm::vec3(0.0f,1.0f,-23.0f));
 
 	M=glm::rotate(M,angle_y,glm::vec3(1.0f,0.0f,0.0f));
@@ -157,15 +157,13 @@ void drawScene(GLFWwindow* window,float angle_x,float angle_y, float velo, float
 	M=glm::rotate(M,angle_z,glm::vec3(0.0f,0.0f,1.0f));
 
 
-	V=glm::rotate(V,cam_angle_z,glm::vec3(0.0f,1.0f,0.0f)); //kamera
+	V=glm::rotate(V,PI/4,glm::vec3(0.0f,1.0f,0.0f)); //kamera
 
 
 	float *verts=strangeCubeVertices;
 	float *normals=strangeCubeNormals;
 	float *texCoords=strangeCubeTexCoords;
 	unsigned int vertexCount=strangeCubeVertexCount;
-
-
 
     sp->use();
     glUniformMatrix4fv(sp->u("P"),1,false,glm::value_ptr(P));
@@ -176,11 +174,6 @@ void drawScene(GLFWwindow* window,float angle_x,float angle_y, float velo, float
     glUniform1i(sp->u("textureMap0"),0);
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D,tex0);
-
-    glUniform1i(sp->u("textureMap1"),1);
-    glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D,tex1);
-
 
     glEnableVertexAttribArray(sp->a("vertex"));  //Włącz przesyłanie danych do atrybutu vertex
     glVertexAttribPointer(sp->a("vertex"),4,GL_FLOAT,false,0,verts); //Wskaż tablicę z danymi dla atrybutu vertex
@@ -199,146 +192,8 @@ void drawScene(GLFWwindow* window,float angle_x,float angle_y, float velo, float
     glDisableVertexAttribArray(sp->a("texCoord0"));  //Wyłącz przesyłanie danych do atrybutu texCoord0
 }
 
-void drawMap(){
-    glm::mat4 M=glm::mat4(1.0f);
 
-	std::vector<float> verts;
-	for(int i=-8; i<7; i+=2)//wiersze
-    {
-        for(int j=-8; j<7; j+=2)//kolumny
-        {
-            verts.push_back(float(i));
-            verts.push_back(0.0f);
-            verts.push_back(float(j+2));
-            verts.push_back(1.0f);
-
-            verts.push_back(float(i+2));
-            verts.push_back(0.0f);
-            verts.push_back(float(j));
-            verts.push_back(1.0f);
-
-            verts.push_back(float(i+2));
-            verts.push_back(0.0f);
-            verts.push_back(float(j+2));
-            verts.push_back(1.0f);
-
-            verts.push_back(float(i));
-            verts.push_back(0.0f);
-            verts.push_back(float(j+2));
-            verts.push_back(1.0f);
-
-            verts.push_back(float(i+2));
-            verts.push_back(0.0f);
-            verts.push_back(float(j));
-            verts.push_back(1.0f);
-
-            verts.push_back(float(i));
-            verts.push_back(0.0f);
-            verts.push_back(float(j));
-            verts.push_back(1.0f);
-        }
-    }
-	/*
-        -8.0f,0.0f,8.0f,1.0f,
-		8.0f,0.0f,8.0f,1.0f,
-		8.0f,0.0f,-8.0f,1.0f,
-
-		-8.0f,0.0f,8.0f,1.0f,
-		-8.0f,0.0f,-8.0f,1.0f,
-		8.0f,0.0f,-8.0f,1.0f,
-		};
-*/
-    //std::vector<float> colors[]=
-
-    /*{
-        0.0f,0.0f,0.0f,1.0f,
-        0.0f,0.0f,0.0f,1.0f,
-		0.0f,0.0f,0.0f,1.0f,
-
-		0.0f,0.0f,0.0f,1.0f,
-		0.0f,0.0f,0.0f,1.0f,
-		0.0f,0.0f,0.0f,1.0f,
-		};*/
-
-    std::vector<float> texCoords;//[]=
-    for(int i=0; i<64; i++)
-    {
-        texCoords.push_back(1.0f);
-        texCoords.push_back(0.0f);
-        texCoords.push_back(0.0f);
-        texCoords.push_back(1.0f);
-        texCoords.push_back(0.0f);
-        texCoords.push_back(0.0f);
-
-        texCoords.push_back(1.0f);
-        texCoords.push_back(0.0f);
-        texCoords.push_back(1.0f);
-        texCoords.push_back(1.0f);
-        texCoords.push_back(0.0f);
-        texCoords.push_back(1.0f);
-    }
-    /*{
-        1.0f, 0.0f,   //A
-        0.0f, 1.0f,    //B
-        0.0f, 0.0f,    //C
-
-        1.0f, 0.0f,    //A
-        1.0f, 1.0f,    //D
-        0.0f, 1.0f,    //B
-    };*/
-
-    std::vector<float> normals;
-        for(int i=0;i<64*6;i++)
-        {
-            normals.push_back(0.0f);
-            normals.push_back(1.0f);
-            normals.push_back(0.0f);
-            normals.push_back(0.0f);
-        }
-        /*{
-        0.0f,1.0f, 0.0f,0.0f,
-		0.0f,1.0f, 0.0f,0.0f,
-		0.0f,1.0f, 0.0f,0.0f,
-
-		0.0f,1.0f, 0.0f,0.0f,
-		0.0f,1.0f, 0.0f,0.0f,
-		0.0f,1.0f, 0.0f,0.0f,
-        };*/
-
-    unsigned int vertexCount = 6*64;
-
-    sp->use();
-    glUniformMatrix4fv(sp->u("M"),1,false,glm::value_ptr(M));
-
-    glUniform1i(sp->u("textureMap1"),1);
-    glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D,tex2);
-
-    glUniform1i(sp->u("textureMap0"),0);
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D,tex3);
-
-
-    glEnableVertexAttribArray(sp->a("vertex"));  //Włącz przesyłanie danych do atrybutu vertex
-    glVertexAttribPointer(sp->a("vertex"),4,GL_FLOAT,false,0,(void*)&verts[0]); //Wskaż tablicę z danymi dla atrybutu vertex
-
-    glEnableVertexAttribArray(sp->a("normal"));  //Włącz przesyłanie danych do atrybutu normal
-    glVertexAttribPointer(sp->a("normal"),4,GL_FLOAT,false,0,(void*)&normals[0]); //Wskaż tablicę z danymi dla atrybutu normal
-
-    //glEnableVertexAttribArray(sp->a("color"));  //Włącz przesyłanie danych do atrybutu color
-    //glVertexAttribPointer(sp->a("color"),4,GL_FLOAT,false,0,colors);
-
-    glEnableVertexAttribArray(sp->a("texCoord0"));  //Włącz przesyłanie danych do atrybutu texCoord0
-    glVertexAttribPointer(sp->a("texCoord0"),2,GL_FLOAT,false,0,(void*)&texCoords[0]); //Wskaż tablicę z danymi dla atrybutu texCoord0
-
-    glDrawArrays(GL_TRIANGLES,0,vertexCount); //Narysuj obiekt
-
-    glDisableVertexAttribArray(sp->a("vertex"));  //Wyłącz przesyłanie danych do atrybutu vertex
-    glDisableVertexAttribArray(sp->a("normal"));  //Wyłącz przesyłanie danych do atrybutu normal
-    //glDisableVertexAttribArray(sp->a("color"));  //Wyłącz przesyłanie danych do atrybutu normal
-    glDisableVertexAttribArray(sp->a("texCoord0"));  //Wyłącz przesyłanie danych do atrybutu texCoord0
-}
-
+void drawMap();
 void chooseModel(int);
 
 int main(void)
@@ -397,7 +252,7 @@ int main(void)
         velo+=speed_y*glfwGetTime();
         cam_angle_z=cam_z;//*glfwGetTime();
         //chooseModel(rand()%modelSize+1);
-        if (round(glfwGetTime()*10)/10==1.5 and falling > -22)
+        if (round(glfwGetTime()*10)/10==1.5 && falling > -26)
         {
             falling+=-2;
             glfwSetTime(0);
@@ -463,4 +318,192 @@ void chooseModel(int chosen) //mozna tu podac wszystkie tabele i ilosc wierzchol
         map[11][2][2] = 1;
         break;
     }
+}
+
+
+void drawMap(){
+    glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+
+    glm::mat4 M=glm::mat4(1.0f);
+
+	std::vector<float> verts;
+    // DÓŁ
+	for(int i=-7; i<6; i+=2)//wiersze
+    {
+        for(int j=-7; j<6; j+=2)//kolumny
+        {
+            verts.push_back(float(i));
+            verts.push_back(0.0f);
+            verts.push_back(float(j+2));
+            verts.push_back(1.0f);
+
+            verts.push_back(float(i+2));
+            verts.push_back(0.0f);
+            verts.push_back(float(j+2));
+            verts.push_back(1.0f);
+
+            verts.push_back(float(i+2));
+            verts.push_back(0.0f);
+            verts.push_back(float(j));
+            verts.push_back(1.0f);
+
+            verts.push_back(float(i));
+            verts.push_back(0.0f);
+            verts.push_back(float(j));
+            verts.push_back(1.0f);            
+        }
+    }
+
+    // 1 ŚCIANA tylna
+
+    for(int i=-7; i<6; i+=2)//wiersze
+    {
+        for(int j=0; j<24; j+=2)//kolumny
+        {
+            verts.push_back(float(i));
+            verts.push_back(float(j+2));
+            verts.push_back(7.0f);
+            verts.push_back(1.0f);
+
+            verts.push_back(float(i+2));
+            verts.push_back(float(j+2));
+            verts.push_back(7.0f);
+            verts.push_back(1.0f);
+
+            verts.push_back(float(i+2));
+            verts.push_back(float(j));
+            verts.push_back(7.0f);
+            verts.push_back(1.0f);
+
+            verts.push_back(float(i));
+            verts.push_back(float(j));
+            verts.push_back(7.0f);
+            verts.push_back(1.0f);            
+        }
+    }
+
+    // ŚCIANA 2 tylna
+    for(int i=-7; i<6; i+=2)//wiersze
+    {
+        for(int j=0; j<24; j+=2)//kolumny
+        {
+            verts.push_back(float(i));
+            verts.push_back(float(j+2));
+            verts.push_back(-7.0f);
+            verts.push_back(1.0f);
+
+            verts.push_back(float(i+2));
+            verts.push_back(float(j+2));
+            verts.push_back(-7.0f);
+            verts.push_back(1.0f);
+
+            verts.push_back(float(i+2));
+            verts.push_back(float(j));
+            verts.push_back(-7.0f);
+            verts.push_back(1.0f);
+
+            verts.push_back(float(i));
+            verts.push_back(float(j));
+            verts.push_back(-7.0f);
+            verts.push_back(1.0f);            
+        }
+    }
+
+    // ŚCIANA 3 lewa
+    for(int i=-7; i<6; i+=2)//wiersze
+    {
+        for(int j=0; j<24; j+=2)//kolumny
+        {
+            verts.push_back(-7.0f);
+            verts.push_back(float(j+2));
+            verts.push_back(float(i));
+            verts.push_back(1.0f);
+
+            verts.push_back(-7.0f);
+            verts.push_back(float(j+2));
+            verts.push_back(float(i+2));
+            verts.push_back(1.0f);
+
+            verts.push_back(-7.0f);
+            verts.push_back(float(j));
+            verts.push_back(float(i+2));
+            verts.push_back(1.0f);
+
+            verts.push_back(-7.0f);
+            verts.push_back(float(j));
+            verts.push_back(float(i));
+            verts.push_back(1.0f);            
+        }
+    }
+
+
+    // ŚCIANA 4 prawa
+    for(int i=-7; i<6; i+=2)//wiersze
+    {
+        for(int j=0; j<24; j+=2)//kolumny
+        {
+            verts.push_back(7.0f);
+            verts.push_back(float(j+2));
+            verts.push_back(float(i));
+            verts.push_back(1.0f);
+
+            verts.push_back(7.0f);
+            verts.push_back(float(j+2));
+            verts.push_back(float(i+2));
+            verts.push_back(1.0f);
+
+            verts.push_back(7.0f);
+            verts.push_back(float(j));
+            verts.push_back(float(i+2));
+            verts.push_back(1.0f);
+
+            verts.push_back(7.0f);
+            verts.push_back(float(j));
+            verts.push_back(float(i));
+            verts.push_back(1.0f);            
+        }
+    }
+
+    std::vector<float> colors;
+
+    for(int i=0;i<7*7*4+7*12*4*4;++i)
+    {
+        colors.push_back(0.5f);
+        colors.push_back(0.5f);
+        colors.push_back(0.5f);
+        colors.push_back(1.0f);
+    }
+
+    std::vector<float> normals;
+    
+    for(int i=0;i<7*7*4+7*12*4*4;++i)
+    {
+        normals.push_back(0.0f);
+        normals.push_back(1.0f);
+        normals.push_back(0.0f);
+        normals.push_back(0.0f);
+    }
+
+    unsigned int vertexCount = 49*4+7*12*4*4;
+
+    sp->use();
+    glUniformMatrix4fv(sp->u("M"),1,false,glm::value_ptr(M));
+
+    glEnableVertexAttribArray(sp->a("vertex"));  //Włącz przesyłanie danych do atrybutu vertex
+    glVertexAttribPointer(sp->a("vertex"),4,GL_FLOAT,false,0,(void*)&verts[0]); //Wskaż tablicę z danymi dla atrybutu vertex
+
+    glEnableVertexAttribArray(sp->a("normal"));  //Włącz przesyłanie danych do atrybutu normal
+    glVertexAttribPointer(sp->a("normal"),4,GL_FLOAT,false,0,(void*)&normals[0]); //Wskaż tablicę z danymi dla atrybutu normal
+
+    glEnableVertexAttribArray(sp->a("color"));  //Włącz przesyłanie danych do atrybutu color
+    glVertexAttribPointer(sp->a("color"),4,GL_FLOAT,false,0,(void*)&colors[0]);
+
+    glDrawArrays(GL_QUADS,0,vertexCount); //Narysuj obiekt
+
+    glDisableVertexAttribArray(sp->a("vertex"));  //Wyłącz przesyłanie danych do atrybutu vertex
+    glDisableVertexAttribArray(sp->a("normal"));  //Wyłącz przesyłanie danych do atrybutu normal
+    glDisableVertexAttribArray(sp->a("color"));  //Wyłącz przesyłanie danych do atrybutu normal
+
+    glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+
 }
