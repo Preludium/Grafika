@@ -1,18 +1,10 @@
 #ifndef QUADRUPLE_CUBE_H_INCLUDED
 #define QUADRUPLE_CUBE_H_INCLUDED
 
-//myCubeVertices - homogeniczne wsp�rz�dne wierzcho�k�w w przestrzeni modelu
-//myCubeNormals - homogeniczne wektory normalne �cian (per wierzcho�ek) w przestrzeni modelu
-//myCubeVertexNormals - homogeniczne wektory normalne wierzcho�k�w w przestrzeni modelu
-//myCubeTexCoords - wsp�rz�dne teksturowania
-//myCubeColors - kolory wierzcho�k�w
-//myCubeC1 - kolumna macierzy TBN^-1
-//myCubeC2 - kolumna macierzy TBN^-1
-//myCubeC3 - kolumna macierzy TBN^-1
 
 int quadrupleCubeVertexCount=108;
 
-					float quadrupleCubeVertices[]={
+	float quadrupleCubeVertices[]={
                 //prawy kwadrat
 
                 //Ściana 1 (tylna)
@@ -188,65 +180,10 @@ int quadrupleCubeVertexCount=108;
 				-4.0f, 1.0f, 1.0f,1.0f,
 			};
 
+			float quadrupleCubeNormals[]={
+				// prawy kwadrat
 
-				float quadrupleCubeColors[]={ // single Cube nie zmieniany
-                //�ciana 1
-				1.0f,0.0f,0.0f,1.0f,
-				1.0f,0.0f,0.0f,1.0f,
-				1.0f,0.0f,0.0f,1.0f,
-
-				1.0f,0.0f,0.0f,1.0f,
-				1.0f,0.0f,0.0f,1.0f,
-				1.0f,0.0f,0.0f,1.0f,
-
-				//�ciana 2
-				0.0f,1.0f,0.0f,1.0f,
-				0.0f,1.0f,0.0f,1.0f,
-				0.0f,1.0f,0.0f,1.0f,
-
-				0.0f,1.0f,0.0f,1.0f,
-				0.0f,1.0f,0.0f,1.0f,
-				0.0f,1.0f,0.0f,1.0f,
-
-				//�ciana 3
-				0.0f,0.0f,1.0f,1.0f,
-				0.0f,0.0f,1.0f,1.0f,
-				0.0f,0.0f,1.0f,1.0f,
-
-				0.0f,0.0f,1.0f,1.0f,
-				0.0f,0.0f,1.0f,1.0f,
-				0.0f,0.0f,1.0f,1.0f,
-
-				//�ciana 4
-				1.0f,1.0f,0.0f,1.0f,
-				1.0f,1.0f,0.0f,1.0f,
-				1.0f,1.0f,0.0f,1.0f,
-
-				1.0f,1.0f,0.0f,1.0f,
-				1.0f,1.0f,0.0f,1.0f,
-				1.0f,1.0f,0.0f,1.0f,
-
-				//�ciana 5
-				0.0f,1.0f,1.0f,1.0f,
-				0.0f,1.0f,1.0f,1.0f,
-				0.0f,1.0f,1.0f,1.0f,
-
-				0.0f,1.0f,1.0f,1.0f,
-				0.0f,1.0f,1.0f,1.0f,
-				0.0f,1.0f,1.0f,1.0f,
-
-				//�ciana 6
-				1.0f,1.0f,1.0f,1.0f,
-				1.0f,1.0f,1.0f,1.0f,
-				1.0f,1.0f,1.0f,1.0f,
-
-				1.0f,1.0f,1.0f,1.0f,
-				1.0f,1.0f,1.0f,1.0f,
-				1.0f,1.0f,1.0f,1.0f,
-			};
-
-			float quadrupleCubeNormals[]={ // single cube nie zmieniany
-				//�ciana 1
+				//Œciana 1 tylna
 				0.0f, 0.0f,-1.0f,0.0f,
 				0.0f, 0.0f,-1.0f,0.0f,
 				0.0f, 0.0f,-1.0f,0.0f,
@@ -255,7 +192,7 @@ int quadrupleCubeVertexCount=108;
 				0.0f, 0.0f,-1.0f,0.0f,
 				0.0f, 0.0f,-1.0f,0.0f,
 
-				//�ciana 2
+				//Œciana 2 przednia
 				0.0f, 0.0f, 1.0f,0.0f,
 				0.0f, 0.0f, 1.0f,0.0f,
 				0.0f, 0.0f, 1.0f,0.0f,
@@ -264,7 +201,7 @@ int quadrupleCubeVertexCount=108;
 				0.0f, 0.0f, 1.0f,0.0f,
 				0.0f, 0.0f, 1.0f,0.0f,
 
-				//�ciana 3
+				//Œciana 3 dolna
 				0.0f,-1.0f, 0.0f,0.0f,
 				0.0f,-1.0f, 0.0f,0.0f,
 				0.0f,-1.0f, 0.0f,0.0f,
@@ -273,7 +210,7 @@ int quadrupleCubeVertexCount=108;
 				0.0f,-1.0f, 0.0f,0.0f,
 				0.0f,-1.0f, 0.0f,0.0f,
 
-				//�ciana 4
+				//Œciana 4 gorna
 				0.0f, 1.0f, 0.0f,0.0f,
 				0.0f, 1.0f, 0.0f,0.0f,
 				0.0f, 1.0f, 0.0f,0.0f,
@@ -282,16 +219,7 @@ int quadrupleCubeVertexCount=108;
 				0.0f, 1.0f, 0.0f,0.0f,
 				0.0f, 1.0f, 0.0f,0.0f,
 
-				//�ciana 5
-				-1.0f, 0.0f, 0.0f,0.0f,
-				-1.0f, 0.0f, 0.0f,0.0f,
-				-1.0f, 0.0f, 0.0f,0.0f,
-
-				-1.0f, 0.0f, 0.0f,0.0f,
-				-1.0f, 0.0f, 0.0f,0.0f,
-				-1.0f, 0.0f, 0.0f,0.0f,
-
-				//�ciana 6
+				//Œciana 5 boczna prawa
 				1.0f, 0.0f, 0.0f,0.0f,
 				1.0f, 0.0f, 0.0f,0.0f,
 				1.0f, 0.0f, 0.0f,0.0f,
@@ -300,64 +228,128 @@ int quadrupleCubeVertexCount=108;
 				1.0f, 0.0f, 0.0f,0.0f,
 				1.0f, 0.0f, 0.0f,0.0f,
 
+				// srodkowy kwadrat 1
 
-			};
+				//Œciana 1 tylna
+				0.0f, 0.0f,-1.0f,0.0f,
+				0.0f, 0.0f,-1.0f,0.0f,
+				0.0f, 0.0f,-1.0f,0.0f,
 
-			float quadrupleCubeVertexNormals[]={ // single Cube nie zmieniany
-				//�ciana 1
-				1.0f,-1.0f,-1.0f,0.0f,
-				-1.0f, 1.0f,-1.0f,0.0f,
-				-1.0f,-1.0f,-1.0f,0.0f,
+				0.0f, 0.0f,-1.0f,0.0f,
+				0.0f, 0.0f,-1.0f,0.0f,
+				0.0f, 0.0f,-1.0f,0.0f,
 
-				1.0f,-1.0f,-1.0f,0.0f,
-				1.0f, 1.0f,-1.0f,0.0f,
-				-1.0f, 1.0f,-1.0f,0.0f,
+				//Œciana 2 przednia
+				0.0f, 0.0f, 1.0f,0.0f,
+				0.0f, 0.0f, 1.0f,0.0f,
+				0.0f, 0.0f, 1.0f,0.0f,
 
-				//�ciana 2
-				-1.0f,-1.0f, 1.0f,0.0f,
-				1.0f, 1.0f, 1.0f,0.0f,
-				1.0f,-1.0f, 1.0f,0.0f,
+				0.0f, 0.0f, 1.0f,0.0f,
+				0.0f, 0.0f, 1.0f,0.0f,
+				0.0f, 0.0f, 1.0f,0.0f,
 
-				-1.0f,-1.0f, 1.0f,0.0f,
-				-1.0f, 1.0f, 1.0f,0.0f,
-				1.0f, 1.0f, 1.0f,0.0f,
+				//Œciana 3 dolna
+				0.0f,-1.0f, 0.0f,0.0f,
+				0.0f,-1.0f, 0.0f,0.0f,
+				0.0f,-1.0f, 0.0f,0.0f,
 
+				0.0f,-1.0f, 0.0f,0.0f,
+				0.0f,-1.0f, 0.0f,0.0f,
+				0.0f,-1.0f, 0.0f,0.0f,
 
-				//�ciana 3
-				-1.0f,-1.0f,-1.0f,0.0f,
-				1.0f,-1.0f, 1.0f,0.0f,
-				1.0f,-1.0f,-1.0f,0.0f,
+				//Œciana 4 gorna
+				0.0f,1.0f, 0.0f,0.0f,
+				0.0f,1.0f, 0.0f,0.0f,
+				0.0f,1.0f, 0.0f,0.0f,
 
-				-1.0f,-1.0f,-1.0f,0.0f,
-				-1.0f,-1.0f, 1.0f,0.0f,
-				1.0f,-1.0f, 1.0f,0.0f,
+				0.0f,1.0f, 0.0f,0.0f,
+				0.0f,1.0f, 0.0f,0.0f,
+				0.0f,1.0f, 0.0f,0.0f,
 
-				//�ciana 4
-				-1.0f, 1.0f, 1.0f,0.0f,
-				1.0f, 1.0f,-1.0f,0.0f,
-				1.0f, 1.0f, 1.0f,0.0f,
+				//srodkowy kwadrat 2
 
-				-1.0f, 1.0f, 1.0f,0.0f,
-				-1.0f, 1.0f,-1.0f,0.0f,
-				1.0f, 1.0f,-1.0f,0.0f,
+				//Œciana 1 tylna
+				0.0f, 0.0f,-1.0f,0.0f,
+				0.0f, 0.0f,-1.0f,0.0f,
+				0.0f, 0.0f,-1.0f,0.0f,
 
-				//�ciana 5
-				-1.0f,-1.0f,-1.0f,0.0f,
-				-1.0f, 1.0f, 1.0f,0.0f,
-				-1.0f,-1.0f, 1.0f,0.0f,
+				0.0f, 0.0f,-1.0f,0.0f,
+				0.0f, 0.0f,-1.0f,0.0f,
+				0.0f, 0.0f,-1.0f,0.0f,
 
-				-1.0f,-1.0f,-1.0f,0.0f,
-				-1.0f, 1.0f,-1.0f,0.0f,
-				-1.0f, 1.0f, 1.0f,0.0f,
+				//Œciana 2 przednia
+				0.0f, 0.0f, 1.0f,0.0f,
+				0.0f, 0.0f, 1.0f,0.0f,
+				0.0f, 0.0f, 1.0f,0.0f,
 
-				//�ciana 6
-				1.0f,-1.0f, 1.0f,0.0f,
-				1.0f, 1.0f,-1.0f,0.0f,
-				1.0f,-1.0f,-1.0f,0.0f,
+				0.0f, 0.0f, 1.0f,0.0f,
+				0.0f, 0.0f, 1.0f,0.0f,
+				0.0f, 0.0f, 1.0f,0.0f,
 
-				1.0f,-1.0f, 1.0f,0.0f,
-				1.0f, 1.0f, 1.0f,0.0f,
-				1.0f, 1.0f,-1.0f,0.0f,
+				//Œciana 3 dolna
+				0.0f,-1.0f, 0.0f,0.0f,
+				0.0f,-1.0f, 0.0f,0.0f,
+				0.0f,-1.0f, 0.0f,0.0f,
+
+				0.0f,-1.0f, 0.0f,0.0f,
+				0.0f,-1.0f, 0.0f,0.0f,
+				0.0f,-1.0f, 0.0f,0.0f,
+
+				//Œciana 4 gorna
+				0.0f,1.0f, 0.0f,0.0f,
+				0.0f,1.0f, 0.0f,0.0f,
+				0.0f,1.0f, 0.0f,0.0f,
+
+				0.0f,1.0f, 0.0f,0.0f,
+				0.0f,1.0f, 0.0f,0.0f,
+				0.0f,1.0f, 0.0f,0.0f,
+
+				//kwadrat lewy
+
+                //Œciana 1 tylna
+				0.0f, 0.0f,-1.0f,0.0f,
+				0.0f, 0.0f,-1.0f,0.0f,
+				0.0f, 0.0f,-1.0f,0.0f,
+
+				0.0f, 0.0f,-1.0f,0.0f,
+				0.0f, 0.0f,-1.0f,0.0f,
+				0.0f, 0.0f,-1.0f,0.0f,
+
+				//Œciana 2 przednia
+				0.0f, 0.0f, 1.0f,0.0f,
+				0.0f, 0.0f, 1.0f,0.0f,
+				0.0f, 0.0f, 1.0f,0.0f,
+
+				0.0f, 0.0f, 1.0f,0.0f,
+				0.0f, 0.0f, 1.0f,0.0f,
+				0.0f, 0.0f, 1.0f,0.0f,
+
+				//Œciana 3 dolna
+				0.0f,-1.0f, 0.0f,0.0f,
+				0.0f,-1.0f, 0.0f,0.0f,
+				0.0f,-1.0f, 0.0f,0.0f,
+
+				0.0f,-1.0f, 0.0f,0.0f,
+				0.0f,-1.0f, 0.0f,0.0f,
+				0.0f,-1.0f, 0.0f,0.0f,
+
+				//Œciana 4 gorna
+				0.0f, 1.0f, 0.0f,0.0f,
+				0.0f, 1.0f, 0.0f,0.0f,
+				0.0f, 1.0f, 0.0f,0.0f,
+
+				0.0f, 1.0f, 0.0f,0.0f,
+				0.0f, 1.0f, 0.0f,0.0f,
+				0.0f, 1.0f, 0.0f,0.0f,
+
+				//Œciana 5 boczna lewa
+				-1.0f, 0.0f, 0.0f,0.0f,
+				-1.0f, 0.0f, 0.0f,0.0f,
+				-1.0f, 0.0f, 0.0f,0.0f,
+
+				-1.0f, 0.0f, 0.0f,0.0f,
+				-1.0f, 0.0f, 0.0f,0.0f,
+				-1.0f, 0.0f, 0.0f,0.0f,
 			};
 
 			float quadrupleCubeTexCoords[]={

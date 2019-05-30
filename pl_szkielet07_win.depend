@@ -985,7 +985,7 @@
 	<OpenGL/glu.h>
 	<GL/glu.h>
 
-1559149256 source:c:\users\mikol\desktop\tetris\main_file.cpp
+1559205898 source:c:\users\mikol\desktop\tetris\main_file.cpp
 	<GL/glew.h>
 	<GLFW/glfw3.h>
 	<glm/glm.hpp>
@@ -993,6 +993,7 @@
 	<glm/gtc/matrix_transform.hpp>
 	<stdlib.h>
 	<stdio.h>
+	<ctime>
 	"constants.h"
 	"lodepng.h"
 	"shaderprogram.h"
@@ -1919,9 +1920,39 @@
 
 1559149256 c:\users\mikol\desktop\tetris\double_cube.h
 
-1559149256 c:\users\mikol\desktop\tetris\triple_cube.h
+1559206401 c:\users\mikol\desktop\tetris\triple_cube.h
 
 1559149256 c:\users\mikol\desktop\tetris\quadruple_cube.h
 
 1559149256 c:\users\mikol\desktop\tetris\strange_cube.h
+
+1559149256 source:c:\users\mikol\desktop\nowy folder\lodepng.cpp
+	"lodepng.h"
+	<stdio.h>
+	<stdlib.h>
+	<fstream>
+
+1559149256 c:\users\mikol\desktop\nowy folder\lodepng.h
+	<string.h>
+	<vector>
+	<string>
+	"lodepng.h"
+	<iostream>
+	"lodepng.h"
+
+1559149256 source:c:\users\mikol\desktop\nowy folder\shaderprogram.cpp
+	"shaderprogram.h"
+
+1559149256 c:\users\mikol\desktop\nowy folder\shaderprogram.h
+	"GL/glew.h"
+	"stdio.h"
+
+1559149256 c:\users\mikol\desktop\nowy folder\glew\include\gl\glew.h
+	<stddef.h>
+	<inttypes.h>
+	<stdint.h>
+	<inttypes.h>
+	<Availability.h>
+	<OpenGL/glu.h>
+	<GL/glu.h>
 

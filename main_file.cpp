@@ -8,10 +8,10 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <stdlib.h>
 #include <stdio.h>
+#include <ctime>
 #include "constants.h"
 #include "lodepng.h"
 #include "shaderprogram.h"
-#include "myTeapot.h"
 
 #include "Triangle_Cube.h"
 #include "Single_Cube.h"
@@ -20,7 +20,7 @@
 #include "Quadruple_Cube.h"
 #include "Strange_Cube.h"
 
-
+const int modelSize = 6;
 
 float speed_x=0;
 float speed_y=0;
@@ -41,6 +41,8 @@ GLuint tex1;
 GLuint tex2;
 GLuint tex3;
 
+int map[12][8][8];
+
 
 //Procedura obsługi błędów
 void error_callback(int error, const char* description) {
@@ -55,8 +57,8 @@ void keyCallback(GLFWwindow* window,int key,int scancode,int action,int mods) {
 
         if (key==GLFW_KEY_UP) gd += 2.0f;
         if (key==GLFW_KEY_DOWN) gd += -2.0f;
-        if (key==GLFW_KEY_LEFT) pl += -2.0f;
-        if (key==GLFW_KEY_RIGHT) pl += 2.0f;
+        if (key==GLFW_KEY_LEFT) pl += 2.0f;
+        if (key==GLFW_KEY_RIGHT) pl += -2.0f;
 
         if (key==GLFW_KEY_Q) cam_z += -PI/2;
         if (key==GLFW_KEY_E) cam_z += PI/2;
@@ -135,7 +137,7 @@ void drawScene(GLFWwindow* window,float angle_x,float angle_y, float velo, float
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glm::mat4 V=glm::lookAt(
-         glm::vec3(0, 15, -20),
+         glm::vec3(0, 45, -20),
          glm::vec3(0,0,0),
          glm::vec3(0.0f,1.0f,0.0f));
 
@@ -144,23 +146,24 @@ void drawScene(GLFWwindow* window,float angle_x,float angle_y, float velo, float
 
 
 	M=glm::translate(M,glm::vec3(0.0f,falling,0.0f)); //opadanie
+    M=glm::translate(M,glm::vec3(pl,gd,velo)); //przemieszczenie            -- swiruje dla strzalek gora dol
     M=glm::rotate(M,PI/2,glm::vec3(1.0f, 0.0f,0.0f));
 
-    M=glm::translate(M,glm::vec3(0.5f,0.0f,-25.0f));
+    M=glm::translate(M,glm::vec3(1.0f,1.0f,-23.0f)); // na X i Y tylko dla niektorych klockow
+    //M=glm::translate(M,glm::vec3(0.0f,1.0f,-23.0f));
 
-	M=glm::rotate(M,angle_y,glm::vec3(1.0f,0.0f,0.0f)); //przemieszczenie
-	M=glm::rotate(M,angle_x,glm::vec3(0.0f,1.0f,0.0f)); //przemieszczenie
-	M=glm::rotate(M,angle_z,glm::vec3(0.0f,0.0f,1.0f)); //przemieszczenie
-    M=glm::translate(M,glm::vec3(pl,gd,velo)); //rotacja
+	M=glm::rotate(M,angle_y,glm::vec3(1.0f,0.0f,0.0f));
+	M=glm::rotate(M,angle_x,glm::vec3(0.0f,1.0f,0.0f));
+	M=glm::rotate(M,angle_z,glm::vec3(0.0f,0.0f,1.0f));
 
 
 	V=glm::rotate(V,cam_angle_z,glm::vec3(0.0f,1.0f,0.0f)); //kamera
 
 
-	float *verts=singleCubeVertices;
-	float *normals=singleCubeNormals;
-	float *texCoords=singleCubeTexCoords;
-	unsigned int vertexCount=singleCubeVertexCount;
+	float *verts=strangeCubeVertices;
+	float *normals=strangeCubeNormals;
+	float *texCoords=strangeCubeTexCoords;
+	unsigned int vertexCount=strangeCubeVertexCount;
 
 
 
@@ -336,9 +339,11 @@ void drawMap(){
     glDisableVertexAttribArray(sp->a("texCoord0"));  //Wyłącz przesyłanie danych do atrybutu texCoord0
 }
 
+void chooseModel(int);
 
 int main(void)
 {
+    srand(time(NULL));
 	GLFWwindow* window; //Wskaźnik na obiekt reprezentujący okno
 
 	glfwSetErrorCallback(error_callback);//Zarejestruj procedurę obsługi błędów
@@ -367,6 +372,19 @@ int main(void)
 
 	initOpenGLProgram(window); //Operacje inicjujące
 
+    for(int i = 0; i < 12; ++i) //wysokosc
+    {
+        for (int j = 0; j < 8; ++j) //szerokosc "kolumny"
+        {
+            for(int k = 0; k < 8; ++k)  //dlugosc "wiersze"
+            {
+                map[i][j][k] = 0;
+            }
+        }
+    }
+
+    //trzeba machnac jakiegos switcha w petli ktory bedzie losowal figury i kazda figure trzeba na inny sposob wpisac do tablicy "map"
+
 	//Główna pętla
 	float velo=0;
 	float cam_angle_z=0;
@@ -378,8 +396,8 @@ int main(void)
         //angle_y+=speed_y*glfwGetTime(); //Zwiększ/zmniejsz kąt obrotu na podstawie prędkości i czasu jaki upłynał od poprzedniej klatki
         velo+=speed_y*glfwGetTime();
         cam_angle_z=cam_z;//*glfwGetTime();
-
-        if (round(glfwGetTime()*10)/10==1.5 and falling > -26)
+        //chooseModel(rand()%modelSize+1);
+        if (round(glfwGetTime()*10)/10==1.5 and falling > -22)
         {
             falling+=-2;
             glfwSetTime(0);
@@ -395,4 +413,54 @@ int main(void)
 	glfwDestroyWindow(window); //Usuń kontekst OpenGL i okno
 	glfwTerminate(); //Zwolnij zasoby zajęte przez GLFW
 	exit(EXIT_SUCCESS);
+}
+
+
+void chooseModel(int chosen) //mozna tu podac wszystkie tabele i ilosc wierzcholkow modelu po referencji i przypisac w switchu
+{
+    switch(chosen)
+    {
+        case 1:     //SingleCube - wymaga przesuniecia X na poczatku
+        //[11][3][3]
+        map[11][3][3] = 1;
+        break;
+
+        case 2:     //DoubleCube - rotacja "N-M" musi byc wedlug innego punktu niz srodka
+        //[11][3,4][3]
+        map[11][3][3] = 1;
+        map[11][4][3] = 1;
+
+        break;
+
+        case 3:     //TripleCube - wymaga przesuniecia X na poczatku
+        //[11][2,3,4][3]
+        map[11][2][3] = 1;
+        map[11][3][3] = 1;
+        map[11][4][3] = 1;
+        break;
+
+        case 4:     //QuadrupleCube - rotacja "N-M" musi byc wedlug innego punktu niz srodka
+        //[11][2,3,4,5][3]
+        map[11][2][3] = 1;
+        map[11][3][3] = 1;
+        map[11][4][3] = 1;
+        map[11][5][3] = 1;
+        break;
+
+        case 5:     //TriangleCube - wymaga przesunieci X na poczatku
+        //[11][3][2,3], [11][2][3], [11][4][3]
+        map[11][3][2] = 1;
+        map[11][3][3] = 1;
+        map[11][2][3] = 1;
+        map[11][4][3] = 1;
+        break;
+
+        case 6:     //StrangeCube - wymaga przesunieci X na poczatku
+        //[11][2,3,4][3], [11][2][2]
+        map[11][2][3] = 1;
+        map[11][3][3] = 1;
+        map[11][4][3] = 1;
+        map[11][2][2] = 1;
+        break;
+    }
 }

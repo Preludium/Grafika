@@ -1,15 +1,6 @@
 #ifndef STRANGE_CUBE_H_INCLUDED
 #define STRANGE_CUBE_H_INCLUDED
 
-//myCubeVertices - homogeniczne współrzędne wierzchołków w przestrzeni modelu
-//myCubeNormals - homogeniczne wektory normalne ścian (per wierzchołek) w przestrzeni modelu
-//myCubeVertexNormals - homogeniczne wektory normalne wierzchołków w przestrzeni modelu
-//myCubeTexCoords - współrzędne teksturowania
-//myCubeColors - kolory wierzchołków
-//myCubeC1 - kolumna macierzy TBN^-1
-//myCubeC2 - kolumna macierzy TBN^-1
-//myCubeC3 - kolumna macierzy TBN^-1
-
 int strangeCubeVertexCount=108;
 
 float strangeCubeVertices[]={
@@ -186,67 +177,12 @@ float strangeCubeVertices[]={
 				3.0f, 1.0f, 1.0f,1.0f,
 				3.0f, 3.0f, 1.0f,1.0f,
 				3.0f, 3.0f,-1.0f,1.0f,
-		};
-
-
-float strangeCubeColors[]={
-                //Ściana 1
-				1.0f,0.0f,0.0f,1.0f,
-				1.0f,0.0f,0.0f,1.0f,
-				1.0f,0.0f,0.0f,1.0f,
-
-				1.0f,0.0f,0.0f,1.0f,
-				1.0f,0.0f,0.0f,1.0f,
-				1.0f,0.0f,0.0f,1.0f,
-
-				//Ściana 2
-				0.0f,1.0f,0.0f,1.0f,
-				0.0f,1.0f,0.0f,1.0f,
-				0.0f,1.0f,0.0f,1.0f,
-
-				0.0f,1.0f,0.0f,1.0f,
-				0.0f,1.0f,0.0f,1.0f,
-				0.0f,1.0f,0.0f,1.0f,
-
-				//Ściana 3
-				0.0f,0.0f,1.0f,1.0f,
-				0.0f,0.0f,1.0f,1.0f,
-				0.0f,0.0f,1.0f,1.0f,
-
-				0.0f,0.0f,1.0f,1.0f,
-				0.0f,0.0f,1.0f,1.0f,
-				0.0f,0.0f,1.0f,1.0f,
-
-				//Ściana 4
-				1.0f,1.0f,0.0f,1.0f,
-				1.0f,1.0f,0.0f,1.0f,
-				1.0f,1.0f,0.0f,1.0f,
-
-				1.0f,1.0f,0.0f,1.0f,
-				1.0f,1.0f,0.0f,1.0f,
-				1.0f,1.0f,0.0f,1.0f,
-
-				//Ściana 5
-				0.0f,1.0f,1.0f,1.0f,
-				0.0f,1.0f,1.0f,1.0f,
-				0.0f,1.0f,1.0f,1.0f,
-
-				0.0f,1.0f,1.0f,1.0f,
-				0.0f,1.0f,1.0f,1.0f,
-				0.0f,1.0f,1.0f,1.0f,
-
-				//Ściana 6
-				1.0f,1.0f,1.0f,1.0f,
-				1.0f,1.0f,1.0f,1.0f,
-				1.0f,1.0f,1.0f,1.0f,
-
-				1.0f,1.0f,1.0f,1.0f,
-				1.0f,1.0f,1.0f,1.0f,
-				1.0f,1.0f,1.0f,1.0f,
 			};
 
-			float strangeCubeNormals[]={ // single nie zmieniany
-				//Ściana 1
+			float strangeCubeNormals[]={
+				// prawy kwadrat
+
+				//Œciana 1 tylna
 				0.0f, 0.0f,-1.0f,0.0f,
 				0.0f, 0.0f,-1.0f,0.0f,
 				0.0f, 0.0f,-1.0f,0.0f,
@@ -255,7 +191,7 @@ float strangeCubeColors[]={
 				0.0f, 0.0f,-1.0f,0.0f,
 				0.0f, 0.0f,-1.0f,0.0f,
 
-				//Ściana 2
+				//Œciana 2 przednia
 				0.0f, 0.0f, 1.0f,0.0f,
 				0.0f, 0.0f, 1.0f,0.0f,
 				0.0f, 0.0f, 1.0f,0.0f,
@@ -264,7 +200,7 @@ float strangeCubeColors[]={
 				0.0f, 0.0f, 1.0f,0.0f,
 				0.0f, 0.0f, 1.0f,0.0f,
 
-				//Ściana 3
+				//Œciana 3 dolna
 				0.0f,-1.0f, 0.0f,0.0f,
 				0.0f,-1.0f, 0.0f,0.0f,
 				0.0f,-1.0f, 0.0f,0.0f,
@@ -273,25 +209,7 @@ float strangeCubeColors[]={
 				0.0f,-1.0f, 0.0f,0.0f,
 				0.0f,-1.0f, 0.0f,0.0f,
 
-				//Ściana 4
-				0.0f, 1.0f, 0.0f,0.0f,
-				0.0f, 1.0f, 0.0f,0.0f,
-				0.0f, 1.0f, 0.0f,0.0f,
-
-				0.0f, 1.0f, 0.0f,0.0f,
-				0.0f, 1.0f, 0.0f,0.0f,
-				0.0f, 1.0f, 0.0f,0.0f,
-
-				//Ściana 5
-				-1.0f, 0.0f, 0.0f,0.0f,
-				-1.0f, 0.0f, 0.0f,0.0f,
-				-1.0f, 0.0f, 0.0f,0.0f,
-
-				-1.0f, 0.0f, 0.0f,0.0f,
-				-1.0f, 0.0f, 0.0f,0.0f,
-				-1.0f, 0.0f, 0.0f,0.0f,
-
-				//Ściana 6
+				//Œciana 5 boczna prawa
 				1.0f, 0.0f, 0.0f,0.0f,
 				1.0f, 0.0f, 0.0f,0.0f,
 				1.0f, 0.0f, 0.0f,0.0f,
@@ -300,64 +218,137 @@ float strangeCubeColors[]={
 				1.0f, 0.0f, 0.0f,0.0f,
 				1.0f, 0.0f, 0.0f,0.0f,
 
+				// srodkowy kwadrat
 
-			};
+				//Œciana 1 tylna
+				0.0f, 0.0f,-1.0f,0.0f,
+				0.0f, 0.0f,-1.0f,0.0f,
+				0.0f, 0.0f,-1.0f,0.0f,
 
-			float strangeCubeVertexNormals[]={ // single nie zmieniany
-				//Ściana 1
-				1.0f,-1.0f,-1.0f,0.0f,
-				-1.0f, 1.0f,-1.0f,0.0f,
-				-1.0f,-1.0f,-1.0f,0.0f,
+				0.0f, 0.0f,-1.0f,0.0f,
+				0.0f, 0.0f,-1.0f,0.0f,
+				0.0f, 0.0f,-1.0f,0.0f,
 
-				1.0f,-1.0f,-1.0f,0.0f,
-				1.0f, 1.0f,-1.0f,0.0f,
-				-1.0f, 1.0f,-1.0f,0.0f,
+				//Œciana 2 przednia
+				0.0f, 0.0f, 1.0f,0.0f,
+				0.0f, 0.0f, 1.0f,0.0f,
+				0.0f, 0.0f, 1.0f,0.0f,
 
-				//Ściana 2
-				-1.0f,-1.0f, 1.0f,0.0f,
-				1.0f, 1.0f, 1.0f,0.0f,
-				1.0f,-1.0f, 1.0f,0.0f,
+				0.0f, 0.0f, 1.0f,0.0f,
+				0.0f, 0.0f, 1.0f,0.0f,
+				0.0f, 0.0f, 1.0f,0.0f,
 
-				-1.0f,-1.0f, 1.0f,0.0f,
-				-1.0f, 1.0f, 1.0f,0.0f,
-				1.0f, 1.0f, 1.0f,0.0f,
+				//Œciana 3 dolna
+				0.0f,-1.0f, 0.0f,0.0f,
+				0.0f,-1.0f, 0.0f,0.0f,
+				0.0f,-1.0f, 0.0f,0.0f,
 
+				0.0f,-1.0f, 0.0f,0.0f,
+				0.0f,-1.0f, 0.0f,0.0f,
+				0.0f,-1.0f, 0.0f,0.0f,
 
-				//Ściana 3
-				-1.0f,-1.0f,-1.0f,0.0f,
-				1.0f,-1.0f, 1.0f,0.0f,
-				1.0f,-1.0f,-1.0f,0.0f,
+				//Œciana 4 gorna
+				0.0f,1.0f, 0.0f,0.0f,
+				0.0f,1.0f, 0.0f,0.0f,
+				0.0f,1.0f, 0.0f,0.0f,
 
-				-1.0f,-1.0f,-1.0f,0.0f,
-				-1.0f,-1.0f, 1.0f,0.0f,
-				1.0f,-1.0f, 1.0f,0.0f,
+				0.0f,1.0f, 0.0f,0.0f,
+				0.0f,1.0f, 0.0f,0.0f,
+				0.0f,1.0f, 0.0f,0.0f,
 
-				//Ściana 4
-				-1.0f, 1.0f, 1.0f,0.0f,
-				1.0f, 1.0f,-1.0f,0.0f,
-				1.0f, 1.0f, 1.0f,0.0f,
+				//kwadrat lewy
 
-				-1.0f, 1.0f, 1.0f,0.0f,
-				-1.0f, 1.0f,-1.0f,0.0f,
-				1.0f, 1.0f,-1.0f,0.0f,
+                //Œciana 1 tylna
+				0.0f, 0.0f,-1.0f,0.0f,
+				0.0f, 0.0f,-1.0f,0.0f,
+				0.0f, 0.0f,-1.0f,0.0f,
 
-				//Ściana 5
-				-1.0f,-1.0f,-1.0f,0.0f,
-				-1.0f, 1.0f, 1.0f,0.0f,
-				-1.0f,-1.0f, 1.0f,0.0f,
+				0.0f, 0.0f,-1.0f,0.0f,
+				0.0f, 0.0f,-1.0f,0.0f,
+				0.0f, 0.0f,-1.0f,0.0f,
 
-				-1.0f,-1.0f,-1.0f,0.0f,
-				-1.0f, 1.0f,-1.0f,0.0f,
-				-1.0f, 1.0f, 1.0f,0.0f,
+				//Œciana 2 przednia
+				0.0f, 0.0f, 1.0f,0.0f,
+				0.0f, 0.0f, 1.0f,0.0f,
+				0.0f, 0.0f, 1.0f,0.0f,
 
-				//Ściana 6
-				1.0f,-1.0f, 1.0f,0.0f,
-				1.0f, 1.0f,-1.0f,0.0f,
-				1.0f,-1.0f,-1.0f,0.0f,
+				0.0f, 0.0f, 1.0f,0.0f,
+				0.0f, 0.0f, 1.0f,0.0f,
+				0.0f, 0.0f, 1.0f,0.0f,
 
-				1.0f,-1.0f, 1.0f,0.0f,
-				1.0f, 1.0f, 1.0f,0.0f,
-				1.0f, 1.0f,-1.0f,0.0f,
+				//Œciana 3 dolna
+				0.0f,-1.0f, 0.0f,0.0f,
+				0.0f,-1.0f, 0.0f,0.0f,
+				0.0f,-1.0f, 0.0f,0.0f,
+
+				0.0f,-1.0f, 0.0f,0.0f,
+				0.0f,-1.0f, 0.0f,0.0f,
+				0.0f,-1.0f, 0.0f,0.0f,
+
+				//Œciana 4 gorna
+				0.0f, 1.0f, 0.0f,0.0f,
+				0.0f, 1.0f, 0.0f,0.0f,
+				0.0f, 1.0f, 0.0f,0.0f,
+
+				0.0f, 1.0f, 0.0f,0.0f,
+				0.0f, 1.0f, 0.0f,0.0f,
+				0.0f, 1.0f, 0.0f,0.0f,
+
+				//Œciana 5 boczna lewa
+				-1.0f, 0.0f, 0.0f,0.0f,
+				-1.0f, 0.0f, 0.0f,0.0f,
+				-1.0f, 0.0f, 0.0f,0.0f,
+
+				-1.0f, 0.0f, 0.0f,0.0f,
+				-1.0f, 0.0f, 0.0f,0.0f,
+				-1.0f, 0.0f, 0.0f,0.0f,
+
+				//kwadrat gorny
+
+				//Œciana 1 tylna
+				0.0f, 0.0f,-1.0f,0.0f,
+				0.0f, 0.0f,-1.0f,0.0f,
+				0.0f, 0.0f,-1.0f,0.0f,
+
+				0.0f, 0.0f,-1.0f,0.0f,
+				0.0f, 0.0f,-1.0f,0.0f,
+				0.0f, 0.0f,-1.0f,0.0f,
+
+				//Œciana 2 przednia
+				0.0f, 0.0f, 1.0f,0.0f,
+				0.0f, 0.0f, 1.0f,0.0f,
+				0.0f, 0.0f, 1.0f,0.0f,
+
+				0.0f, 0.0f, 1.0f,0.0f,
+				0.0f, 0.0f, 1.0f,0.0f,
+				0.0f, 0.0f, 1.0f,0.0f,
+
+				//Œciana 3 gorna
+				0.0f, 1.0f, 0.0f,0.0f,
+				0.0f, 1.0f, 0.0f,0.0f,
+				0.0f, 1.0f, 0.0f,0.0f,
+
+				0.0f, 1.0f, 0.0f,0.0f,
+				0.0f, 1.0f, 0.0f,0.0f,
+				0.0f, 1.0f, 0.0f,0.0f,
+
+				//Œciana 4 boczna lewa
+				-1.0f, 0.0f, 0.0f,0.0f,
+				-1.0f, 0.0f, 0.0f,0.0f,
+				-1.0f, 0.0f, 0.0f,0.0f,
+
+				-1.0f, 0.0f, 0.0f,0.0f,
+				-1.0f, 0.0f, 0.0f,0.0f,
+				-1.0f, 0.0f, 0.0f,0.0f,
+
+				//Œciana 5 boczna prawa
+				1.0f, 0.0f, 0.0f,0.0f,
+				1.0f, 0.0f, 0.0f,0.0f,
+				1.0f, 0.0f, 0.0f,0.0f,
+
+				1.0f, 0.0f, 0.0f,0.0f,
+				1.0f, 0.0f, 0.0f,0.0f,
+				1.0f, 0.0f, 0.0f,0.0f,
 			};
 
 			float strangeCubeTexCoords[]={
