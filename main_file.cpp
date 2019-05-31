@@ -22,8 +22,6 @@
 
 const int modelSize = 6;
 
-float speed_x=0;
-float speed_y=0;
 float cam_z=0;
 float aspectRatio=1;
 float angle_x=0; //Aktualny kąt obrotu obiektu
@@ -40,6 +38,14 @@ GLuint tex0;
 // GLuint tex1;
 // GLuint tex2;
 // GLuint tex3;
+
+struct chosenModel
+{
+    float *verts;
+	float *normals;
+	float *texCoords;
+	unsigned int vertexCount;
+};
 
 int map[12][7][7];
 
@@ -60,14 +66,14 @@ void keyCallback(GLFWwindow* window,int key,int scancode,int action,int mods) {
         if (key==GLFW_KEY_LEFT) pl += 2.0f;
         if (key==GLFW_KEY_RIGHT) pl += -2.0f;
 
-        if (key==GLFW_KEY_Q) cam_z += -PI/2;
-        if (key==GLFW_KEY_E) cam_z += PI/2;
+        if (key==GLFW_KEY_Q) cam_z += PI/4;
+        if (key==GLFW_KEY_E) cam_z += -PI/4;
     }
 
-    if (action==GLFW_RELEASE) {
-        if (key==GLFW_KEY_Q) cam_z=0;
-        if (key==GLFW_KEY_E) cam_z=0;
-    }
+    // if (action==GLFW_RELEASE) {
+    //     if (key==GLFW_KEY_Q) cam_z=0;
+    //     if (key==GLFW_KEY_E) cam_z=0;
+    // }
 }
 
 void windowResizeCallback(GLFWwindow* window,int width,int height) {
@@ -80,26 +86,26 @@ void windowResizeCallback(GLFWwindow* window,int width,int height) {
 
 //Funkcja wczytująca teksturę
 GLuint readTexture(const char* filename) {
-  GLuint tex;
-  glActiveTexture(GL_TEXTURE0);
+    GLuint tex;
+    glActiveTexture(GL_TEXTURE0);
 
-  //Wczytanie do pamięci komputera
-  std::vector<unsigned char> image;   //Alokuj wektor do wczytania obrazka
-  unsigned width, height;   //Zmienne do których wczytamy wymiary obrazka
-  //Wczytaj obrazek
-  unsigned error = lodepng::decode(image, width, height, filename);
+    //Wczytanie do pamięci komputera
+    std::vector<unsigned char> image;   //Alokuj wektor do wczytania obrazka
+    unsigned width, height;   //Zmienne do których wczytamy wymiary obrazka
+    //Wczytaj obrazek
+    unsigned error = lodepng::decode(image, width, height, filename);
 
-  //Import do pamięci karty graficznej
-  glGenTextures(1,&tex); //Zainicjuj jeden uchwyt
-  glBindTexture(GL_TEXTURE_2D, tex); //Uaktywnij uchwyt
-  //Wczytaj obrazek do pamięci KG skojarzonej z uchwytem
-  glTexImage2D(GL_TEXTURE_2D, 0, 4, width, height, 0,
-    GL_RGBA, GL_UNSIGNED_BYTE, (unsigned char*) image.data());
+    //Import do pamięci karty graficznej
+    glGenTextures(1,&tex); //Zainicjuj jeden uchwyt
+    glBindTexture(GL_TEXTURE_2D, tex); //Uaktywnij uchwyt
+    //Wczytaj obrazek do pamięci KG skojarzonej z uchwytem
+    glTexImage2D(GL_TEXTURE_2D, 0, 4, width, height, 0,
+      GL_RGBA, GL_UNSIGNED_BYTE, (unsigned char*) image.data());
 
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-  return tex;
+    return tex;
 }
 
 //Procedura inicjująca
@@ -133,7 +139,7 @@ void freeOpenGLProgram(GLFWwindow* window) {
 
 
 //Procedura rysująca zawartość sceny
-void drawScene(GLFWwindow* window,float angle_x,float angle_y, float velo, float cam_angle_z, float falling) {
+void drawScene(float falling, chosenModel &model, float initialRotate) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glm::mat4 V=glm::lookAt(
@@ -144,48 +150,51 @@ void drawScene(GLFWwindow* window,float angle_x,float angle_y, float velo, float
     glm::mat4 P=glm::perspective(50.0f*PI/180.0f, aspectRatio, 0.01f, 100.0f);
     glm::mat4 M=glm::mat4(1.0f);
 
+    glm::mat4 lp=glm::mat4(1.0f);
+    lp=glm::translate(lp,glm::vec3(0.0f,55.0f,-20.0f));     //obracac zrodlo swiatla razem z kamera
+    lp=glm::rotate(lp,PI/4,glm::vec3(0.0f,1.0f,0.0f));      // jest jeszcze jedno w drawMap
 
+    lp=glm::rotate(lp,cam_z,glm::vec3(0.0f,1.0f,0.0f));
+
+    M=glm::translate(M,glm::vec3(initialRotate,23.0f,0.0f));
 	M=glm::translate(M,glm::vec3(0.0f,falling,0.0f)); //opadanie
-    M=glm::translate(M,glm::vec3(pl,gd,0.0f));//,0.0f,gd)); //przemieszczenie            -- swiruje dla strzalek gora dol
+    M=glm::translate(M,glm::vec3(pl,0.0f,gd)); //przemieszczenie
+
     M=glm::rotate(M,PI/2,glm::vec3(1.0f, 0.0f,0.0f));
-
-    M=glm::translate(M,glm::vec3(0.0f,0.0f,-23.0f)); // na X i Y tylko dla niektorych klockow
-    //M=glm::translate(M,glm::vec3(0.0f,1.0f,-23.0f));
-
 	M=glm::rotate(M,angle_y,glm::vec3(1.0f,0.0f,0.0f));
 	M=glm::rotate(M,angle_x,glm::vec3(0.0f,1.0f,0.0f));
 	M=glm::rotate(M,angle_z,glm::vec3(0.0f,0.0f,1.0f));
 
 
 	V=glm::rotate(V,PI/4,glm::vec3(0.0f,1.0f,0.0f)); //kamera
+	V=glm::rotate(V,cam_z,glm::vec3(0.0f,1.0f,0.0f)); //kamera
 
 
-	float *verts=strangeCubeVertices;
-	float *normals=strangeCubeNormals;
-	float *texCoords=strangeCubeTexCoords;
-	unsigned int vertexCount=strangeCubeVertexCount;
+	// float *verts=strangeCubeVertices;
+	// float *normals=strangeCubeNormals;
+	// float *texCoords=strangeCubeTexCoords;
+	// unsigned int vertexCount=strangeCubeVertexCount;
 
     sp->use();
     glUniformMatrix4fv(sp->u("P"),1,false,glm::value_ptr(P));
     glUniformMatrix4fv(sp->u("V"),1,false,glm::value_ptr(V));
     glUniformMatrix4fv(sp->u("M"),1,false,glm::value_ptr(M));
-    glUniform4f(sp->u("lp"),0,40,-15,1); //Współrzędne źródła światła
+    glUniformMatrix4fv(sp->u("lp"),1,false,glm::value_ptr(lp));
 
     glUniform1i(sp->u("textureMap0"),0);
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D,tex0);
 
     glEnableVertexAttribArray(sp->a("vertex"));  //Włącz przesyłanie danych do atrybutu vertex
-    glVertexAttribPointer(sp->a("vertex"),4,GL_FLOAT,false,0,verts); //Wskaż tablicę z danymi dla atrybutu vertex
+    glVertexAttribPointer(sp->a("vertex"),4,GL_FLOAT,false,0,model.verts); //Wskaż tablicę z danymi dla atrybutu vertex
 
     glEnableVertexAttribArray(sp->a("normal"));  //Włącz przesyłanie danych do atrybutu normal
-    glVertexAttribPointer(sp->a("normal"),4,GL_FLOAT,false,0,normals); //Wskaż tablicę z danymi dla atrybutu normal
+    glVertexAttribPointer(sp->a("normal"),4,GL_FLOAT,false,0,model.normals); //Wskaż tablicę z danymi dla atrybutu normal
 
     glEnableVertexAttribArray(sp->a("texCoord0"));  //Włącz przesyłanie danych do atrybutu texCoord0
-    glVertexAttribPointer(sp->a("texCoord0"),2,GL_FLOAT,false,0,texCoords); //Wskaż tablicę z danymi dla atrybutu texCoord0
+    glVertexAttribPointer(sp->a("texCoord0"),2,GL_FLOAT,false,0,model.texCoords); //Wskaż tablicę z danymi dla atrybutu texCoord0
 
-
-    glDrawArrays(GL_TRIANGLES,0,vertexCount); //Narysuj obiekt
+    glDrawArrays(GL_TRIANGLES,0,model.vertexCount); //Narysuj obiekt
 
     glDisableVertexAttribArray(sp->a("vertex"));  //Wyłącz przesyłanie danych do atrybutu vertex
     glDisableVertexAttribArray(sp->a("normal"));  //Wyłącz przesyłanie danych do atrybutu normal
@@ -194,7 +203,8 @@ void drawScene(GLFWwindow* window,float angle_x,float angle_y, float velo, float
 
 
 void drawMap();
-void chooseModel(int);
+void chooseModel(int, chosenModel&, float&);
+bool canFall(int&);
 
 int main(void)
 {
@@ -208,7 +218,7 @@ int main(void)
 		exit(EXIT_FAILURE);
 	}
 
-	window = glfwCreateWindow(500, 500, "OpenGL", NULL, NULL);  //Utwórz okno 500x500 o tytule "OpenGL" i kontekst OpenGL.
+	window = glfwCreateWindow(1000, 1000, "Tetris", NULL, NULL);  //Utwórz okno 500x500 o tytule "OpenGL" i kontekst OpenGL.
 
 	if (!window) //Jeżeli okna nie udało się utworzyć, to zamknij program
 	{
@@ -238,26 +248,29 @@ int main(void)
         }
     }
 
-    //trzeba machnac jakiegos switcha w petli ktory bedzie losowal figury i kazda figure trzeba na inny sposob wpisac do tablicy "map"
-
 	//Główna pętla
-	float velo=0;
-	float cam_angle_z=0;
 	float falling=0;
+    chosenModel model;
+    int actualSurface = 11;
+    bool spada = false;
+    float initialRotate = 0;
 	glfwSetTime(0); //Zeruj timer
 	while (!glfwWindowShouldClose(window)) //Tak długo jak okno nie powinno zostać zamknięte
 	{
-       // angle_x+=speed_x; //Zwiększ/zmniejsz kąt obrotu na podstawie prędkości i czasu jaki upłynał od poprzedniej klatki
-        //angle_y+=speed_y*glfwGetTime(); //Zwiększ/zmniejsz kąt obrotu na podstawie prędkości i czasu jaki upłynał od poprzedniej klatki
-        velo+=speed_y*glfwGetTime();
-        cam_angle_z=cam_z;//*glfwGetTime();
-        //chooseModel(rand()%modelSize+1);
-        if (round(glfwGetTime()*10)/10==1.5 && falling > -26)
-        {
-            falling+=-2;
-            glfwSetTime(0);
+        if(!spada){
+            chooseModel(rand() % modelSize + 1, model, initialRotate);
+            spada = true;
         }
-		drawScene(window,angle_x,angle_y,velo,cam_angle_z,falling); //Wykonaj procedurę rysującą
+
+        if (round(glfwGetTime()*10)/10==1.5){
+            if(canFall(actualSurface)){
+                actualSurface--;
+                falling+=-2;
+                glfwSetTime(0);
+            }
+        }
+
+		drawScene(falling, model, initialRotate); //Wykonaj procedurę rysującą
         drawMap();
 		glfwSwapBuffers(window);
 		glfwPollEvents(); //Wykonaj procedury callback w zalezności od zdarzeń jakie zaszły.
@@ -271,19 +284,48 @@ int main(void)
 }
 
 
-void chooseModel(int chosen) //mozna tu podac wszystkie tabele i ilosc wierzcholkow modelu po referencji i przypisac w switchu
+bool canFall(int &surface){
+    if(surface == 0)
+        return false;
+    else
+        return true;
+    // for(int i = 0; i < 7; ++i)
+    // {
+    //     for(int j = 0; j < 7; ++i)
+    //     {
+            
+    //     }
+    // }
+}
+
+void chooseModel(int chosen, chosenModel &model, float &initialRotate) //mozna tu podac wszystkie tabele i ilosc wierzcholkow modelu po referencji i przypisac w switchu
 {
     switch(chosen)
     {
         case 1:     //SingleCube - wymaga przesuniecia X na poczatku
         //[11][3][3]
         map[11][3][3] = 1;
+
+        model.verts=singleCubeVertices;
+	    model.normals=singleCubeNormals;
+	    model.texCoords=singleCubeTexCoords;
+	    model.vertexCount=singleCubeVertexCount;
+
+        initialRotate = 0.0f;
+
         break;
 
         case 2:     //DoubleCube - rotacja "N-M" musi byc wedlug innego punktu niz srodka
         //[11][3,4][3]
         map[11][3][3] = 1;
         map[11][4][3] = 1;
+
+        model.verts=doubleCubeVertices;
+	    model.normals=doubleCubeNormals;
+	    model.texCoords=doubleCubeTexCoords;
+	    model.vertexCount=doubleCubeVertexCount;
+
+        initialRotate = 1.0f;
 
         break;
 
@@ -292,6 +334,14 @@ void chooseModel(int chosen) //mozna tu podac wszystkie tabele i ilosc wierzchol
         map[11][2][3] = 1;
         map[11][3][3] = 1;
         map[11][4][3] = 1;
+
+        model.verts=tripleCubeVertices;
+	    model.normals=tripleCubeNormals;
+	    model.texCoords=tripleCubeTexCoords;
+	    model.vertexCount=tripleCubeVertexCount;
+
+        initialRotate = 0.0f;
+
         break;
 
         case 4:     //QuadrupleCube - rotacja "N-M" musi byc wedlug innego punktu niz srodka
@@ -300,6 +350,14 @@ void chooseModel(int chosen) //mozna tu podac wszystkie tabele i ilosc wierzchol
         map[11][3][3] = 1;
         map[11][4][3] = 1;
         map[11][5][3] = 1;
+
+        model.verts=quadrupleCubeVertices;
+	    model.normals=quadrupleCubeNormals;
+	    model.texCoords=quadrupleCubeTexCoords;
+	    model.vertexCount=quadrupleCubeVertexCount;
+
+        initialRotate = 1.0f;
+
         break;
 
         case 5:     //TriangleCube - wymaga przesunieci X na poczatku
@@ -308,6 +366,14 @@ void chooseModel(int chosen) //mozna tu podac wszystkie tabele i ilosc wierzchol
         map[11][3][3] = 1;
         map[11][2][3] = 1;
         map[11][4][3] = 1;
+        
+        model.verts=triangleCubeVertices;
+	    model.normals=triangleCubeNormals;
+	    model.texCoords=triangleCubeTexCoords;
+	    model.vertexCount=triangleCubeVertexCount;
+
+        initialRotate = 0.0f;
+
         break;
 
         case 6:     //StrangeCube - wymaga przesunieci X na poczatku
@@ -316,6 +382,14 @@ void chooseModel(int chosen) //mozna tu podac wszystkie tabele i ilosc wierzchol
         map[11][3][3] = 1;
         map[11][4][3] = 1;
         map[11][2][2] = 1;
+
+        model.verts=strangeCubeVertices;
+	    model.normals=strangeCubeNormals;
+	    model.texCoords=strangeCubeTexCoords;
+	    model.vertexCount=strangeCubeVertexCount;
+
+        initialRotate = 0.0f;
+
         break;
     }
 }
@@ -350,7 +424,7 @@ void drawMap(){
             verts.push_back(float(i));
             verts.push_back(0.0f);
             verts.push_back(float(j));
-            verts.push_back(1.0f);            
+            verts.push_back(1.0f);
         }
     }
 
@@ -378,7 +452,7 @@ void drawMap(){
             verts.push_back(float(i));
             verts.push_back(float(j));
             verts.push_back(7.0f);
-            verts.push_back(1.0f);            
+            verts.push_back(1.0f);
         }
     }
 
@@ -405,7 +479,7 @@ void drawMap(){
             verts.push_back(float(i));
             verts.push_back(float(j));
             verts.push_back(-7.0f);
-            verts.push_back(1.0f);            
+            verts.push_back(1.0f);
         }
     }
 
@@ -432,7 +506,7 @@ void drawMap(){
             verts.push_back(-7.0f);
             verts.push_back(float(j));
             verts.push_back(float(i));
-            verts.push_back(1.0f);            
+            verts.push_back(1.0f);
         }
     }
 
@@ -460,7 +534,7 @@ void drawMap(){
             verts.push_back(7.0f);
             verts.push_back(float(j));
             verts.push_back(float(i));
-            verts.push_back(1.0f);            
+            verts.push_back(1.0f);
         }
     }
 
@@ -475,7 +549,7 @@ void drawMap(){
     }
 
     std::vector<float> normals;
-    
+
     for(int i=0;i<7*7*4+7*12*4*4;++i)
     {
         normals.push_back(0.0f);
@@ -486,8 +560,14 @@ void drawMap(){
 
     unsigned int vertexCount = 49*4+7*12*4*4;
 
+    glm::mat4 lp=glm::mat4(1.0f);
+    lp=glm::translate(lp,glm::vec3(0.0f,20.0f,-20.0f));
+    lp=glm::rotate(lp,PI/4,glm::vec3(0.0f,1.0f,0.0f));
+    lp=glm::rotate(lp,cam_z,glm::vec3(0.0f,1.0f,0.0f));
+
     sp->use();
     glUniformMatrix4fv(sp->u("M"),1,false,glm::value_ptr(M));
+    glUniformMatrix4fv(sp->u("lp"),1,false,glm::value_ptr(lp));
 
     glEnableVertexAttribArray(sp->a("vertex"));  //Włącz przesyłanie danych do atrybutu vertex
     glVertexAttribPointer(sp->a("vertex"),4,GL_FLOAT,false,0,(void*)&verts[0]); //Wskaż tablicę z danymi dla atrybutu vertex
