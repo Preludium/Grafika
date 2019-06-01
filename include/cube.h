@@ -16,6 +16,7 @@ class cube
 {
     public:
         int x, y, z;
+
         cube(int x, int y, int z);
         void drawme(ShaderProgram*, GLuint);
 };

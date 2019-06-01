@@ -19,6 +19,8 @@
 #include "Triple_Cube.h"
 #include "Quadruple_Cube.h"
 #include "Strange_Cube.h"
+#include "map.h"
+#include "cube.h"
 
 const int modelSize = 6;
 
@@ -62,12 +64,12 @@ void keyCallback(GLFWwindow* window,int key,int scancode,int action,int mods) {
         if (key==GLFW_KEY_M) angle_z+=-PI/2;
 
         if (key==GLFW_KEY_UP) gd += 2.0f;
-        if (key==GLFW_KEY_DOWN) gd += -2.0f;
+        if (key==GLFW_KEY_DOWN) gd -= 2.0f;
         if (key==GLFW_KEY_LEFT) pl += 2.0f;
-        if (key==GLFW_KEY_RIGHT) pl += -2.0f;
+        if (key==GLFW_KEY_RIGHT) pl -= 2.0f;
 
         if (key==GLFW_KEY_Q) cam_z += PI/4;
-        if (key==GLFW_KEY_E) cam_z += -PI/4;
+        if (key==GLFW_KEY_E) cam_z -= PI/4;
     }
 
     // if (action==GLFW_RELEASE) {
@@ -258,7 +260,7 @@ int main(void)
 	while (!glfwWindowShouldClose(window)) //Tak długo jak okno nie powinno zostać zamknięte
 	{
         if(!spada){
-            // chooseModel(rand() % modelSize + 1, model, initialRotate);
+             chooseModel(rand() % modelSize + 1, model, initialRotate);
             spada = true;
         }
 
@@ -293,7 +295,7 @@ bool canFall(int &surface){
     // {
     //     for(int j = 0; j < 7; ++i)
     //     {
-            
+
     //     }
     // }
 }
@@ -366,7 +368,7 @@ void chooseModel(int chosen, chosenModel &model, float &initialRotate) //mozna t
         map[11][3][3] = 1;
         map[11][2][3] = 1;
         map[11][4][3] = 1;
-        
+
         model.verts=triangleCubeVertices;
 	    model.normals=triangleCubeNormals;
 	    model.texCoords=triangleCubeTexCoords;
@@ -399,7 +401,7 @@ void drawMap(){
     glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
 
     glm::mat4 M=glm::mat4(1.0f);
-
+/*
 	std::vector<float> verts;
     // DÓŁ
 	for(int i=-7; i<6; i+=2)//wiersze
@@ -557,7 +559,7 @@ void drawMap(){
         normals.push_back(0.0f);
         normals.push_back(0.0f);
     }
-
+*/
     unsigned int vertexCount = 49*4+7*12*4*4;
 
     glm::mat4 lp=glm::mat4(1.0f);
@@ -570,13 +572,13 @@ void drawMap(){
     glUniformMatrix4fv(sp->u("lp"),1,false,glm::value_ptr(lp));
 
     glEnableVertexAttribArray(sp->a("vertex"));  //Włącz przesyłanie danych do atrybutu vertex
-    glVertexAttribPointer(sp->a("vertex"),4,GL_FLOAT,false,0,(void*)&verts[0]); //Wskaż tablicę z danymi dla atrybutu vertex
+    glVertexAttribPointer(sp->a("vertex"),4,GL_FLOAT,false,0,(void*)&map_verts[0]); //Wskaż tablicę z danymi dla atrybutu vertex
 
     glEnableVertexAttribArray(sp->a("normal"));  //Włącz przesyłanie danych do atrybutu normal
-    glVertexAttribPointer(sp->a("normal"),4,GL_FLOAT,false,0,(void*)&normals[0]); //Wskaż tablicę z danymi dla atrybutu normal
+    glVertexAttribPointer(sp->a("normal"),4,GL_FLOAT,false,0,(void*)&map_normals[0]); //Wskaż tablicę z danymi dla atrybutu normal
 
     glEnableVertexAttribArray(sp->a("color"));  //Włącz przesyłanie danych do atrybutu color
-    glVertexAttribPointer(sp->a("color"),4,GL_FLOAT,false,0,(void*)&colors[0]);
+    glVertexAttribPointer(sp->a("color"),4,GL_FLOAT,false,0,(void*)&map_colors[0]);
 
     glDrawArrays(GL_QUADS,0,vertexCount); //Narysuj obiekt
 
