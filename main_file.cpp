@@ -258,7 +258,7 @@ int main(void)
 	while (!glfwWindowShouldClose(window)) //Tak długo jak okno nie powinno zostać zamknięte
 	{
         if(!spada){
-            chooseModel(rand() % modelSize + 1, model, initialRotate);
+            // chooseModel(rand() % modelSize + 1, model, initialRotate);
             spada = true;
         }
 
