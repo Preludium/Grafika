@@ -46,8 +46,8 @@ std::vector<cube> mPos;
 
 ShaderProgram *sp;
 
-GLuint tex0;
-GLuint tex1;
+GLuint text[7];
+
 
 int map[7][12][7];
 cube cubemap[7][12][7];
@@ -120,15 +120,26 @@ void initOpenGLProgram(GLFWwindow* window) {
 	glfwSetKeyCallback(window,keyCallback);
 
 	sp=new ShaderProgram("vertex.glsl",NULL,"fragment.glsl");
-    tex0=readTexture("block.png");
-    tex1=readTexture("block2.png");
+    text[0]=readTexture("block1.png");
+    text[1]=readTexture("block2.png");
+    text[2]=readTexture("block3.png");
+    text[3]=readTexture("block4.png");
+    text[4]=readTexture("block5.png");
+    text[5]=readTexture("block6.png");
+    text[6]=readTexture("block7.png");
 }
 
 
 //Zwolnienie zasobów zajętych przez program
 void freeOpenGLProgram(GLFWwindow* window) {
     //************Tutaj umieszczaj kod, który należy wykonać po zakończeniu pętli głównej************
-    glDeleteTextures(1,&tex0);
+    glDeleteTextures(1,&text[0]);
+    glDeleteTextures(1,&text[1]);
+    glDeleteTextures(1,&text[2]);
+    glDeleteTextures(1,&text[3]);
+    glDeleteTextures(1,&text[4]);
+    glDeleteTextures(1,&text[5]);
+    glDeleteTextures(1,&text[6]);
     delete sp;
 }
 
@@ -252,9 +263,9 @@ int main(void)
         {
             for(int k = 0; k < 7; ++k)
             {
-                cubemap[j][0][k].texture = tex1;
-                cubemap[j][k][0].texture = tex1;
-                cubemap[0][j][k].texture = tex1;
+                cubemap[j][0][k].texture = text[rand()%7];
+                cubemap[j][k][0].texture = text[rand()%7];
+                cubemap[0][j][k].texture = text[rand()%7];
                 cubemap[j][0][k].exists = true;
                 cubemap[j][k][0].exists = true;
                 cubemap[0][j][k].exists = true;
@@ -339,7 +350,7 @@ void chooseModel(int chosen)
         //[11][3][3]
         map[3][11][3] = 1;
         mPos.clear();
-        mPos.push_back(cube(3,11,3,tex0));
+        mPos.push_back(cube(3,11,3,text[0]));
 
         // model.verts=singleCubeVertices;
 	    // model.normals=singleCubeNormals;
@@ -356,8 +367,8 @@ void chooseModel(int chosen)
         map[4][11][3] = 1;
         mPos.clear();
         mPos.reserve(2);
-        mPos.push_back(cube(3,11,3,tex0));
-        mPos.push_back(cube(4,11,3,tex0));
+        mPos.push_back(cube(3,11,3,text[0]));
+        mPos.push_back(cube(4,11,3,text[0]));
 
         // model.verts=doubleCubeVertices;
 	    // model.normals=doubleCubeNormals;
@@ -376,9 +387,9 @@ void chooseModel(int chosen)
 
         mPos.clear();
         mPos.reserve(3);
-        mPos.push_back(cube(2,11,3,tex0));
-        mPos.push_back(cube(3,11,3,tex0));
-        mPos.push_back(cube(4,11,3,tex0));
+        mPos.push_back(cube(2,11,3,text[0]));
+        mPos.push_back(cube(3,11,3,text[0]));
+        mPos.push_back(cube(4,11,3,text[0]));
 
         // model.verts=tripleCubeVertices;
 	    // model.normals=tripleCubeNormals;
@@ -398,10 +409,10 @@ void chooseModel(int chosen)
 
         mPos.clear();
         mPos.reserve(4);
-        mPos.push_back(cube(2,11,3,tex0));
-        mPos.push_back(cube(3,11,3,tex0));
-        mPos.push_back(cube(4,11,3,tex0));
-        mPos.push_back(cube(5,11,3,tex0));
+        mPos.push_back(cube(2,11,3,text[0]));
+        mPos.push_back(cube(3,11,3,text[0]));
+        mPos.push_back(cube(4,11,3,text[0]));
+        mPos.push_back(cube(5,11,3,text[0]));
 
 
         // model.verts=quadrupleCubeVertices;
@@ -422,10 +433,10 @@ void chooseModel(int chosen)
 
         mPos.clear();
         mPos.reserve(4);
-        mPos.push_back(cube(3,11,2,tex0));
-        mPos.push_back(cube(3,11,3,tex0));
-        mPos.push_back(cube(2,11,3,tex0));
-        mPos.push_back(cube(4,11,3,tex0));
+        mPos.push_back(cube(3,11,2,text[0]));
+        mPos.push_back(cube(3,11,3,text[0]));
+        mPos.push_back(cube(2,11,3,text[0]));
+        mPos.push_back(cube(4,11,3,text[0]));
 
         // model.verts=triangleCubeVertices;
 	    // model.normals=triangleCubeNormals;
@@ -445,10 +456,10 @@ void chooseModel(int chosen)
 
         mPos.clear();
         mPos.reserve(4);
-        mPos.push_back(cube(2,11,3,tex0));
-        mPos.push_back(cube(3,11,3,tex0));
-        mPos.push_back(cube(4,11,3,tex0));
-        mPos.push_back(cube(2,11,2,tex0));
+        mPos.push_back(cube(2,11,3,text[0]));
+        mPos.push_back(cube(3,11,3,text[0]));
+        mPos.push_back(cube(4,11,3,text[0]));
+        mPos.push_back(cube(2,11,2,text[0]));
 
         // model.verts=strangeCubeVertices;
 	    // model.normals=strangeCubeNormals;
