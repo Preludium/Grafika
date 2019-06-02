@@ -34,6 +34,9 @@ class cube
 {
     public:
         int x, y, z;
+        GLuint tex;
+        bool exists;
+        cube();
         cube(int x, int y, int z);
         void drawMe();
         void decreaseY();
@@ -44,9 +47,10 @@ std::vector<cube> mPos;
 ShaderProgram *sp;
 
 GLuint tex0;
+GLuint tex1;
 
 int map[7][12][7];
-
+cube cubemap[7][12][7];
 
 //Procedura obsługi błędów
 void error_callback(int error, const char* description) {
@@ -117,6 +121,7 @@ void initOpenGLProgram(GLFWwindow* window) {
 
 	sp=new ShaderProgram("vertex.glsl",NULL,"fragment.glsl");
     tex0=readTexture("block.png");
+    tex1 = readTexture("metal.png");
 }
 
 
@@ -229,14 +234,36 @@ int main(void)
 
     for(int i = 0; i < 12; ++i) //wysokosc
     {
-        for (int j = 0; j < 8; ++j) //szerokosc "kolumny"
+        for (int j = 0; j < 7; ++j) //szerokosc "kolumny"
         {
-            for(int k = 0; k < 8; ++k)  //dlugosc "wiersze"
+            for(int k = 0; k < 7; ++k)  //dlugosc "wiersze"
             {
                 map[j][i][k] = 0;
+                cubemap[j][i][k].x = j;
+                cubemap[j][i][k].y = i;
+                cubemap[j][i][k].z = k;
+                cubemap[j][i][k].exists = false;
             }
         }
     }
+
+    //próba zabawy z mapą
+    for (int j = 0; j < 7; ++j)
+        {
+            for(int k = 0; k < 7; ++k)
+            {
+                //cubemap[j][0][k].tex = tex1;
+                cubemap[j][0][k].exists = true;
+                cubemap[j][k][0].exists = true;
+                cubemap[0][j][k].exists = true;
+            }
+        }
+
+
+
+
+
+
 
 	//Główna pętla
     bool spada = false;
@@ -256,6 +283,19 @@ int main(void)
 
 		drawMatrices(); //Wykonaj procedurę rysującą
         drawMap();
+        //mapa2
+        for(int i = 0; i < 12; ++i) //wysokosc
+        {
+            for (int j = 0; j < 7; ++j) //szerokosc "kolumny"
+            {
+                for(int k = 0; k < 7; ++k)  //dlugosc "wiersze"
+                {
+                    if(cubemap[i][j][k].exists)
+                        cubemap[i][j][k].drawMe();
+                }
+            }
+        }
+
         // DrawModel
         for(int i = 0; i < int(mPos.size()); ++i)
         {
@@ -296,8 +336,8 @@ void chooseModel(int chosen)
         case 1:     //SingleCube - wymaga przesuniecia X na poczatku
         //[11][3][3]
         map[3][11][3] = 1;
-        mPos.clear();
-        mPos.push_back(cube(3,11,3));
+        //mPos.clear();
+        //mPos.push_back(cube(3,11,3));
 
         // model.verts=singleCubeVertices;
 	    // model.normals=singleCubeNormals;
@@ -425,6 +465,11 @@ cube::cube(int x, int y, int z)
     this->x = x;
     this->y = y;
     this->z = z;
+}
+
+cube::cube()
+{
+
 }
 
 void cube::decreaseY()
