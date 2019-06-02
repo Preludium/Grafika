@@ -17,6 +17,8 @@
 #include "model.h"
 #include "map.h"
 
+#include "modele.h"
+#include "single.h"
 
 
 const int modelSize = 6;
@@ -29,6 +31,9 @@ float angle_z=0; //Aktualny kąt obrotu obiektu
 
 float gd = 0;
 float pl = 0;
+
+modele *model;
+single single;
 
 class cube
 {
@@ -48,8 +53,7 @@ ShaderProgram *sp;
 
 GLuint text[7];
 
-
-int map[7][12][7];
+// int map[7][12][7];
 cube cubemap[7][12][7];
 
 //Procedura obsługi błędów
@@ -71,11 +75,6 @@ void keyCallback(GLFWwindow* window,int key,int scancode,int action,int mods) {
         if (key==GLFW_KEY_Q) cam_z += PI/4;
         if (key==GLFW_KEY_E) cam_z += -PI/4;
     }
-
-    // if (action==GLFW_RELEASE) {
-    //     if (key==GLFW_KEY_Q) cam_z=0;
-    //     if (key==GLFW_KEY_E) cam_z=0;
-    // }
 }
 
 void windowResizeCallback(GLFWwindow* window,int width,int height) {
@@ -83,8 +82,6 @@ void windowResizeCallback(GLFWwindow* window,int width,int height) {
     aspectRatio=(float)width/(float)height;
     glViewport(0,0,width,height);
 }
-
-
 
 //Funkcja wczytująca teksturę
 GLuint readTexture(const char* filename) {
@@ -145,7 +142,7 @@ void freeOpenGLProgram(GLFWwindow* window) {
 
 
 //Procedura rysująca zawartość sceny
-void drawMatrices(){//(float falling, chosenModel &model, float initialRotate) {
+void drawMatrices(){
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glm::mat4 V=glm::lookAt(
@@ -154,7 +151,7 @@ void drawMatrices(){//(float falling, chosenModel &model, float initialRotate) {
          glm::vec3(0.0f,1.0f,0.0f));
 
     glm::mat4 P=glm::perspective(50.0f*PI/180.0f, aspectRatio, 0.01f, 100.0f);
-    // glm::mat4 M=glm::mat4(1.0f);
+
     glm::mat4 lp=glm::mat4(1.0f);
 
     lp=glm::translate(lp,glm::vec3(0.0f,55.0f,-20.0f));     //obracac zrodlo swiatla razem z kamera
@@ -162,49 +159,13 @@ void drawMatrices(){//(float falling, chosenModel &model, float initialRotate) {
 
     lp=glm::rotate(lp,cam_z,glm::vec3(0.0f,1.0f,0.0f));
 
-    // M=glm::translate(M,glm::vec3(initialRotate,23.0f,0.0f));
-	// M=glm::translate(M,glm::vec3(0.0f,falling,0.0f)); //opadanie
-    // M=glm::translate(M,glm::vec3(pl,0.0f,gd)); //przemieszczenie
-
-    // M=glm::rotate(M,PI/2,glm::vec3(1.0f, 0.0f,0.0f));
-	// M=glm::rotate(M,angle_y,glm::vec3(1.0f,0.0f,0.0f));
-	// M=glm::rotate(M,angle_x,glm::vec3(0.0f,1.0f,0.0f));
-	// M=glm::rotate(M,angle_z,glm::vec3(0.0f,0.0f,1.0f));
-
-
 	V=glm::rotate(V,PI/4,glm::vec3(0.0f,1.0f,0.0f)); //kamera
 	V=glm::rotate(V,cam_z,glm::vec3(0.0f,1.0f,0.0f)); //kamera
-
-
-	// float *verts=strangeCubeVertices;
-	// float *normals=strangeCubeNormals;
-	// float *texCoords=strangeCubeTexCoords;
-	// unsigned int vertexCount=strangeCubeVertexCount;
 
     sp->use();
     glUniformMatrix4fv(sp->u("P"),1,false,glm::value_ptr(P));
     glUniformMatrix4fv(sp->u("V"),1,false,glm::value_ptr(V));
-    // glUniformMatrix4fv(sp->u("M"),1,false,glm::value_ptr(M));
     glUniformMatrix4fv(sp->u("lp"),1,false,glm::value_ptr(lp));
-
-    // glUniform1i(sp->u("textureMap0"),0);
-    // glActiveTexture(GL_TEXTURE0);
-    // glBindTexture(GL_TEXTURE_2D,tex0);
-
-    // glEnableVertexAttribArray(sp->a("vertex"));  //Włącz przesyłanie danych do atrybutu vertex
-    // glVertexAttribPointer(sp->a("vertex"),4,GL_FLOAT,false,0,model.verts); //Wskaż tablicę z danymi dla atrybutu vertex
-
-    // glEnableVertexAttribArray(sp->a("normal"));  //Włącz przesyłanie danych do atrybutu normal
-    // glVertexAttribPointer(sp->a("normal"),4,GL_FLOAT,false,0,model.normals); //Wskaż tablicę z danymi dla atrybutu normal
-
-    // glEnableVertexAttribArray(sp->a("texCoord0"));  //Włącz przesyłanie danych do atrybutu texCoord0
-    // glVertexAttribPointer(sp->a("texCoord0"),2,GL_FLOAT,false,0,model.texCoords); //Wskaż tablicę z danymi dla atrybutu texCoord0
-
-    // glDrawArrays(GL_TRIANGLES,0,model.vertexCount); //Narysuj obiekt
-
-    // glDisableVertexAttribArray(sp->a("vertex"));  //Wyłącz przesyłanie danych do atrybutu vertex
-    // glDisableVertexAttribArray(sp->a("normal"));  //Wyłącz przesyłanie danych do atrybutu normal
-    // glDisableVertexAttribArray(sp->a("texCoord0"));  //Wyłącz przesyłanie danych do atrybutu texCoord0
 }
 
 
@@ -249,7 +210,7 @@ int main(void)
         {
             for(int k = 0; k < 7; ++k)  //dlugosc "wiersze"
             {
-                map[j][i][k] = 0;
+                // map[j][i][k] = 0;
                 cubemap[j][i][k].x = j;
                 cubemap[j][i][k].y = i;
                 cubemap[j][i][k].z = k;
@@ -259,23 +220,18 @@ int main(void)
     }
 
     //próba zabawy z mapą
-    for (int j = 0; j < 7; ++j)
-        {
-            for(int k = 0; k < 7; ++k)
-            {
-                cubemap[j][0][k].texture = text[rand()%7];
-                cubemap[j][k][0].texture = text[rand()%7];
-                cubemap[0][j][k].texture = text[rand()%7];
-                cubemap[j][0][k].exists = true;
-                cubemap[j][k][0].exists = true;
-                cubemap[0][j][k].exists = true;
-            }
-        }
-
-
-
-
-
+    // for (int j = 0; j < 7; ++j)
+    //     {
+    //         for(int k = 0; k < 7; ++k)
+    //         {
+    //             cubemap[j][0][k].texture = text[rand()%7];
+    //             cubemap[j][k][0].texture = text[rand()%7];
+    //             cubemap[0][j][k].texture = text[rand()%7];
+    //             cubemap[j][0][k].exists = true;
+    //             cubemap[j][k][0].exists = true;
+    //             cubemap[0][j][k].exists = true;
+    //         }
+    //     }
 
 
 	//Główna pętla
@@ -284,7 +240,7 @@ int main(void)
 	while (!glfwWindowShouldClose(window)) //Tak długo jak okno nie powinno zostać zamknięte
 	{
         if(!spada){
-            chooseModel(rand() % modelSize + 1);
+            chooseModel(1);//rand() % modelSize + 1);
             spada = true;
         }
 
@@ -296,24 +252,26 @@ int main(void)
 
 		drawMatrices(); //Wykonaj procedurę rysującą
         drawMap();
-        //mapa2
-        for(int i = 0; i < 12; ++i) //wysokosc
-        {
-            for (int j = 0; j < 7; ++j) //szerokosc "kolumny"
-            {
-                for(int k = 0; k < 7; ++k)  //dlugosc "wiersze"
-                {
-                    if(cubemap[i][j][k].exists)
-                        cubemap[i][j][k].drawMe();
-                }
-            }
-        }
+
+        // //DrawBlocks
+        // for(int i = 0; i < 12; ++i) //wysokosc
+        // {
+        //     for (int j = 0; j < 7; ++j) //szerokosc "kolumny"
+        //     {
+        //         for(int k = 0; k < 7; ++k)  //dlugosc "wiersze"
+        //         {
+        //             if(cubemap[j][i][k].exists)
+        //                 cubemap[j][i][k].drawMe();
+        //         }
+        //     }
+        // }
 
         // DrawModel
         for(int i = 0; i < int(mPos.size()); ++i)
         {
             mPos[i].drawMe();
         }
+
 		glfwSwapBuffers(window);
 		glfwPollEvents(); //Wykonaj procedury callback w zalezności od zdarzeń jakie zaszły.
 	}
@@ -337,75 +295,50 @@ bool canFall(){
     }
 }
 
-// :::::::::::::::::::::::::::::::::::::::::::::::::::::
-// ::::::::::ZAMIANA [12][7][7] NA [7][12][7] BEDZIE BARDZIEJ INTUICYJNIE::::::::
-// ::::::::::::::::::::;;::::::::::::::::::::::::::::::
-
 
 void chooseModel(int chosen)
 {
     switch(chosen)
     {
-        case 1:     //SingleCube - wymaga przesuniecia X na poczatku
+        case 1:     //SingleCube
         //[11][3][3]
-        map[3][11][3] = 1;
+        // map[3][11][3] = 1;
+
+        model = &single;
+        
         mPos.clear();
         mPos.push_back(cube(3,11,3,text[0]));
-
-        // model.verts=singleCubeVertices;
-	    // model.normals=singleCubeNormals;
-	    // model.texCoords=singleCubeTexCoords;
-	    // model.vertexCount=singleCubeVertexCount;
-
-        // initialRotate = 0.0f;
-
         break;
 
-        case 2:     //DoubleCube - rotacja "N-M" musi byc wedlug innego punktu niz srodka
+        case 2:     //DoubleCube
         //[11][3,4][3]
-        map[3][11][3] = 1;
-        map[4][11][3] = 1;
+        // map[3][11][3] = 1;
+        // map[4][11][3] = 1;
         mPos.clear();
         mPos.reserve(2);
         mPos.push_back(cube(3,11,3,text[0]));
         mPos.push_back(cube(4,11,3,text[0]));
-
-        // model.verts=doubleCubeVertices;
-	    // model.normals=doubleCubeNormals;
-	    // model.texCoords=doubleCubeTexCoords;
-	    // model.vertexCount=doubleCubeVertexCount;
-
-        // initialRotate = 1.0f;
-
         break;
 
-        case 3:     //TripleCube - wymaga przesuniecia X na poczatku
+        case 3:     //TripleCube
         //[11][2,3,4][3]
-        map[2][11][3] = 1;
-        map[3][11][3] = 1;
-        map[4][11][3] = 1;
+        // map[2][11][3] = 1;
+        // map[3][11][3] = 1;
+        // map[4][11][3] = 1;
 
         mPos.clear();
         mPos.reserve(3);
         mPos.push_back(cube(2,11,3,text[0]));
         mPos.push_back(cube(3,11,3,text[0]));
         mPos.push_back(cube(4,11,3,text[0]));
-
-        // model.verts=tripleCubeVertices;
-	    // model.normals=tripleCubeNormals;
-	    // model.texCoords=tripleCubeTexCoords;
-	    // model.vertexCount=tripleCubeVertexCount;
-
-        // initialRotate = 0.0f;
-
         break;
 
-        case 4:     //QuadrupleCube - rotacja "N-M" musi byc wedlug innego punktu niz srodka
+        case 4:     //QuadrupleCube
         //[11][2,3,4,5][3]
-        map[2][11][3] = 1;
-        map[3][11][3] = 1;
-        map[4][11][3] = 1;
-        map[5][11][3] = 1;
+        // map[2][11][3] = 1;
+        // map[3][11][3] = 1;
+        // map[4][11][3] = 1;
+        // map[5][11][3] = 1;
 
         mPos.clear();
         mPos.reserve(4);
@@ -413,23 +346,14 @@ void chooseModel(int chosen)
         mPos.push_back(cube(3,11,3,text[0]));
         mPos.push_back(cube(4,11,3,text[0]));
         mPos.push_back(cube(5,11,3,text[0]));
-
-
-        // model.verts=quadrupleCubeVertices;
-	    // model.normals=quadrupleCubeNormals;
-	    // model.texCoords=quadrupleCubeTexCoords;
-	    // model.vertexCount=quadrupleCubeVertexCount;
-
-        // initialRotate = 1.0f;
-
         break;
 
-        case 5:     //TriangleCube - wymaga przesunieci X na poczatku
+        case 5:     //TriangleCube
         //[11][3][2,3], [11][2][3], [11][4][3]
-        map[3][11][2] = 1;
-        map[3][11][3] = 1;
-        map[2][11][3] = 1;
-        map[4][11][3] = 1;
+        // map[3][11][2] = 1;
+        // map[3][11][3] = 1;
+        // map[2][11][3] = 1;
+        // map[4][11][3] = 1;
 
         mPos.clear();
         mPos.reserve(4);
@@ -437,22 +361,14 @@ void chooseModel(int chosen)
         mPos.push_back(cube(3,11,3,text[0]));
         mPos.push_back(cube(2,11,3,text[0]));
         mPos.push_back(cube(4,11,3,text[0]));
-
-        // model.verts=triangleCubeVertices;
-	    // model.normals=triangleCubeNormals;
-	    // model.texCoords=triangleCubeTexCoords;
-	    // model.vertexCount=triangleCubeVertexCount;
-
-        // initialRotate = 0.0f;
-
         break;
 
-        case 6:     //StrangeCube - wymaga przesunieci X na poczatku
+        case 6:     //StrangeCube
         //[11][2,3,4][3], [11][2][2]
-        map[2][11][3] = 1;
-        map[3][11][3] = 1;
-        map[4][11][3] = 1;
-        map[2][11][2] = 1;
+        // map[2][11][3] = 1;
+        // map[3][11][3] = 1;
+        // map[4][11][3] = 1;
+        // map[2][11][2] = 1;
 
         mPos.clear();
         mPos.reserve(4);
@@ -460,14 +376,6 @@ void chooseModel(int chosen)
         mPos.push_back(cube(3,11,3,text[0]));
         mPos.push_back(cube(4,11,3,text[0]));
         mPos.push_back(cube(2,11,2,text[0]));
-
-        // model.verts=strangeCubeVertices;
-	    // model.normals=strangeCubeNormals;
-	    // model.texCoords=strangeCubeTexCoords;
-	    // model.vertexCount=strangeCubeVertexCount;
-
-        // initialRotate = 0.0f;
-
         break;
     }
 }
@@ -491,9 +399,9 @@ void cube::decreaseY()
     this->y = this->y - 1;
 }
 
+// tworzymy klocek w punkcie "0x0x0" i przesuwamy w zaleznosci od wspolrzednych w tablicy
 void cube::drawMe()
 {
-    // tworzymy klocek w punkcie "0x0x0" i przesuwamy w zaleznosci od wspolrzednych w tablicy
 
     float fx = float(x), fy = float(y), fz = float(z);
     glm::mat4 M=glm::mat4(1.0f);

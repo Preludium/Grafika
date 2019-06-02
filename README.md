@@ -1,9 +1,3 @@
-* rezygnujemy - zrobic klase Modeli klasy dla kazdego modelu dziedziczace z Model
-
-* zrobic scene - dół juz jest # dlaczego pojawia sie przekatna kwadratow ANGERY 
-
-* ogarnac kolizje - smigamy na tablicy
-
-* jak tworzyc nowe modele nie pozbywajac sie starych?
-
-* mozna jeszcze dodac figury
+* operowac na tablicy CUBE'ów gdzie beda wszystkie klocki
+    i do tego jakas struktura Position przechowujaca pozycje modelu? 
+    
