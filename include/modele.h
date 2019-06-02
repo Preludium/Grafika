@@ -6,7 +6,11 @@ class modele
 {
     public:
         modele();
-        drawme();
+        virtual void RotL()=0;
+        virtual void RotR()=0;
+        virtual void MovLR(float kierunek)=0;
+        virtual void MovUD(float kierunek)=0;
+        virtual bool falling()=0;
 
 
     protected:

@@ -2000,7 +2000,7 @@
 	<iostream>
 	"lodepng.h"
 
-1559491699 source:c:\users\barte\documents\studia\semestr 4\gkiw\grafika\main_file.cpp
+1559495467 source:c:\users\barte\documents\studia\semestr 4\gkiw\grafika\main_file.cpp
 	<GL/glew.h>
 	<GLFW/glfw3.h>
 	<glm/glm.hpp>
@@ -2940,4 +2940,9 @@
 
 1559491699 source:c:\users\barte\documents\studia\semestr 4\gkiw\grafika\shaderprogram.cpp
 	"shaderprogram.h"
+
+1559495886 source:c:\users\barte\documents\studia\semestr 4\gkiw\grafika\src\modele.cpp
+	"modele.h"
+
+1559497693 c:\users\barte\documents\studia\semestr 4\gkiw\grafika\include\modele.h
 

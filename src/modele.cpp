@@ -5,4 +5,3 @@ modele::modele()
     //ctor
 }
 
-
