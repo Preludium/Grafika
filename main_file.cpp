@@ -34,10 +34,10 @@ class cube
 {
     public:
         int x, y, z;
-        GLuint tex;
+        GLuint texture;
         bool exists;
         cube();
-        cube(int x, int y, int z);
+        cube(int x, int y, int z, GLuint tex);
         void drawMe();
         void decreaseY();
 };
@@ -121,7 +121,7 @@ void initOpenGLProgram(GLFWwindow* window) {
 
 	sp=new ShaderProgram("vertex.glsl",NULL,"fragment.glsl");
     tex0=readTexture("block.png");
-    tex1 = readTexture("metal.png");
+    tex1=readTexture("block2.png");
 }
 
 
@@ -252,7 +252,9 @@ int main(void)
         {
             for(int k = 0; k < 7; ++k)
             {
-                //cubemap[j][0][k].tex = tex1;
+                cubemap[j][0][k].texture = tex1;
+                cubemap[j][k][0].texture = tex1;
+                cubemap[0][j][k].texture = tex1;
                 cubemap[j][0][k].exists = true;
                 cubemap[j][k][0].exists = true;
                 cubemap[0][j][k].exists = true;
@@ -336,8 +338,8 @@ void chooseModel(int chosen)
         case 1:     //SingleCube - wymaga przesuniecia X na poczatku
         //[11][3][3]
         map[3][11][3] = 1;
-        //mPos.clear();
-        //mPos.push_back(cube(3,11,3));
+        mPos.clear();
+        mPos.push_back(cube(3,11,3,tex0));
 
         // model.verts=singleCubeVertices;
 	    // model.normals=singleCubeNormals;
@@ -354,8 +356,8 @@ void chooseModel(int chosen)
         map[4][11][3] = 1;
         mPos.clear();
         mPos.reserve(2);
-        mPos.push_back(cube(3,11,3));
-        mPos.push_back(cube(4,11,3));
+        mPos.push_back(cube(3,11,3,tex0));
+        mPos.push_back(cube(4,11,3,tex0));
 
         // model.verts=doubleCubeVertices;
 	    // model.normals=doubleCubeNormals;
@@ -374,9 +376,9 @@ void chooseModel(int chosen)
 
         mPos.clear();
         mPos.reserve(3);
-        mPos.push_back(cube(2,11,3));
-        mPos.push_back(cube(3,11,3));
-        mPos.push_back(cube(4,11,3));
+        mPos.push_back(cube(2,11,3,tex0));
+        mPos.push_back(cube(3,11,3,tex0));
+        mPos.push_back(cube(4,11,3,tex0));
 
         // model.verts=tripleCubeVertices;
 	    // model.normals=tripleCubeNormals;
@@ -396,10 +398,10 @@ void chooseModel(int chosen)
 
         mPos.clear();
         mPos.reserve(4);
-        mPos.push_back(cube(2,11,3));
-        mPos.push_back(cube(3,11,3));
-        mPos.push_back(cube(4,11,3));
-        mPos.push_back(cube(5,11,3));
+        mPos.push_back(cube(2,11,3,tex0));
+        mPos.push_back(cube(3,11,3,tex0));
+        mPos.push_back(cube(4,11,3,tex0));
+        mPos.push_back(cube(5,11,3,tex0));
 
 
         // model.verts=quadrupleCubeVertices;
@@ -420,10 +422,10 @@ void chooseModel(int chosen)
 
         mPos.clear();
         mPos.reserve(4);
-        mPos.push_back(cube(3,11,2));
-        mPos.push_back(cube(3,11,3));
-        mPos.push_back(cube(2,11,3));
-        mPos.push_back(cube(4,11,3));
+        mPos.push_back(cube(3,11,2,tex0));
+        mPos.push_back(cube(3,11,3,tex0));
+        mPos.push_back(cube(2,11,3,tex0));
+        mPos.push_back(cube(4,11,3,tex0));
 
         // model.verts=triangleCubeVertices;
 	    // model.normals=triangleCubeNormals;
@@ -443,10 +445,10 @@ void chooseModel(int chosen)
 
         mPos.clear();
         mPos.reserve(4);
-        mPos.push_back(cube(2,11,3));
-        mPos.push_back(cube(3,11,3));
-        mPos.push_back(cube(4,11,3));
-        mPos.push_back(cube(2,11,2));
+        mPos.push_back(cube(2,11,3,tex0));
+        mPos.push_back(cube(3,11,3,tex0));
+        mPos.push_back(cube(4,11,3,tex0));
+        mPos.push_back(cube(2,11,2,tex0));
 
         // model.verts=strangeCubeVertices;
 	    // model.normals=strangeCubeNormals;
@@ -460,11 +462,12 @@ void chooseModel(int chosen)
 }
 
 
-cube::cube(int x, int y, int z)
+cube::cube(int x, int y, int z,  GLuint tex)
 {
     this->x = x;
     this->y = y;
     this->z = z;
+    this->texture = tex;
 }
 
 cube::cube()
@@ -498,7 +501,7 @@ void cube::drawMe()
 
     glUniform1i(sp->u("textureMap0"),0);
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D,tex0);
+    glBindTexture(GL_TEXTURE_2D,texture);
 
     glEnableVertexAttribArray(sp->a("vertex"));  //Włącz przesyłanie danych do atrybutu vertex
     glVertexAttribPointer(sp->a("vertex"),4,GL_FLOAT,false,0,verts); //Wskaż tablicę z danymi dla atrybutu vertex
