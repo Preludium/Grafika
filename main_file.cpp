@@ -9,18 +9,15 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctime>
+#include <vector>
 #include "constants.h"
 #include "lodepng.h"
 #include "shaderprogram.h"
 
-#include "Triangle_Cube.h"
-#include "Single_Cube.h"
-#include "Double_Cube.h"
-#include "Triple_Cube.h"
-#include "Quadruple_Cube.h"
-#include "Strange_Cube.h"
+#include "model.h"
 #include "map.h"
-#include "cube.h"
+
+
 
 const int modelSize = 6;
 
@@ -33,23 +30,22 @@ float angle_z=0; //Aktualny kąt obrotu obiektu
 float gd = 0;
 float pl = 0;
 
-ShaderProgram *sp;
-
-//Uchwyty na tekstury
-GLuint tex0;
-// GLuint tex1;
-// GLuint tex2;
-// GLuint tex3;
-
-struct chosenModel
+class cube
 {
-    float *verts;
-	float *normals;
-	float *texCoords;
-	unsigned int vertexCount;
+    public:
+        int x, y, z;
+        cube(int x, int y, int z);
+        void drawMe();
+        void decreaseY();
 };
 
-int map[12][7][7];
+std::vector<cube> mPos;
+
+ShaderProgram *sp;
+
+GLuint tex0;
+
+int map[7][12][7];
 
 
 //Procedura obsługi błędów
@@ -64,12 +60,12 @@ void keyCallback(GLFWwindow* window,int key,int scancode,int action,int mods) {
         if (key==GLFW_KEY_M) angle_z+=-PI/2;
 
         if (key==GLFW_KEY_UP) gd += 2.0f;
-        if (key==GLFW_KEY_DOWN) gd -= 2.0f;
+        if (key==GLFW_KEY_DOWN) gd += -2.0f;
         if (key==GLFW_KEY_LEFT) pl += 2.0f;
-        if (key==GLFW_KEY_RIGHT) pl -= 2.0f;
+        if (key==GLFW_KEY_RIGHT) pl += -2.0f;
 
         if (key==GLFW_KEY_Q) cam_z += PI/4;
-        if (key==GLFW_KEY_E) cam_z -= PI/4;
+        if (key==GLFW_KEY_E) cam_z += -PI/4;
     }
 
     // if (action==GLFW_RELEASE) {
@@ -120,11 +116,7 @@ void initOpenGLProgram(GLFWwindow* window) {
 	glfwSetKeyCallback(window,keyCallback);
 
 	sp=new ShaderProgram("vertex.glsl",NULL,"fragment.glsl");
-
     tex0=readTexture("block.png");
-    // tex1=readTexture("sky.png");
-    // tex2=readTexture("mapa.png");
-    // tex3=readTexture("mapa.png");
 }
 
 
@@ -132,16 +124,12 @@ void initOpenGLProgram(GLFWwindow* window) {
 void freeOpenGLProgram(GLFWwindow* window) {
     //************Tutaj umieszczaj kod, który należy wykonać po zakończeniu pętli głównej************
     glDeleteTextures(1,&tex0);
-    // glDeleteTextures(1,&tex1);
-    // glDeleteTextures(1,&tex2);
-    // glDeleteTextures(1,&tex3);
-
     delete sp;
 }
 
 
 //Procedura rysująca zawartość sceny
-void drawScene(float falling, chosenModel &model, float initialRotate) {
+void drawMatrices(){//(float falling, chosenModel &model, float initialRotate) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glm::mat4 V=glm::lookAt(
@@ -150,22 +138,22 @@ void drawScene(float falling, chosenModel &model, float initialRotate) {
          glm::vec3(0.0f,1.0f,0.0f));
 
     glm::mat4 P=glm::perspective(50.0f*PI/180.0f, aspectRatio, 0.01f, 100.0f);
-    glm::mat4 M=glm::mat4(1.0f);
-
+    // glm::mat4 M=glm::mat4(1.0f);
     glm::mat4 lp=glm::mat4(1.0f);
+
     lp=glm::translate(lp,glm::vec3(0.0f,55.0f,-20.0f));     //obracac zrodlo swiatla razem z kamera
     lp=glm::rotate(lp,PI/4,glm::vec3(0.0f,1.0f,0.0f));      // jest jeszcze jedno w drawMap
 
     lp=glm::rotate(lp,cam_z,glm::vec3(0.0f,1.0f,0.0f));
 
-    M=glm::translate(M,glm::vec3(initialRotate,23.0f,0.0f));
-	M=glm::translate(M,glm::vec3(0.0f,falling,0.0f)); //opadanie
-    M=glm::translate(M,glm::vec3(pl,0.0f,gd)); //przemieszczenie
+    // M=glm::translate(M,glm::vec3(initialRotate,23.0f,0.0f));
+	// M=glm::translate(M,glm::vec3(0.0f,falling,0.0f)); //opadanie
+    // M=glm::translate(M,glm::vec3(pl,0.0f,gd)); //przemieszczenie
 
-    M=glm::rotate(M,PI/2,glm::vec3(1.0f, 0.0f,0.0f));
-	M=glm::rotate(M,angle_y,glm::vec3(1.0f,0.0f,0.0f));
-	M=glm::rotate(M,angle_x,glm::vec3(0.0f,1.0f,0.0f));
-	M=glm::rotate(M,angle_z,glm::vec3(0.0f,0.0f,1.0f));
+    // M=glm::rotate(M,PI/2,glm::vec3(1.0f, 0.0f,0.0f));
+	// M=glm::rotate(M,angle_y,glm::vec3(1.0f,0.0f,0.0f));
+	// M=glm::rotate(M,angle_x,glm::vec3(0.0f,1.0f,0.0f));
+	// M=glm::rotate(M,angle_z,glm::vec3(0.0f,0.0f,1.0f));
 
 
 	V=glm::rotate(V,PI/4,glm::vec3(0.0f,1.0f,0.0f)); //kamera
@@ -180,33 +168,33 @@ void drawScene(float falling, chosenModel &model, float initialRotate) {
     sp->use();
     glUniformMatrix4fv(sp->u("P"),1,false,glm::value_ptr(P));
     glUniformMatrix4fv(sp->u("V"),1,false,glm::value_ptr(V));
-    glUniformMatrix4fv(sp->u("M"),1,false,glm::value_ptr(M));
+    // glUniformMatrix4fv(sp->u("M"),1,false,glm::value_ptr(M));
     glUniformMatrix4fv(sp->u("lp"),1,false,glm::value_ptr(lp));
 
-    glUniform1i(sp->u("textureMap0"),0);
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D,tex0);
+    // glUniform1i(sp->u("textureMap0"),0);
+    // glActiveTexture(GL_TEXTURE0);
+    // glBindTexture(GL_TEXTURE_2D,tex0);
 
-    glEnableVertexAttribArray(sp->a("vertex"));  //Włącz przesyłanie danych do atrybutu vertex
-    glVertexAttribPointer(sp->a("vertex"),4,GL_FLOAT,false,0,model.verts); //Wskaż tablicę z danymi dla atrybutu vertex
+    // glEnableVertexAttribArray(sp->a("vertex"));  //Włącz przesyłanie danych do atrybutu vertex
+    // glVertexAttribPointer(sp->a("vertex"),4,GL_FLOAT,false,0,model.verts); //Wskaż tablicę z danymi dla atrybutu vertex
 
-    glEnableVertexAttribArray(sp->a("normal"));  //Włącz przesyłanie danych do atrybutu normal
-    glVertexAttribPointer(sp->a("normal"),4,GL_FLOAT,false,0,model.normals); //Wskaż tablicę z danymi dla atrybutu normal
+    // glEnableVertexAttribArray(sp->a("normal"));  //Włącz przesyłanie danych do atrybutu normal
+    // glVertexAttribPointer(sp->a("normal"),4,GL_FLOAT,false,0,model.normals); //Wskaż tablicę z danymi dla atrybutu normal
 
-    glEnableVertexAttribArray(sp->a("texCoord0"));  //Włącz przesyłanie danych do atrybutu texCoord0
-    glVertexAttribPointer(sp->a("texCoord0"),2,GL_FLOAT,false,0,model.texCoords); //Wskaż tablicę z danymi dla atrybutu texCoord0
+    // glEnableVertexAttribArray(sp->a("texCoord0"));  //Włącz przesyłanie danych do atrybutu texCoord0
+    // glVertexAttribPointer(sp->a("texCoord0"),2,GL_FLOAT,false,0,model.texCoords); //Wskaż tablicę z danymi dla atrybutu texCoord0
 
-    glDrawArrays(GL_TRIANGLES,0,model.vertexCount); //Narysuj obiekt
+    // glDrawArrays(GL_TRIANGLES,0,model.vertexCount); //Narysuj obiekt
 
-    glDisableVertexAttribArray(sp->a("vertex"));  //Wyłącz przesyłanie danych do atrybutu vertex
-    glDisableVertexAttribArray(sp->a("normal"));  //Wyłącz przesyłanie danych do atrybutu normal
-    glDisableVertexAttribArray(sp->a("texCoord0"));  //Wyłącz przesyłanie danych do atrybutu texCoord0
+    // glDisableVertexAttribArray(sp->a("vertex"));  //Wyłącz przesyłanie danych do atrybutu vertex
+    // glDisableVertexAttribArray(sp->a("normal"));  //Wyłącz przesyłanie danych do atrybutu normal
+    // glDisableVertexAttribArray(sp->a("texCoord0"));  //Wyłącz przesyłanie danych do atrybutu texCoord0
 }
 
 
 void drawMap();
-void chooseModel(int, chosenModel&, float&);
-bool canFall(int&);
+void chooseModel(int);
+bool canFall();
 
 int main(void)
 {
@@ -245,35 +233,34 @@ int main(void)
         {
             for(int k = 0; k < 8; ++k)  //dlugosc "wiersze"
             {
-                map[i][j][k] = 0;
+                map[j][i][k] = 0;
             }
         }
     }
 
 	//Główna pętla
-	float falling=0;
-    chosenModel model;
-    int actualSurface = 11;
     bool spada = false;
-    float initialRotate = 0;
 	glfwSetTime(0); //Zeruj timer
 	while (!glfwWindowShouldClose(window)) //Tak długo jak okno nie powinno zostać zamknięte
 	{
         if(!spada){
-             chooseModel(rand() % modelSize + 1, model, initialRotate);
+            chooseModel(rand() % modelSize + 1);
             spada = true;
         }
 
         if (round(glfwGetTime()*10)/10==1.5){
-            if(canFall(actualSurface)){
-                actualSurface--;
-                falling+=-2;
+            if(canFall()){
                 glfwSetTime(0);
             }
         }
 
-		drawScene(falling, model, initialRotate); //Wykonaj procedurę rysującą
+		drawMatrices(); //Wykonaj procedurę rysującą
         drawMap();
+        // DrawModel
+        for(int i = 0; i < int(mPos.size()); ++i)
+        {
+            mPos[i].drawMe();
+        }
 		glfwSwapBuffers(window);
 		glfwPollEvents(); //Wykonaj procedury callback w zalezności od zdarzeń jakie zaszły.
 	}
@@ -286,281 +273,215 @@ int main(void)
 }
 
 
-bool canFall(int &surface){
-    if(surface == 0)
+bool canFall(){
+    if(mPos[0].y == 0)
         return false;
     else
+    {
+        // for(int i = 0; i < int(mPos.size()); ++i)
+        //     mPos[i].decreaseY();
         return true;
-    // for(int i = 0; i < 7; ++i)
-    // {
-    //     for(int j = 0; j < 7; ++i)
-    //     {
-
-    //     }
-    // }
+    }
 }
 
-void chooseModel(int chosen, chosenModel &model, float &initialRotate) //mozna tu podac wszystkie tabele i ilosc wierzcholkow modelu po referencji i przypisac w switchu
+// :::::::::::::::::::::::::::::::::::::::::::::::::::::
+// ::::::::::ZAMIANA [12][7][7] NA [7][12][7] BEDZIE BARDZIEJ INTUICYJNIE::::::::
+// ::::::::::::::::::::;;::::::::::::::::::::::::::::::
+
+
+void chooseModel(int chosen)
 {
     switch(chosen)
     {
         case 1:     //SingleCube - wymaga przesuniecia X na poczatku
         //[11][3][3]
-        map[11][3][3] = 1;
+        map[3][11][3] = 1;
+        mPos.clear();
+        mPos.push_back(cube(3,11,3));
 
-        model.verts=singleCubeVertices;
-	    model.normals=singleCubeNormals;
-	    model.texCoords=singleCubeTexCoords;
-	    model.vertexCount=singleCubeVertexCount;
+        // model.verts=singleCubeVertices;
+	    // model.normals=singleCubeNormals;
+	    // model.texCoords=singleCubeTexCoords;
+	    // model.vertexCount=singleCubeVertexCount;
 
-        initialRotate = 0.0f;
+        // initialRotate = 0.0f;
 
         break;
 
         case 2:     //DoubleCube - rotacja "N-M" musi byc wedlug innego punktu niz srodka
         //[11][3,4][3]
-        map[11][3][3] = 1;
-        map[11][4][3] = 1;
+        map[3][11][3] = 1;
+        map[4][11][3] = 1;
+        mPos.clear();
+        mPos.reserve(2);
+        mPos.push_back(cube(3,11,3));
+        mPos.push_back(cube(4,11,3));
 
-        model.verts=doubleCubeVertices;
-	    model.normals=doubleCubeNormals;
-	    model.texCoords=doubleCubeTexCoords;
-	    model.vertexCount=doubleCubeVertexCount;
+        // model.verts=doubleCubeVertices;
+	    // model.normals=doubleCubeNormals;
+	    // model.texCoords=doubleCubeTexCoords;
+	    // model.vertexCount=doubleCubeVertexCount;
 
-        initialRotate = 1.0f;
+        // initialRotate = 1.0f;
 
         break;
 
         case 3:     //TripleCube - wymaga przesuniecia X na poczatku
         //[11][2,3,4][3]
-        map[11][2][3] = 1;
-        map[11][3][3] = 1;
-        map[11][4][3] = 1;
+        map[2][11][3] = 1;
+        map[3][11][3] = 1;
+        map[4][11][3] = 1;
 
-        model.verts=tripleCubeVertices;
-	    model.normals=tripleCubeNormals;
-	    model.texCoords=tripleCubeTexCoords;
-	    model.vertexCount=tripleCubeVertexCount;
+        mPos.clear();
+        mPos.reserve(3);
+        mPos.push_back(cube(2,11,3));
+        mPos.push_back(cube(3,11,3));
+        mPos.push_back(cube(4,11,3));
 
-        initialRotate = 0.0f;
+        // model.verts=tripleCubeVertices;
+	    // model.normals=tripleCubeNormals;
+	    // model.texCoords=tripleCubeTexCoords;
+	    // model.vertexCount=tripleCubeVertexCount;
+
+        // initialRotate = 0.0f;
 
         break;
 
         case 4:     //QuadrupleCube - rotacja "N-M" musi byc wedlug innego punktu niz srodka
         //[11][2,3,4,5][3]
-        map[11][2][3] = 1;
-        map[11][3][3] = 1;
-        map[11][4][3] = 1;
-        map[11][5][3] = 1;
+        map[2][11][3] = 1;
+        map[3][11][3] = 1;
+        map[4][11][3] = 1;
+        map[5][11][3] = 1;
 
-        model.verts=quadrupleCubeVertices;
-	    model.normals=quadrupleCubeNormals;
-	    model.texCoords=quadrupleCubeTexCoords;
-	    model.vertexCount=quadrupleCubeVertexCount;
+        mPos.clear();
+        mPos.reserve(4);
+        mPos.push_back(cube(2,11,3));
+        mPos.push_back(cube(3,11,3));
+        mPos.push_back(cube(4,11,3));
+        mPos.push_back(cube(5,11,3));
 
-        initialRotate = 1.0f;
+
+        // model.verts=quadrupleCubeVertices;
+	    // model.normals=quadrupleCubeNormals;
+	    // model.texCoords=quadrupleCubeTexCoords;
+	    // model.vertexCount=quadrupleCubeVertexCount;
+
+        // initialRotate = 1.0f;
 
         break;
 
         case 5:     //TriangleCube - wymaga przesunieci X na poczatku
         //[11][3][2,3], [11][2][3], [11][4][3]
-        map[11][3][2] = 1;
-        map[11][3][3] = 1;
-        map[11][2][3] = 1;
-        map[11][4][3] = 1;
+        map[3][11][2] = 1;
+        map[3][11][3] = 1;
+        map[2][11][3] = 1;
+        map[4][11][3] = 1;
 
-        model.verts=triangleCubeVertices;
-	    model.normals=triangleCubeNormals;
-	    model.texCoords=triangleCubeTexCoords;
-	    model.vertexCount=triangleCubeVertexCount;
+        mPos.clear();
+        mPos.reserve(4);
+        mPos.push_back(cube(3,11,2));
+        mPos.push_back(cube(3,11,3));
+        mPos.push_back(cube(2,11,3));
+        mPos.push_back(cube(4,11,3));
 
-        initialRotate = 0.0f;
+        // model.verts=triangleCubeVertices;
+	    // model.normals=triangleCubeNormals;
+	    // model.texCoords=triangleCubeTexCoords;
+	    // model.vertexCount=triangleCubeVertexCount;
+
+        // initialRotate = 0.0f;
 
         break;
 
         case 6:     //StrangeCube - wymaga przesunieci X na poczatku
         //[11][2,3,4][3], [11][2][2]
-        map[11][2][3] = 1;
-        map[11][3][3] = 1;
-        map[11][4][3] = 1;
-        map[11][2][2] = 1;
+        map[2][11][3] = 1;
+        map[3][11][3] = 1;
+        map[4][11][3] = 1;
+        map[2][11][2] = 1;
 
-        model.verts=strangeCubeVertices;
-	    model.normals=strangeCubeNormals;
-	    model.texCoords=strangeCubeTexCoords;
-	    model.vertexCount=strangeCubeVertexCount;
+        mPos.clear();
+        mPos.reserve(4);
+        mPos.push_back(cube(2,11,3));
+        mPos.push_back(cube(3,11,3));
+        mPos.push_back(cube(4,11,3));
+        mPos.push_back(cube(2,11,2));
 
-        initialRotate = 0.0f;
+        // model.verts=strangeCubeVertices;
+	    // model.normals=strangeCubeNormals;
+	    // model.texCoords=strangeCubeTexCoords;
+	    // model.vertexCount=strangeCubeVertexCount;
+
+        // initialRotate = 0.0f;
 
         break;
     }
 }
+
+
+cube::cube(int x, int y, int z)
+{
+    this->x = x;
+    this->y = y;
+    this->z = z;
+}
+
+void cube::decreaseY()
+{
+    this->y = this->y - 1;
+}
+
+void cube::drawMe()
+{
+    // tworzymy klocek w punkcie "0x0x0" i przesuwamy w zaleznosci od wspolrzednych w tablicy
+
+    float fx = float(x), fy = float(y), fz = float(z);
+    glm::mat4 M=glm::mat4(1.0f);
+
+    float *verts = modelVerts;
+    float *texCoords = modelCubeTexCoords;
+    float *normals = modelCubeNormals;
+    unsigned int vertexCount = modelVertexCount;
+
+
+    M = glm::translate(M, glm::vec3(2 * fx, 2 * fy, 2 * fz));
+
+
+    sp->use();
+    glUniformMatrix4fv(sp->u("M"),1,false,glm::value_ptr(M));
+
+    glUniform1i(sp->u("textureMap0"),0);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D,tex0);
+
+    glEnableVertexAttribArray(sp->a("vertex"));  //Włącz przesyłanie danych do atrybutu vertex
+    glVertexAttribPointer(sp->a("vertex"),4,GL_FLOAT,false,0,verts); //Wskaż tablicę z danymi dla atrybutu vertex
+
+    glEnableVertexAttribArray(sp->a("normal"));  //Włącz przesyłanie danych do atrybutu normal
+    glVertexAttribPointer(sp->a("normal"),4,GL_FLOAT,false,0,normals); //Wskaż tablicę z danymi dla atrybutu normal
+
+    glEnableVertexAttribArray(sp->a("texCoord0"));  //Włącz przesyłanie danych do atrybutu texCoord0
+    glVertexAttribPointer(sp->a("texCoord0"),2,GL_FLOAT,false,0,texCoords); //Wskaż tablicę z danymi dla atrybutu texCoord0
+
+    glDrawArrays(GL_TRIANGLES,0,vertexCount); //Narysuj obiekt
+
+    glDisableVertexAttribArray(sp->a("vertex"));  //Wyłącz przesyłanie danych do atrybutu vertex
+    glDisableVertexAttribArray(sp->a("normal"));  //Wyłącz przesyłanie danych do atrybutu normal
+    glDisableVertexAttribArray(sp->a("texCoord0"));  //Wyłącz przesyłanie danych do atrybutu texCoord0
+}
+
 
 
 void drawMap(){
     glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
 
     glm::mat4 M=glm::mat4(1.0f);
-/*
-	std::vector<float> verts;
-    // DÓŁ
-	for(int i=-7; i<6; i+=2)//wiersze
-    {
-        for(int j=-7; j<6; j+=2)//kolumny
-        {
-            verts.push_back(float(i));
-            verts.push_back(0.0f);
-            verts.push_back(float(j+2));
-            verts.push_back(1.0f);
 
-            verts.push_back(float(i+2));
-            verts.push_back(0.0f);
-            verts.push_back(float(j+2));
-            verts.push_back(1.0f);
-
-            verts.push_back(float(i+2));
-            verts.push_back(0.0f);
-            verts.push_back(float(j));
-            verts.push_back(1.0f);
-
-            verts.push_back(float(i));
-            verts.push_back(0.0f);
-            verts.push_back(float(j));
-            verts.push_back(1.0f);
-        }
-    }
-
-    // 1 ŚCIANA tylna
-
-    for(int i=-7; i<6; i+=2)//wiersze
-    {
-        for(int j=0; j<24; j+=2)//kolumny
-        {
-            verts.push_back(float(i));
-            verts.push_back(float(j+2));
-            verts.push_back(7.0f);
-            verts.push_back(1.0f);
-
-            verts.push_back(float(i+2));
-            verts.push_back(float(j+2));
-            verts.push_back(7.0f);
-            verts.push_back(1.0f);
-
-            verts.push_back(float(i+2));
-            verts.push_back(float(j));
-            verts.push_back(7.0f);
-            verts.push_back(1.0f);
-
-            verts.push_back(float(i));
-            verts.push_back(float(j));
-            verts.push_back(7.0f);
-            verts.push_back(1.0f);
-        }
-    }
-
-    // ŚCIANA 2 tylna
-    for(int i=-7; i<6; i+=2)//wiersze
-    {
-        for(int j=0; j<24; j+=2)//kolumny
-        {
-            verts.push_back(float(i));
-            verts.push_back(float(j+2));
-            verts.push_back(-7.0f);
-            verts.push_back(1.0f);
-
-            verts.push_back(float(i+2));
-            verts.push_back(float(j+2));
-            verts.push_back(-7.0f);
-            verts.push_back(1.0f);
-
-            verts.push_back(float(i+2));
-            verts.push_back(float(j));
-            verts.push_back(-7.0f);
-            verts.push_back(1.0f);
-
-            verts.push_back(float(i));
-            verts.push_back(float(j));
-            verts.push_back(-7.0f);
-            verts.push_back(1.0f);
-        }
-    }
-
-    // ŚCIANA 3 lewa
-    for(int i=-7; i<6; i+=2)//wiersze
-    {
-        for(int j=0; j<24; j+=2)//kolumny
-        {
-            verts.push_back(-7.0f);
-            verts.push_back(float(j+2));
-            verts.push_back(float(i));
-            verts.push_back(1.0f);
-
-            verts.push_back(-7.0f);
-            verts.push_back(float(j+2));
-            verts.push_back(float(i+2));
-            verts.push_back(1.0f);
-
-            verts.push_back(-7.0f);
-            verts.push_back(float(j));
-            verts.push_back(float(i+2));
-            verts.push_back(1.0f);
-
-            verts.push_back(-7.0f);
-            verts.push_back(float(j));
-            verts.push_back(float(i));
-            verts.push_back(1.0f);
-        }
-    }
-
-
-    // ŚCIANA 4 prawa
-    for(int i=-7; i<6; i+=2)//wiersze
-    {
-        for(int j=0; j<24; j+=2)//kolumny
-        {
-            verts.push_back(7.0f);
-            verts.push_back(float(j+2));
-            verts.push_back(float(i));
-            verts.push_back(1.0f);
-
-            verts.push_back(7.0f);
-            verts.push_back(float(j+2));
-            verts.push_back(float(i+2));
-            verts.push_back(1.0f);
-
-            verts.push_back(7.0f);
-            verts.push_back(float(j));
-            verts.push_back(float(i+2));
-            verts.push_back(1.0f);
-
-            verts.push_back(7.0f);
-            verts.push_back(float(j));
-            verts.push_back(float(i));
-            verts.push_back(1.0f);
-        }
-    }
-
-    std::vector<float> colors;
-
-    for(int i=0;i<7*7*4+7*12*4*4;++i)
-    {
-        colors.push_back(0.5f);
-        colors.push_back(0.5f);
-        colors.push_back(0.5f);
-        colors.push_back(1.0f);
-    }
-
-    std::vector<float> normals;
-
-    for(int i=0;i<7*7*4+7*12*4*4;++i)
-    {
-        normals.push_back(0.0f);
-        normals.push_back(1.0f);
-        normals.push_back(0.0f);
-        normals.push_back(0.0f);
-    }
-*/
-    unsigned int vertexCount = 49*4+7*12*4*4;
+    float *verts = map_verts;
+    float *normals = map_normals;
+    float *colors = map_colors;
+    unsigned int vertexCount = map_vertsCount;
 
     glm::mat4 lp=glm::mat4(1.0f);
     lp=glm::translate(lp,glm::vec3(0.0f,20.0f,-20.0f));
@@ -572,13 +493,13 @@ void drawMap(){
     glUniformMatrix4fv(sp->u("lp"),1,false,glm::value_ptr(lp));
 
     glEnableVertexAttribArray(sp->a("vertex"));  //Włącz przesyłanie danych do atrybutu vertex
-    glVertexAttribPointer(sp->a("vertex"),4,GL_FLOAT,false,0,(void*)&map_verts[0]); //Wskaż tablicę z danymi dla atrybutu vertex
+    glVertexAttribPointer(sp->a("vertex"),4,GL_FLOAT,false,0,verts); //Wskaż tablicę z danymi dla atrybutu vertex
 
     glEnableVertexAttribArray(sp->a("normal"));  //Włącz przesyłanie danych do atrybutu normal
-    glVertexAttribPointer(sp->a("normal"),4,GL_FLOAT,false,0,(void*)&map_normals[0]); //Wskaż tablicę z danymi dla atrybutu normal
+    glVertexAttribPointer(sp->a("normal"),4,GL_FLOAT,false,0,normals); //Wskaż tablicę z danymi dla atrybutu normal
 
     glEnableVertexAttribArray(sp->a("color"));  //Włącz przesyłanie danych do atrybutu color
-    glVertexAttribPointer(sp->a("color"),4,GL_FLOAT,false,0,(void*)&map_colors[0]);
+    glVertexAttribPointer(sp->a("color"),4,GL_FLOAT,false,0,colors);
 
     glDrawArrays(GL_QUADS,0,vertexCount); //Narysuj obiekt
 

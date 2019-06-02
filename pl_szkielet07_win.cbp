@@ -56,14 +56,13 @@
 		<Unit filename="Triple_Cube.h" />
 		<Unit filename="constants.h" />
 		<Unit filename="fragment.glsl" />
-		<Unit filename="include/cube.h" />
 		<Unit filename="lodepng.cpp" />
 		<Unit filename="lodepng.h" />
 		<Unit filename="main_file.cpp" />
 		<Unit filename="map.h" />
+		<Unit filename="model.h" />
 		<Unit filename="shaderprogram.cpp" />
 		<Unit filename="shaderprogram.h" />
-		<Unit filename="src/cube.cpp" />
 		<Unit filename="vertex.glsl" />
 		<Extensions>
 			<code_completion />

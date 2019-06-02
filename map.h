@@ -1,8 +1,9 @@
 #ifndef MAP_H
 #define MAP_H
 
-float map_normals[]{
+unsigned int map_vertsCount = 1540;
 
+float map_normals[]={
 
 0.0f, 1.0f, 0.0f, 0.0f,
 0.0f, 1.0f, 0.0f, 0.0f,
@@ -1929,7 +1930,6 @@ float map_normals[]{
 0.0f, 1.0f, 0.0f, 0.0f,
 0.0f, 1.0f, 0.0f, 0.0f,
 
-0.0f,
 };
 
 
@@ -3857,9 +3857,7 @@ float map_colors[] = {
 0.5f, 0.5f, 0.5f, 1.0f,
 0.5f, 0.5f, 0.5f, 1.0f,
 0.5f, 0.5f, 0.5f, 1.0f,
-0.5f, 0.5f, 0.5f, 1.0f,
-
-0.0f,
+0.5f, 0.5f, 0.5f, 1.0f
 };
 
 float map_verts[] = {
@@ -5788,9 +5786,7 @@ float map_verts[] = {
 7.0f, 24.0f, 5.0f, 1.0f,
 7.0f, 24.0f, 7.0f, 1.0f,
 7.0f, 22.0f, 7.0f, 1.0f,
-7.0f, 22.0f, 5.0f, 1.0f,
-
-0.0f
+7.0f, 22.0f, 5.0f, 1.0f
 };
 
 #endif
