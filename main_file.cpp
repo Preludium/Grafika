@@ -257,6 +257,7 @@ int main(void)
         }
 
 		drawMatrices(); //Wykonaj procedurę rysującą
+        drawMap();
 
         // //DrawBlocks
         /*for(int i = 0; i < 12; ++i) //wysokosc
@@ -277,7 +278,6 @@ int main(void)
         {
             mPos[i].drawMe();
         }
-        drawMap();
 
 
 		glfwSwapBuffers(window);

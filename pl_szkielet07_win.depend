@@ -955,13 +955,13 @@
 
 1559120764 c:\users\mikol\desktop\pl_szkielet07_win\triangle_cube.h
 
-1559149258 source:c:\users\mikol\desktop\tetris\lodepng.cpp
+1559149256 source:c:\users\mikol\desktop\tetris\lodepng.cpp
 	"lodepng.h"
 	<stdio.h>
 	<stdlib.h>
 	<fstream>
 
-1559149258 c:\users\mikol\desktop\tetris\lodepng.h
+1559149256 c:\users\mikol\desktop\tetris\lodepng.h
 	<string.h>
 	<vector>
 	<string>
@@ -969,14 +969,14 @@
 	<iostream>
 	"lodepng.h"
 
-1559473048 source:c:\users\mikol\desktop\tetris\shaderprogram.cpp
+1559682484 source:c:\users\mikol\desktop\tetris\shaderprogram.cpp
 	"shaderprogram.h"
 
-1559473044 c:\users\mikol\desktop\tetris\shaderprogram.h
+1559680319 c:\users\mikol\desktop\tetris\shaderprogram.h
 	"GL/glew.h"
 	"stdio.h"
 
-1559149258 c:\users\mikol\desktop\tetris\glew\include\gl\glew.h
+1559149256 c:\users\mikol\desktop\tetris\glew\include\gl\glew.h
 	<stddef.h>
 	<inttypes.h>
 	<stdint.h>
@@ -1968,18 +1968,12 @@
 	"shaderprogram.h"
 	"model.h"
 
-1559472274 c:\users\mikol\desktop\tetris\texture.h
-	<GL/glew.h>
-	<GLFW/glfw3.h>
-	<glm/glm.hpp>
-	<glm/gtc/type_ptr.hpp>
-	<glm/gtc/matrix_transform.hpp>
-	<stdlib.h>
-	<stdio.h>
-	"constants.h"
+1559682357 c:\users\mikol\desktop\tetris\texture.h
+	"GL/glew.h"
 	"lodepng.h"
+	"stdio.h"
 
-1559472250 source:c:\users\mikol\desktop\tetris\texture.cpp
+1559682168 source:c:\users\mikol\desktop\tetris\texture.cpp
 	"texture.h"
 
 1559472014 c:\users\mikol\desktop\tetris\model.h
@@ -3918,4 +3912,9 @@
 
 1559682168 source:c:\users\mikol\desktop\próba\texture.cpp
 	"texture.h"
+
+1559514121 source:c:\users\mikol\desktop\tetris\src\modele.cpp
+	"modele.h"
+
+1559514930 c:\users\mikol\desktop\tetris\include\modele.h
 
