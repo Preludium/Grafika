@@ -33,7 +33,7 @@ float gd = 0;
 float pl = 0;
 
 modele *model;
-single single;
+//single single;
 
 class cube
 {
@@ -220,18 +220,18 @@ int main(void)
     }
 
     //próba zabawy z mapą
-    // for (int j = 0; j < 7; ++j)
-    //     {
-    //         for(int k = 0; k < 7; ++k)
-    //         {
-    //             cubemap[j][0][k].texture = text[rand()%7];
-    //             cubemap[j][k][0].texture = text[rand()%7];
-    //             cubemap[0][j][k].texture = text[rand()%7];
-    //             cubemap[j][0][k].exists = true;
-    //             cubemap[j][k][0].exists = true;
-    //             cubemap[0][j][k].exists = true;
-    //         }
-    //     }
+     for (int j = 0; j < 7; ++j)
+         {
+             for(int k = 0; k < 7; ++k)
+             {
+                 cubemap[j][0][k].texture = text[rand()%7];
+                 cubemap[j][k][0].texture = text[rand()%7];
+                 cubemap[0][j][k].texture = text[rand()%7];
+                 cubemap[j][0][k].exists = true;
+                 cubemap[j][k][0].exists = true;
+                 cubemap[0][j][k].exists = true;
+             }
+         }
 
 
 	//Główna pętla
@@ -254,17 +254,17 @@ int main(void)
         drawMap();
 
         // //DrawBlocks
-        // for(int i = 0; i < 12; ++i) //wysokosc
-        // {
-        //     for (int j = 0; j < 7; ++j) //szerokosc "kolumny"
-        //     {
-        //         for(int k = 0; k < 7; ++k)  //dlugosc "wiersze"
-        //         {
-        //             if(cubemap[j][i][k].exists)
-        //                 cubemap[j][i][k].drawMe();
-        //         }
-        //     }
-        // }
+         for(int i = 0; i < 12; ++i) //wysokosc
+         {
+             for (int j = 0; j < 7; ++j) //szerokosc "kolumny"
+             {
+                 for(int k = 0; k < 7; ++k)  //dlugosc "wiersze"
+                 {
+                     if(cubemap[j][i][k].exists)
+                         cubemap[j][i][k].drawMe();
+                 }
+             }
+         }
 
         // DrawModel
         for(int i = 0; i < int(mPos.size()); ++i)
@@ -304,8 +304,8 @@ void chooseModel(int chosen)
         //[11][3][3]
         // map[3][11][3] = 1;
 
-        model = &single;
-        
+        //model = &single;
+
         mPos.clear();
         mPos.push_back(cube(3,11,3,text[0]));
         break;

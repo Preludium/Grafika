@@ -955,13 +955,13 @@
 
 1559120764 c:\users\mikol\desktop\pl_szkielet07_win\triangle_cube.h
 
-1559149258 source:c:\users\mikol\desktop\tetris\lodepng.cpp
+1559149256 source:c:\users\mikol\desktop\tetris\lodepng.cpp
 	"lodepng.h"
 	<stdio.h>
 	<stdlib.h>
 	<fstream>
 
-1559149258 c:\users\mikol\desktop\tetris\lodepng.h
+1559149256 c:\users\mikol\desktop\tetris\lodepng.h
 	<string.h>
 	<vector>
 	<string>
@@ -969,14 +969,14 @@
 	<iostream>
 	"lodepng.h"
 
-1559473048 source:c:\users\mikol\desktop\tetris\shaderprogram.cpp
+1559473047 source:c:\users\mikol\desktop\tetris\shaderprogram.cpp
 	"shaderprogram.h"
 
-1559473044 c:\users\mikol\desktop\tetris\shaderprogram.h
+1559473042 c:\users\mikol\desktop\tetris\shaderprogram.h
 	"GL/glew.h"
 	"stdio.h"
 
-1559149258 c:\users\mikol\desktop\tetris\glew\include\gl\glew.h
+1559149256 c:\users\mikol\desktop\tetris\glew\include\gl\glew.h
 	<stddef.h>
 	<inttypes.h>
 	<stdint.h>
@@ -2945,4 +2945,9 @@
 	"modele.h"
 
 1559497693 c:\users\barte\documents\studia\semestr 4\gkiw\grafika\include\modele.h
+
+1559514121 source:c:\users\mikol\desktop\tetris\src\modele.cpp
+	"modele.h"
+
+1559514930 c:\users\mikol\desktop\tetris\include\modele.h
 
