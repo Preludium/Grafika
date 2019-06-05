@@ -276,7 +276,7 @@ int main(void)
 
         for(int i = 0; i < int(mPos.size()); ++i)
         {
-            mPos[i].drawMe();
+            //mPos[i].drawMe();
         }
 
 
