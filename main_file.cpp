@@ -17,6 +17,7 @@
 #include "model.h"
 #include "map.h"
 
+#include "cube.h"
 #include "modele.h"
 #include "single.h"
 
@@ -32,20 +33,9 @@ float angle_z=0; //Aktualny kąt obrotu obiektu
 float gd = 0;
 float pl = 0;
 
-modele *model;
-single single;
+//modele *model;
+//single single;
 
-class cube
-{
-    public:
-        int x, y, z;
-        GLuint texture;
-        bool exists;
-        cube();
-        cube(int x, int y, int z, GLuint tex);
-        void drawMe();
-        void decreaseY();
-};
 
 std::vector<cube> mPos;
 
@@ -57,12 +47,14 @@ GLuint text[7];
 cube cubemap[7][12][7];
 
 //Procedura obsługi błędów
-void error_callback(int error, const char* description) {
+void error_callback(int error, const char* description)
+{
 	fputs(description, stderr);
 }
 
 
-void keyCallback(GLFWwindow* window,int key,int scancode,int action,int mods) {
+void keyCallback(GLFWwindow* window,int key,int scancode,int action,int mods)
+{
     if (action==GLFW_PRESS) {
         if (key==GLFW_KEY_N) angle_z+=PI/2;
         if (key==GLFW_KEY_M) angle_z+=-PI/2;
@@ -77,14 +69,16 @@ void keyCallback(GLFWwindow* window,int key,int scancode,int action,int mods) {
     }
 }
 
-void windowResizeCallback(GLFWwindow* window,int width,int height) {
+void windowResizeCallback(GLFWwindow* window,int width,int height)
+{
     if (height==0) return;
     aspectRatio=(float)width/(float)height;
     glViewport(0,0,width,height);
 }
 
 //Funkcja wczytująca teksturę
-GLuint readTexture(const char* filename) {
+GLuint readTexture(const char* filename)
+{
     GLuint tex;
     glActiveTexture(GL_TEXTURE0);
 
@@ -108,7 +102,8 @@ GLuint readTexture(const char* filename) {
 }
 
 //Procedura inicjująca
-void initOpenGLProgram(GLFWwindow* window) {
+void initOpenGLProgram(GLFWwindow* window)
+{
 	glClearColor(0,0,0,1);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
@@ -141,35 +136,9 @@ void freeOpenGLProgram(GLFWwindow* window) {
 }
 
 
-//Procedura rysująca zawartość sceny
-void drawMatrices(){
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	glm::mat4 V=glm::lookAt(
-         glm::vec3(0, 55, -20),
-         glm::vec3(0,0,0),
-         glm::vec3(0.0f,1.0f,0.0f));
-
-    glm::mat4 P=glm::perspective(50.0f*PI/180.0f, aspectRatio, 0.01f, 100.0f);
-
-    glm::mat4 lp=glm::mat4(1.0f);
-
-    lp=glm::translate(lp,glm::vec3(0.0f,55.0f,-20.0f));     //obracac zrodlo swiatla razem z kamera
-    lp=glm::rotate(lp,PI/4,glm::vec3(0.0f,1.0f,0.0f));      // jest jeszcze jedno w drawMap
-
-    lp=glm::rotate(lp,cam_z,glm::vec3(0.0f,1.0f,0.0f));
-
-	V=glm::rotate(V,PI/4,glm::vec3(0.0f,1.0f,0.0f)); //kamera
-	V=glm::rotate(V,cam_z,glm::vec3(0.0f,1.0f,0.0f)); //kamera
-
-    sp->use();
-    glUniformMatrix4fv(sp->u("P"),1,false,glm::value_ptr(P));
-    glUniformMatrix4fv(sp->u("V"),1,false,glm::value_ptr(V));
-    glUniformMatrix4fv(sp->u("lp"),1,false,glm::value_ptr(lp));
-}
-
-
 void drawMap();
+void drawMatrices();
+void drawCube(int, int, int, GLuint);
 void chooseModel(int);
 bool canFall();
 
@@ -220,18 +189,18 @@ int main(void)
     }
 
     //próba zabawy z mapą
-    // for (int j = 0; j < 7; ++j)
-    //     {
-    //         for(int k = 0; k < 7; ++k)
-    //         {
-    //             cubemap[j][0][k].texture = text[rand()%7];
-    //             cubemap[j][k][0].texture = text[rand()%7];
-    //             cubemap[0][j][k].texture = text[rand()%7];
-    //             cubemap[j][0][k].exists = true;
-    //             cubemap[j][k][0].exists = true;
-    //             cubemap[0][j][k].exists = true;
-    //         }
-    //     }
+    for (int j = 0; j < 7; ++j)
+        {
+            for(int k = 0; k < 7; ++k)
+            {
+                cubemap[j][0][k].texture = text[rand()%7];
+                cubemap[j][k][0].texture = text[rand()%7];
+                cubemap[0][j][k].texture = text[rand()%7];
+                cubemap[j][0][k].exists = true;
+                cubemap[j][k][0].exists = true;
+                cubemap[0][j][k].exists = true;
+            }
+        }
 
 
 	//Główna pętla
@@ -254,22 +223,23 @@ int main(void)
         drawMap();
 
         // //DrawBlocks
-        // for(int i = 0; i < 12; ++i) //wysokosc
-        // {
-        //     for (int j = 0; j < 7; ++j) //szerokosc "kolumny"
-        //     {
-        //         for(int k = 0; k < 7; ++k)  //dlugosc "wiersze"
-        //         {
-        //             if(cubemap[j][i][k].exists)
-        //                 cubemap[j][i][k].drawMe();
-        //         }
-        //     }
-        // }
+        for(int i = 0; i < 12; ++i) //wysokosc
+        {
+            for (int j = 0; j < 7; ++j) //szerokosc "kolumny"
+            {
+                for(int k = 0; k < 7; ++k)  //dlugosc "wiersze"
+                {
+                    if(cubemap[j][i][k].exists)
+                        drawCube(j, i, k, cubemap[j][i][k].texture);
+                        // cubemap[j][i][k].drawMe();
+                }
+            }
+        }
 
         // DrawModel
         for(int i = 0; i < int(mPos.size()); ++i)
         {
-            mPos[i].drawMe();
+            drawCube(mPos[i].x, mPos[i].y, mPos[i].z, mPos[i].texture);
         }
 
 		glfwSwapBuffers(window);
@@ -304,8 +274,8 @@ void chooseModel(int chosen)
         //[11][3][3]
         // map[3][11][3] = 1;
 
-        model = &single;
-        
+        //model = &single;
+
         mPos.clear();
         mPos.push_back(cube(3,11,3,text[0]));
         break;
@@ -381,26 +351,8 @@ void chooseModel(int chosen)
 }
 
 
-cube::cube(int x, int y, int z,  GLuint tex)
-{
-    this->x = x;
-    this->y = y;
-    this->z = z;
-    this->texture = tex;
-}
-
-cube::cube()
-{
-
-}
-
-void cube::decreaseY()
-{
-    this->y = this->y - 1;
-}
-
 // tworzymy klocek w punkcie "0x0x0" i przesuwamy w zaleznosci od wspolrzednych w tablicy
-void cube::drawMe()
+void drawCube(int x, int y, int z, GLuint texture)
 {
 
     float fx = float(x), fy = float(y), fz = float(z);
@@ -420,7 +372,7 @@ void cube::drawMe()
 
     glUniform1i(sp->u("textureMap0"),0);
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D,texture);
+    glBindTexture(GL_TEXTURE_2D, texture);
 
     glEnableVertexAttribArray(sp->a("vertex"));  //Włącz przesyłanie danych do atrybutu vertex
     glVertexAttribPointer(sp->a("vertex"),4,GL_FLOAT,false,0,verts); //Wskaż tablicę z danymi dla atrybutu vertex
@@ -437,7 +389,6 @@ void cube::drawMe()
     glDisableVertexAttribArray(sp->a("normal"));  //Wyłącz przesyłanie danych do atrybutu normal
     glDisableVertexAttribArray(sp->a("texCoord0"));  //Wyłącz przesyłanie danych do atrybutu texCoord0
 }
-
 
 
 void drawMap(){
@@ -476,4 +427,33 @@ void drawMap(){
 
     glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 
+}
+
+
+//Procedura rysująca zawartość sceny
+void drawMatrices()
+{
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	glm::mat4 V=glm::lookAt(
+         glm::vec3(0, 55, -20),
+         glm::vec3(0,0,0),
+         glm::vec3(0.0f,1.0f,0.0f));
+
+    glm::mat4 P=glm::perspective(50.0f*PI/180.0f, aspectRatio, 0.01f, 100.0f);
+
+    glm::mat4 lp=glm::mat4(1.0f);
+
+    lp=glm::translate(lp,glm::vec3(0.0f,55.0f,-20.0f));     //obracac zrodlo swiatla razem z kamera
+    lp=glm::rotate(lp,PI/4,glm::vec3(0.0f,1.0f,0.0f));      // jest jeszcze jedno w drawMap
+
+    lp=glm::rotate(lp,cam_z,glm::vec3(0.0f,1.0f,0.0f));
+
+	V=glm::rotate(V,PI/4,glm::vec3(0.0f,1.0f,0.0f)); //kamera
+	V=glm::rotate(V,cam_z,glm::vec3(0.0f,1.0f,0.0f)); //kamera
+
+    sp->use();
+    glUniformMatrix4fv(sp->u("P"),1,false,glm::value_ptr(P));
+    glUniformMatrix4fv(sp->u("V"),1,false,glm::value_ptr(V));
+    glUniformMatrix4fv(sp->u("lp"),1,false,glm::value_ptr(lp));
 }

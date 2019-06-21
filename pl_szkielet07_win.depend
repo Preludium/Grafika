@@ -969,10 +969,10 @@
 	<iostream>
 	"lodepng.h"
 
-1559684594 source:c:\users\mikol\desktop\tetris\shaderprogram.cpp
+1561135591 source:c:\users\mikol\desktop\tetris\shaderprogram.cpp
 	"shaderprogram.h"
 
-1559684594 c:\users\mikol\desktop\tetris\shaderprogram.h
+1561135591 c:\users\mikol\desktop\tetris\shaderprogram.h
 	"GL/glew.h"
 	"stdio.h"
 
@@ -985,7 +985,7 @@
 	<OpenGL/glu.h>
 	<GL/glu.h>
 
-1559684594 source:c:\users\mikol\desktop\tetris\main_file.cpp
+1561138706 source:c:\users\mikol\desktop\tetris\main_file.cpp
 	<GL/glew.h>
 	<GLFW/glfw3.h>
 	<glm/glm.hpp>
@@ -1000,6 +1000,7 @@
 	"shaderprogram.h"
 	"model.h"
 	"map.h"
+	"cube.h"
 	"modele.h"
 	"single.h"
 
@@ -1954,21 +1955,11 @@
 	<OpenGL/glu.h>
 	<GL/glu.h>
 
-1559472185 source:c:\users\mikol\desktop\tetris\src\cube.cpp
+1561136836 source:c:\users\mikol\desktop\tetris\src\cube.cpp
 	"cube.h"
 
-1559472174 c:\users\mikol\desktop\tetris\include\cube.h
-	<GL/glew.h>
+1561138034 c:\users\mikol\desktop\tetris\include\cube.h
 	<GLFW/glfw3.h>
-	<glm/glm.hpp>
-	<glm/gtc/type_ptr.hpp>
-	<glm/gtc/matrix_transform.hpp>
-	<stdlib.h>
-	<stdio.h>
-	"constants.h"
-	"texture.h"
-	"shaderprogram.h"
-	"model.h"
 
 1559472274 c:\users\mikol\desktop\tetris\texture.h
 	<GL/glew.h>
