@@ -12,7 +12,6 @@ class cube
         GLuint texture;
         cube();
         cube(int x, int y, int z, GLuint tex);
-        void decreaseY();
 };
 
 #endif //CUBE_H

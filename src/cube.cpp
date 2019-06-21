@@ -12,8 +12,3 @@ cube::cube()
 {
 
 }
-
-void cube::decreaseY()
-{
-    this->y = this->y - 1;
-}

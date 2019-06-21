@@ -1,6 +1,6 @@
 #include "modele.h"
 
-modele::modele()
+Model::Model()
 {
     //ctor
 }

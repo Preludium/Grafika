@@ -33,18 +33,16 @@ float angle_z=0; //Aktualny kąt obrotu obiektu
 float gd = 0;
 float pl = 0;
 
-//modele *model;
-//single single;
-
-
-std::vector<cube> mPos;
+Model *model;
+Single single;
 
 ShaderProgram *sp;
 
+std::vector<cube> mPos;
+
 GLuint text[7];
 
-// int map[7][12][7];
-cube cubemap[7][12][7];
+cube cubemap[9][12][9];
 
 //Procedura obsługi błędów
 void error_callback(int error, const char* description)
@@ -59,10 +57,10 @@ void keyCallback(GLFWwindow* window,int key,int scancode,int action,int mods)
         if (key==GLFW_KEY_N) angle_z+=PI/2;
         if (key==GLFW_KEY_M) angle_z+=-PI/2;
 
-        if (key==GLFW_KEY_UP) gd += 2.0f;
-        if (key==GLFW_KEY_DOWN) gd += -2.0f;
-        if (key==GLFW_KEY_LEFT) pl += 2.0f;
-        if (key==GLFW_KEY_RIGHT) pl += -2.0f;
+        if (key==GLFW_KEY_UP) model->MovUD(1, mPos, cubemap);//gd += 2.0f;
+        if (key==GLFW_KEY_DOWN) model->MovUD(-1, mPos, cubemap);//gd += -2.0f;
+        if (key==GLFW_KEY_LEFT) model->MovLR(1, mPos, cubemap);//pl += 2.0f;
+        if (key==GLFW_KEY_RIGHT) model->MovLR(-1, mPos, cubemap);//pl += -2.0f;
 
         if (key==GLFW_KEY_Q) cam_z += PI/4;
         if (key==GLFW_KEY_E) cam_z += -PI/4;
@@ -175,30 +173,38 @@ int main(void)
 
     for(int i = 0; i < 12; ++i) //wysokosc
     {
-        for (int j = 0; j < 7; ++j) //szerokosc "kolumny"
+        for (int j = 0; j < 9; ++j) //szerokosc "kolumny"
         {
-            for(int k = 0; k < 7; ++k)  //dlugosc "wiersze"
+            for(int k = 0; k < 9; ++k)  //dlugosc "wiersze"
             {
                 // map[j][i][k] = 0;
                 cubemap[j][i][k].x = j;
                 cubemap[j][i][k].y = i;
                 cubemap[j][i][k].z = k;
-                cubemap[j][i][k].exists = false;
+                if((j > 0 && j < 8 ) || (k > 0 && k < 8))
+                {
+                    cubemap[j][i][k].exists = false;
+                }
+                else
+                {
+                    cubemap[j][i][k].exists = true;                    
+                }
+                
             }
         }
     }
 
     //próba zabawy z mapą
-    for (int j = 0; j < 7; ++j)
+    for (int j = 1; j < 8; ++j)
         {
-            for(int k = 0; k < 7; ++k)
+            for(int k = 1; k < 8; ++k)
             {
                 cubemap[j][0][k].texture = text[rand()%7];
-                cubemap[j][k][0].texture = text[rand()%7];
-                cubemap[0][j][k].texture = text[rand()%7];
+                cubemap[j][k][1].texture = text[rand()%7];
+                cubemap[1][j][k].texture = text[rand()%7];
                 cubemap[j][0][k].exists = true;
-                cubemap[j][k][0].exists = true;
-                cubemap[0][j][k].exists = true;
+                cubemap[j][k][1].exists = true;
+                cubemap[1][j][k].exists = true;
             }
         }
 
@@ -225,9 +231,9 @@ int main(void)
         // //DrawBlocks
         for(int i = 0; i < 12; ++i) //wysokosc
         {
-            for (int j = 0; j < 7; ++j) //szerokosc "kolumny"
+            for (int j = 1; j < 8; ++j) //szerokosc "kolumny"
             {
-                for(int k = 0; k < 7; ++k)  //dlugosc "wiersze"
+                for(int k = 1; k < 8; ++k)  //dlugosc "wiersze"
                 {
                     if(cubemap[j][i][k].exists)
                         drawCube(j, i, k, cubemap[j][i][k].texture);
@@ -237,10 +243,10 @@ int main(void)
         }
 
         // DrawModel
-        for(int i = 0; i < int(mPos.size()); ++i)
-        {
-            drawCube(mPos[i].x, mPos[i].y, mPos[i].z, mPos[i].texture);
-        }
+        // for(int i = 0; i < int(mPos.size()); ++i)
+        // {
+        //     drawCube(mPos[i].x, mPos[i].y, mPos[i].z, mPos[i].texture);
+        // }
 
 		glfwSwapBuffers(window);
 		glfwPollEvents(); //Wykonaj procedury callback w zalezności od zdarzeń jakie zaszły.
@@ -266,7 +272,7 @@ bool canFall(){
 }
 
 
-void chooseModel(int chosen)
+void chooseModel(int chosen)            //wszedzie teraz trzeba dodac 1 do X i Z | single uwzgledniony
 {
     switch(chosen)
     {
@@ -274,10 +280,10 @@ void chooseModel(int chosen)
         //[11][3][3]
         // map[3][11][3] = 1;
 
-        //model = &single;
+        model = &single;
 
         mPos.clear();
-        mPos.push_back(cube(3,11,3,text[0]));
+        mPos.push_back(cube(4,11,4,text[0]));
         break;
 
         case 2:     //DoubleCube
@@ -364,7 +370,7 @@ void drawCube(int x, int y, int z, GLuint texture)
     unsigned int vertexCount = modelVertexCount;
 
 
-    M = glm::translate(M, glm::vec3(2 * fx, 2 * fy, 2 * fz));
+    M = glm::translate(M, glm::vec3(2 * fx - 2, 2 * fy, 2 * fz - 2));
 
 
     sp->use();
@@ -449,7 +455,7 @@ void drawMatrices()
 
     lp=glm::rotate(lp,cam_z,glm::vec3(0.0f,1.0f,0.0f));
 
-	V=glm::rotate(V,PI/4,glm::vec3(0.0f,1.0f,0.0f)); //kamera
+	// V=glm::rotate(V,PI/4,glm::vec3(0.0f,1.0f,0.0f)); //kamera
 	V=glm::rotate(V,cam_z,glm::vec3(0.0f,1.0f,0.0f)); //kamera
 
     sp->use();

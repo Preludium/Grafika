@@ -1,15 +1,17 @@
 #ifndef SINGLE_H
 #define SINGLE_H
 #include "modele.h"
+#include "cube.h"
+#include <vector>
 
-class single : public modele
+class Single : public Model
 {
 public:
-        single();
+        Single();
         void RotL();
         void RotR();
-        void MovLR(float kierunek);
-        void MovUD(float kierunek);
+        void MovLR(int, std::vector<cube> &, cube (&cubemap)[9][12][9]);
+        void MovUD(int, std::vector<cube> &, cube (&cubemap)[9][12][9]);
         bool falling();
 };
 
