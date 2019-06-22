@@ -25,7 +25,8 @@
 #include "two.h"
 #include "three.h"
 #include "four.h"
-
+#include "five.h"
+#include "six.h"
 
 const int modelSize = 6;
 
@@ -242,13 +243,14 @@ int main(void)
 
                 if (endGame())
                 {
+
                     std::cout << "Koniec gry" << std::endl; // handler zakonczenia gry xD
                     system("pause");
                 }
                 else
                 {
                     checkSurfaces();
-                    chooseModel(rand()%6);
+                    chooseModel(rand()%8);
                 }
             }
 
@@ -381,6 +383,15 @@ void chooseModel(int chosen)            //wszedzie teraz trzeba dodac 1 do X i Z
         case 5:
         model = new four;
         break;
+
+        case 6:
+        model = new five;
+        break;
+
+        case 7:
+        model = new six;
+        break;
+
     }
 
 
