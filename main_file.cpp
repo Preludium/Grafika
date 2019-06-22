@@ -54,8 +54,8 @@ void error_callback(int error, const char* description)
 void keyCallback(GLFWwindow* window,int key,int scancode,int action,int mods)
 {
     if (action==GLFW_PRESS) {
-        if (key==GLFW_KEY_N) angle_z+=PI/2;
-        if (key==GLFW_KEY_M) angle_z+=-PI/2;
+        if (key==GLFW_KEY_N) model->RotL();//angle_z+=PI/2;
+        if (key==GLFW_KEY_M) model->RotR();//angle_z+=-PI/2;
 
         if (key==GLFW_KEY_UP) model->MovUD(1, mPos, cubemap);//gd += 2.0f;
         if (key==GLFW_KEY_DOWN) model->MovUD(-1, mPos, cubemap);//gd += -2.0f;
@@ -209,19 +209,26 @@ int main(void)
 
 
 	//Główna pętla
-    bool spada = false;
+    chooseModel(1);//rand() % modelSize + 1);
 	glfwSetTime(0); //Zeruj timer
 	while (!glfwWindowShouldClose(window)) //Tak długo jak okno nie powinno zostać zamknięte
 	{
-        if(!spada){
-            chooseModel(1);//rand() % modelSize + 1);
-            spada = true;
-        }
+        // if(model->falling(mPos, cubemap))
+        // {
+        //     chooseModel(1);//rand() % modelSize + 1);
+        // }
 
-        if (round(glfwGetTime()*10)/10==1.5){
-            if(canFall()){
+        if (round(glfwGetTime()*10)/10==1.5)
+        {
+            if(model->falling(mPos, cubemap))
+            {
                 glfwSetTime(0);
             }
+            else
+            {
+                chooseModel(1);
+            }
+            
         }
 
 		drawMatrices(); //Wykonaj procedurę rysującą

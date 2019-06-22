@@ -70,10 +70,17 @@ bool Model::falling(std::vector<cube> &mPos, cube (&cubemap)[9][12][9])
     bool doFall = true;
     for (int i = 0; i < mPos.size(); ++i)
     {
-        if (cubemap[mPos[i].x][mPos[i].y - 1][mPos[i].z].exists)
+        try
         {
-            doFall = false;
-            break;
+            if (cubemap[mPos[i].x][mPos[i].y - 1][mPos[i].z].exists)
+            {
+                doFall = false;
+                break;
+            }
+        }
+        catch (const std::out_of_range& oor)
+        {
+            std::cout << "no to poleciales gosciu\n";
         }
     }
     if (doFall)
