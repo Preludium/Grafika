@@ -56,11 +56,11 @@ void Model::MovUD(int dir, cube (&cubemap)[9][12][9])
 
 bool Model::falling(cube (&cubemap)[9][12][9])
 {
-    for (int i = 0; i < this->base; ++i)
+    for (int i = 0; i < parts.size(); ++i)
     {
         try
         {
-            if (cubemap[parts[i].x][parts[i].y - 1][parts[i].z].exists)
+            if (cubemap[parts[i].x][parts[i].y - 1][parts[i].z].exists || parts[i].y == 0)
             {
                 return false;
             }

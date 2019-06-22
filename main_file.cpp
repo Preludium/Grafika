@@ -21,6 +21,11 @@
 #include "modele.h"
 #include "single.h"
 #include "bigcube.h"
+#include "one.h"
+#include "two.h"
+#include "three.h"
+#include "four.h"
+
 
 const int modelSize = 6;
 
@@ -240,10 +245,10 @@ int main(void)
                     std::cout << "Koniec gry" << std::endl; // handler zakonczenia gry xD
                     system("pause");
                 }
-                else    
+                else
                 {
                     checkSurfaces();
-                    chooseModel(1);
+                    chooseModel(rand()%6);
                 }
             }
 
@@ -311,8 +316,8 @@ void deleteSurface(int i)
                 else
                 {
                     cubemap[j][i][k].exists = cubemap[j][i + 1][k].exists;
-                    cubemap[j][i][k].texture = cubemap[j][i + 1][k].texture;                        
-                }                
+                    cubemap[j][i][k].texture = cubemap[j][i + 1][k].texture;
+                }
             }
         }
     }
@@ -340,7 +345,7 @@ void checkSurfaces()
                     toClear = false;
                     break;
                 }
-            }            
+            }
         }
 
         if (toClear)
@@ -353,75 +358,28 @@ void chooseModel(int chosen)            //wszedzie teraz trzeba dodac 1 do X i Z
 {
     switch(chosen)
     {
-        case 0:     //SingleCube
-        //[11][3][3]
-
+        case 0:
         model = new Single;
-        model->base = 1;
-
         break;
 
-        case 1:     //DoubleCube
+        case 1:
         model = new bigcube;
-        model->base = 4;
         break;
 
-        case 2:     //TripleCube
-        //[11][2,3,4][3]
-        // map[2][11][3] = 1;
-        // map[3][11][3] = 1;
-        // map[4][11][3] = 1;
-
-        mPos.clear();
-        mPos.reserve(3);
-        mPos.push_back(cube(2,11,3,text[0]));
-        mPos.push_back(cube(3,11,3,text[0]));
-        mPos.push_back(cube(4,11,3,text[0]));
+        case 2:
+        model = new one;
         break;
 
-        case 3:     //QuadrupleCube
-        //[11][2,3,4,5][3]
-        // map[2][11][3] = 1;
-        // map[3][11][3] = 1;
-        // map[4][11][3] = 1;
-        // map[5][11][3] = 1;
-
-        mPos.clear();
-        mPos.reserve(4);
-        mPos.push_back(cube(2,11,3,text[0]));
-        mPos.push_back(cube(3,11,3,text[0]));
-        mPos.push_back(cube(4,11,3,text[0]));
-        mPos.push_back(cube(5,11,3,text[0]));
+        case 3:
+        model = new two;
         break;
 
-        case 4:     //TriangleCube
-        //[11][3][2,3], [11][2][3], [11][4][3]
-        // map[3][11][2] = 1;
-        // map[3][11][3] = 1;
-        // map[2][11][3] = 1;
-        // map[4][11][3] = 1;
-
-        mPos.clear();
-        mPos.reserve(4);
-        mPos.push_back(cube(3,11,2,text[0]));
-        mPos.push_back(cube(3,11,3,text[0]));
-        mPos.push_back(cube(2,11,3,text[0]));
-        mPos.push_back(cube(4,11,3,text[0]));
+        case 4:
+        model = new three;
         break;
 
-        case 5:     //StrangeCube
-        //[11][2,3,4][3], [11][2][2]
-        // map[2][11][3] = 1;
-        // map[3][11][3] = 1;
-        // map[4][11][3] = 1;
-        // map[2][11][2] = 1;
-
-        mPos.clear();
-        mPos.reserve(4);
-        mPos.push_back(cube(2,11,3,text[0]));
-        mPos.push_back(cube(3,11,3,text[0]));
-        mPos.push_back(cube(4,11,3,text[0]));
-        mPos.push_back(cube(2,11,2,text[0]));
+        case 5:
+        model = new four;
         break;
     }
 
