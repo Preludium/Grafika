@@ -12,7 +12,7 @@ void Model::MovLR(int dir, std::vector<cube> &mPos, cube (&cubemap)[9][12][9])
     {
         try
         {
-            if (cubemap[mPos[i].x + dir][mPos[i].y][mPos[i].z].exists)
+            if (cubemap[mPos[i].x + dir][mPos[i].y][mPos[i].z].exists || mPos[i].x + dir == 0 || mPos[i].x + dir == 8)
             {
                 doMove = false;
                 break;
@@ -42,7 +42,7 @@ void Model::MovUD(int dir, std::vector<cube> &mPos, cube (&cubemap)[9][12][9])
     { 
         try
         {
-            if (cubemap[mPos[i].x][mPos[i].y][mPos[i].z + dir].exists)
+            if (cubemap[mPos[i].x][mPos[i].y][mPos[i].z + dir].exists || mPos[i].z + dir == 0 || mPos[i].z + dir == 8)
             {
                 doMove = false;
                 break;

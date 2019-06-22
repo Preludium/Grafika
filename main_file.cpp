@@ -177,19 +177,18 @@ int main(void)
         {
             for(int k = 0; k < 9; ++k)  //dlugosc "wiersze"
             {
-                // map[j][i][k] = 0;
                 cubemap[j][i][k].x = j;
                 cubemap[j][i][k].y = i;
                 cubemap[j][i][k].z = k;
-                if((j > 0 && j < 8 ) || (k > 0 && k < 8))
+                if (j == 0 || j == 8)
                 {
-                    cubemap[j][i][k].exists = false;
+                    if (k == 0 || k == 8)
+                        cubemap[j][i][k].exists = true;
+                    else
+                        cubemap[j][i][k].exists = false;                        
                 }
                 else
-                {
-                    cubemap[j][i][k].exists = true;                    
-                }
-                
+                    cubemap[j][i][k].exists = false;                                    
             }
         }
     }
