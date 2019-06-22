@@ -4,6 +4,10 @@ Model::Model()
 {
     //ctor
 }
+Model::~Model()
+{
+    //ctor
+}
 
 void Model::MovLR(int dir, cube (&cubemap)[9][12][9])
 {

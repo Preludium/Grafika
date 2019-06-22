@@ -56,9 +56,16 @@
 		<Unit filename="Triple_Cube.h" />
 		<Unit filename="constants.h" />
 		<Unit filename="fragment.glsl" />
+		<Unit filename="include/bigcube.h" />
 		<Unit filename="include/cube.h" />
+		<Unit filename="include/five.h" />
+		<Unit filename="include/four.h" />
 		<Unit filename="include/modele.h" />
+		<Unit filename="include/one.h" />
 		<Unit filename="include/single.h" />
+		<Unit filename="include/six.h" />
+		<Unit filename="include/three.h" />
+		<Unit filename="include/two.h" />
 		<Unit filename="lodepng.cpp" />
 		<Unit filename="lodepng.h" />
 		<Unit filename="main_file.cpp" />
@@ -66,9 +73,16 @@
 		<Unit filename="model.h" />
 		<Unit filename="shaderprogram.cpp" />
 		<Unit filename="shaderprogram.h" />
+		<Unit filename="src/bigcube.cpp" />
 		<Unit filename="src/cube.cpp" />
+		<Unit filename="src/five.cpp" />
+		<Unit filename="src/four.cpp" />
 		<Unit filename="src/modele.cpp" />
+		<Unit filename="src/one.cpp" />
 		<Unit filename="src/single.cpp" />
+		<Unit filename="src/six.cpp" />
+		<Unit filename="src/three.cpp" />
+		<Unit filename="src/two.cpp" />
 		<Unit filename="vertex.glsl" />
 		<Extensions>
 			<code_completion />

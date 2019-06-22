@@ -11,7 +11,7 @@ class Model
     public:
         Model();
         GLuint mytex;
-
+        virtual ~Model();
         std::vector<cube> parts;
         virtual void RotL()=0;
         virtual void RotR()=0;

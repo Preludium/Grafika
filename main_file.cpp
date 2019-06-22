@@ -199,7 +199,7 @@ int main(void)
             }
         }
     }
-
+/*
     //próba zabawy z mapą
     for (int j = 1; j < 8; ++j)
         {
@@ -213,10 +213,10 @@ int main(void)
                 cubemap[1][j][k].exists = true;
             }
         }
-
+*/
 
 	//Główna pętla
-    chooseModel(rand()%2);
+    chooseModel(rand()%8);
 	glfwSetTime(0); //Zeruj timer
 	while (!glfwWindowShouldClose(window)) //Tak długo jak okno nie powinno zostać zamknięte
 	{
@@ -240,6 +240,7 @@ int main(void)
                 }
 
                 delete model;
+                chooseModel(rand()%8);
 
                 if (endGame())
                 {
@@ -281,7 +282,7 @@ int main(void)
 		glfwSwapBuffers(window);
 		glfwPollEvents(); //Wykonaj procedury callback w zalezności od zdarzeń jakie zaszły.
 	}
-
+    delete model;
 	freeOpenGLProgram(window);
 
 	glfwDestroyWindow(window); //Usuń kontekst OpenGL i okno
