@@ -12,6 +12,13 @@ class cube
         unsigned int texture;
         cube();
         cube(int x, int y, int z, unsigned int tex);
+
+        cube& operator=(const cube& other)
+        {
+            this->exists = other.exists;
+            this->texture = other.texture;
+            return *this;
+        }
 };
 
 #endif //CUBE_H

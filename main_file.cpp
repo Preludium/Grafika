@@ -138,7 +138,9 @@ void drawMap();
 void drawMatrices();
 void drawCube(cube);
 void chooseModel(int);
-bool canFall();
+bool endGame();
+void checkSurfaces();
+void deleteSurface(int);
 
 int main(void)
 {
@@ -213,22 +215,21 @@ int main(void)
 	glfwSetTime(0); //Zeruj timer
 	while (!glfwWindowShouldClose(window)) //Tak długo jak okno nie powinno zostać zamknięte
 	{
-        // if(model->falling(mPos, cubemap))
-        // {
-        //     chooseModel(1);//rand() % modelSize + 1);
-        // }
-
         if (round(glfwGetTime()*10)/10==1.5)
         {
             if(model->falling(mPos, cubemap))
-            {
                 glfwSetTime(0);
-            }
             else
-            {
-                chooseModel(1);
-            }
-            
+                if (endGame())
+                {
+                    std::cout << "Koniec gry" << std::endl; // handler zakonczenia gry xD
+                    system("pause");
+                }
+                else    
+                {
+                    checkSurfaces();
+                    chooseModel(1);
+                }
         }
 
 		drawMatrices(); //Wykonaj procedurę rysującą
@@ -258,18 +259,70 @@ int main(void)
 	exit(EXIT_SUCCESS);
 }
 
-
-bool canFall(){
-    if(mPos[0].y == 0)
-        return false;
-    else
+bool endGame()
+{
+    for (int i = 1; i < 8; ++i)
     {
-        // for(int i = 0; i < int(mPos.size()); ++i)
-        //     mPos[i].decreaseY();
-        return true;
+        for (int j = 1; j < 8; ++j)
+        {
+            if (cubemap[i][11][j].exists)
+                return true;
+        }
+    }
+    return false;
+}
+
+void deleteSurface(int i)
+{
+    for (; i < 12; ++i)
+    {
+        for (int j = 1; j < 8; ++j)
+        {
+            for (int k = 1; k < 8; ++k)
+            {
+                if (i == 11)
+                {
+                    cubemap[j][i][k].exists == false;
+                }
+                else
+                {
+                    cubemap[j][i][k].exists = cubemap[j][i + 1][k].exists;
+                    cubemap[j][i][k].texture = cubemap[j][i + 1][k].texture;                        
+                }                
+            }
+        }
     }
 }
 
+void checkSurfaces()
+{
+    // jesli cala powierzchnia pusta to nie ma co sprawdzac dalej
+    //w sumie wystarczy znalezc jeden pusty i mozna leciec dalej
+    bool toClear;
+
+    for (int i = 11; i >= 0; --i)
+    {
+        toClear = true;
+
+        for (int j = 1; j < 8; ++j)
+        {
+            if (!toClear)
+                break;
+
+            for (int k = 1; k < 8; ++k)
+            {
+                if (cubemap[j][i][k].exists == false)
+                {
+                    toClear = false;
+                    break;
+                }
+            }            
+        }
+
+        if (toClear)
+            deleteSurface(i);
+    }
+}
 
 void chooseModel(int chosen)            //wszedzie teraz trzeba dodac 1 do X i Z  bo dodatkowe wiersze w tablicy| single uwzgledniony
 {
