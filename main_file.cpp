@@ -237,16 +237,8 @@ int main(void)
                 {
                     if(cubemap[j][i][k].exists)
                         drawCube(cubemap[j][i][k]);
-                        // cubemap[j][i][k].drawMe();
                 }
             }
-        }
-
-        // DrawModel
-        for(int i = 0; i < int(mPos.size()); ++i)
-        {
-            //drawCube(mPos[i].x, mPos[i].y, mPos[i].z, mPos[i].texture);
-            drawCube(mPos[i]);
         }
 
 		glfwSwapBuffers(window);
@@ -273,18 +265,23 @@ bool canFall(){
 }
 
 
-void chooseModel(int chosen)            //wszedzie teraz trzeba dodac 1 do X i Z | single uwzgledniony
+void chooseModel(int chosen)            //wszedzie teraz trzeba dodac 1 do X i Z  bo dodatkowe wiersze w tablicy| single uwzgledniony
 {
     switch(chosen)
     {
         case 1:     //SingleCube
         //[11][3][3]
-        // map[3][11][3] = 1;
 
         model = &single;
 
         mPos.clear();
         mPos.push_back(cube(4,11,4,0));
+        for (int i = 0; i < mPos.size(); ++i)
+        {
+            cubemap[mPos[i].x][mPos[i].y][mPos[i].z].exists = true;
+            cubemap[mPos[i].x][mPos[i].y][mPos[i].z].texture = mPos[i].texture;
+        }
+
         break;
 
         case 2:     //DoubleCube

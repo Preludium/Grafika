@@ -985,7 +985,7 @@
 	<OpenGL/glu.h>
 	<GL/glu.h>
 
-1561199400 source:c:\users\mikol\desktop\tetris\main_file.cpp
+1561200976 source:c:\users\mikol\desktop\tetris\main_file.cpp
 	<GL/glew.h>
 	<GLFW/glfw3.h>
 	<glm/glm.hpp>
@@ -2939,9 +2939,11 @@
 
 1559497693 c:\users\barte\documents\studia\semestr 4\gkiw\grafika\include\modele.h
 
-1561198632 c:\users\mikol\desktop\tetris\include\modele.h
+1561200652 c:\users\mikol\desktop\tetris\include\modele.h
 	"cube.h"
 	<vector>
+	<stdexcept>
+	<iostream>
 
 1561198700 c:\users\mikol\desktop\tetris\include\single.h
 	"modele.h"

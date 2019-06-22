@@ -3,6 +3,8 @@
 
 #include "cube.h"
 #include <vector>
+#include <stdexcept>
+#include <iostream>
 
 class Model
 {
