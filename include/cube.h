@@ -12,6 +12,7 @@ class cube
         unsigned int texture;
         cube();
         cube(int x, int y, int z, unsigned int tex);
+        cube(int x, int y, int z);
 };
 
 #endif //CUBE_H

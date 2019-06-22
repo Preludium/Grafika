@@ -5,14 +5,14 @@ Model::Model()
     //ctor
 }
 
-void Model::MovLR(int dir, std::vector<cube> &mPos, cube (&cubemap)[9][12][9])
+void Model::MovLR(int dir, cube (&cubemap)[9][12][9])
 {
     bool doMove = true;
-    for (int i = 0; i < mPos.size(); ++i)
+    for (int i = 0; i < parts.size(); ++i)
     {
         try
         {
-            if (cubemap[mPos[i].x + dir][mPos[i].y][mPos[i].z].exists || mPos[i].x + dir == 0 || mPos[i].x + dir == 8)
+            if (cubemap[parts[i].x + dir][parts[i].y][parts[i].z].exists || parts[i].x + dir == 0 || parts[i].x + dir == 8)
             {
                 doMove = false;
                 break;
@@ -25,24 +25,24 @@ void Model::MovLR(int dir, std::vector<cube> &mPos, cube (&cubemap)[9][12][9])
     }
     if (doMove)
     {
-        for (int i = 0; i < mPos.size(); ++i)
+        for (int i = 0; i < parts.size(); ++i)
         {
-            cubemap[mPos[i].x + dir][mPos[i].y][mPos[i].z].exists = true;
-            cubemap[mPos[i].x][mPos[i].y][mPos[i].z].exists = false;
-            cubemap[mPos[i].x + dir][mPos[i].y][mPos[i].z].texture = mPos[i].texture;
-            mPos[i].x += dir;
+            cubemap[parts[i].x + dir][parts[i].y][parts[i].z].exists = true;
+            cubemap[parts[i].x][parts[i].y][parts[i].z].exists = false;
+            cubemap[parts[i].x + dir][parts[i].y][parts[i].z].texture = parts[i].texture;
+            parts[i].x += dir;
         }
     }
 }
 
-void Model::MovUD(int dir, std::vector<cube> &mPos, cube (&cubemap)[9][12][9])
+void Model::MovUD(int dir, cube (&cubemap)[9][12][9])
 {
     bool doMove = true;
-    for (int i = 0; i < mPos.size(); ++i)
-    { 
+    for (int i = 0; i < parts.size(); ++i)
+    {
         try
         {
-            if (cubemap[mPos[i].x][mPos[i].y][mPos[i].z + dir].exists || mPos[i].z + dir == 0 || mPos[i].z + dir == 8)
+            if (cubemap[parts[i].x][parts[i].y][parts[i].z + dir].exists || parts[i].z + dir == 0 || parts[i].z + dir == 8)
             {
                 doMove = false;
                 break;
@@ -55,24 +55,24 @@ void Model::MovUD(int dir, std::vector<cube> &mPos, cube (&cubemap)[9][12][9])
     }
     if (doMove)
     {
-        for (int i = 0; i < mPos.size(); ++i)
+        for (int i = 0; i < parts.size(); ++i)
         {
-            cubemap[mPos[i].x][mPos[i].y][mPos[i].z + dir].exists = true;
-            cubemap[mPos[i].x][mPos[i].y][mPos[i].z].exists = false;
-            cubemap[mPos[i].x][mPos[i].y][mPos[i].z + dir].texture = mPos[i].texture;
-            mPos[i].z += dir;
+            cubemap[parts[i].x][parts[i].y][parts[i].z + dir].exists = true;
+            cubemap[parts[i].x][parts[i].y][parts[i].z].exists = false;
+            cubemap[parts[i].x][parts[i].y][parts[i].z + dir].texture = parts[i].texture;
+            parts[i].z += dir;
         }
     }
 }
 
-bool Model::falling(std::vector<cube> &mPos, cube (&cubemap)[9][12][9])
+bool Model::falling(cube (&cubemap)[9][12][9])
 {
     bool doFall = true;
-    for (int i = 0; i < mPos.size(); ++i)
+    for (int i = 0; i < parts.size(); ++i)
     {
         try
         {
-            if (cubemap[mPos[i].x][mPos[i].y - 1][mPos[i].z].exists)
+            if (cubemap[parts[i].x][parts[i].y - 1][parts[i].z].exists)
             {
                 doFall = false;
                 break;
@@ -85,12 +85,12 @@ bool Model::falling(std::vector<cube> &mPos, cube (&cubemap)[9][12][9])
     }
     if (doFall)
     {
-        for (int i = 0; i < mPos.size(); ++i)
+        for (int i = 0; i < parts.size(); ++i)
         {
-            cubemap[mPos[i].x][mPos[i].y - 1][mPos[i].z].exists = true;
-            cubemap[mPos[i].x][mPos[i].y][mPos[i].z].exists = false;
-            cubemap[mPos[i].x][mPos[i].y - 1][mPos[i].z].texture = mPos[i].texture;
-            mPos[i].y += -1;
+            cubemap[parts[i].x][parts[i].y - 1][parts[i].z].exists = true;
+            cubemap[parts[i].x][parts[i].y][parts[i].z].exists = false;
+            cubemap[parts[i].x][parts[i].y - 1][parts[i].z].texture = parts[i].texture;
+            parts[i].y += -1;
         }
         return true;
     }

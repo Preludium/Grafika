@@ -57,10 +57,10 @@ void keyCallback(GLFWwindow* window,int key,int scancode,int action,int mods)
         if (key==GLFW_KEY_N) model->RotL();//angle_z+=PI/2;
         if (key==GLFW_KEY_M) model->RotR();//angle_z+=-PI/2;
 
-        if (key==GLFW_KEY_UP) model->MovUD(1, mPos, cubemap);//gd += 2.0f;
-        if (key==GLFW_KEY_DOWN) model->MovUD(-1, mPos, cubemap);//gd += -2.0f;
-        if (key==GLFW_KEY_LEFT) model->MovLR(1, mPos, cubemap);//pl += 2.0f;
-        if (key==GLFW_KEY_RIGHT) model->MovLR(-1, mPos, cubemap);//pl += -2.0f;
+        if (key==GLFW_KEY_UP) model->MovUD(1, cubemap);//gd += 2.0f;
+        if (key==GLFW_KEY_DOWN) model->MovUD(-1, cubemap);//gd += -2.0f;
+        if (key==GLFW_KEY_LEFT) model->MovLR(1, cubemap);//pl += 2.0f;
+        if (key==GLFW_KEY_RIGHT) model->MovLR(-1, cubemap);//pl += -2.0f;
 
         if (key==GLFW_KEY_Q) cam_z += PI/4;
         if (key==GLFW_KEY_E) cam_z += -PI/4;
@@ -185,10 +185,10 @@ int main(void)
                     if (k == 0 || k == 8)
                         cubemap[j][i][k].exists = true;
                     else
-                        cubemap[j][i][k].exists = false;                        
+                        cubemap[j][i][k].exists = false;
                 }
                 else
-                    cubemap[j][i][k].exists = false;                                    
+                    cubemap[j][i][k].exists = false;
             }
         }
     }
@@ -220,15 +220,22 @@ int main(void)
 
         if (round(glfwGetTime()*10)/10==1.5)
         {
-            if(model->falling(mPos, cubemap))
+            if(model->falling(cubemap))
             {
                 glfwSetTime(0);
             }
             else
             {
+                for (int i = 0; i < model->parts.size(); ++i){
+
+                    cubemap[model->parts[i].x][model->parts[i].y][model->parts[i].z].exists = true;
+                    cubemap[model->parts[i].x][model->parts[i].y][model->parts[i].z].texture = model->mytex;
+                }
+
+                delete model;
                 chooseModel(1);
             }
-            
+
         }
 
 		drawMatrices(); //Wykonaj procedurę rysującą
@@ -246,6 +253,12 @@ int main(void)
                 }
             }
         }
+        for (int i = 0; i < model->parts.size(); ++i)
+        {
+           drawCube(model->parts[i]);
+        }
+
+
 
 		glfwSwapBuffers(window);
 		glfwPollEvents(); //Wykonaj procedury callback w zalezności od zdarzeń jakie zaszły.
@@ -278,15 +291,8 @@ void chooseModel(int chosen)            //wszedzie teraz trzeba dodac 1 do X i Z
         case 1:     //SingleCube
         //[11][3][3]
 
-        model = &single;
+        model = new Single;
 
-        mPos.clear();
-        mPos.push_back(cube(4,11,4,0));
-        for (int i = 0; i < mPos.size(); ++i)
-        {
-            cubemap[mPos[i].x][mPos[i].y][mPos[i].z].exists = true;
-            cubemap[mPos[i].x][mPos[i].y][mPos[i].z].texture = mPos[i].texture;
-        }
 
         break;
 
@@ -358,6 +364,14 @@ void chooseModel(int chosen)            //wszedzie teraz trzeba dodac 1 do X i Z
         mPos.push_back(cube(2,11,2,text[0]));
         break;
     }
+
+
+        model->mytex = text[rand()%7];
+
+        for (int i = 0; i < model->parts.size(); ++i)
+        {
+           model->parts[i].texture = model->mytex;
+        }
 }
 
 
