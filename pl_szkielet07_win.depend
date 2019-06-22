@@ -985,7 +985,7 @@
 	<OpenGL/glu.h>
 	<GL/glu.h>
 
-1561198724 source:c:\users\mikol\desktop\tetris\main_file.cpp
+1561199400 source:c:\users\mikol\desktop\tetris\main_file.cpp
 	<GL/glew.h>
 	<GLFW/glfw3.h>
 	<glm/glm.hpp>
@@ -1955,7 +1955,7 @@
 	<OpenGL/glu.h>
 	<GL/glu.h>
 
-1561143764 source:c:\users\mikol\desktop\tetris\src\cube.cpp
+1561199016 source:c:\users\mikol\desktop\tetris\src\cube.cpp
 	"cube.h"
 
 1561199000 c:\users\mikol\desktop\tetris\include\cube.h
@@ -2948,7 +2948,7 @@
 	"cube.h"
 	<vector>
 
-1561198671 source:c:\users\mikol\desktop\tetris\src\modele.cpp
+1561198821 source:c:\users\mikol\desktop\tetris\src\modele.cpp
 	"modele.h"
 
 1561198713 source:c:\users\mikol\desktop\tetris\src\single.cpp

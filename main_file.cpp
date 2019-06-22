@@ -243,10 +243,11 @@ int main(void)
         }
 
         // DrawModel
-        // for(int i = 0; i < int(mPos.size()); ++i)
-        // {
-        //     drawCube(mPos[i].x, mPos[i].y, mPos[i].z, mPos[i].texture);
-        // }
+        for(int i = 0; i < int(mPos.size()); ++i)
+        {
+            //drawCube(mPos[i].x, mPos[i].y, mPos[i].z, mPos[i].texture);
+            drawCube(mPos[i]);
+        }
 
 		glfwSwapBuffers(window);
 		glfwPollEvents(); //Wykonaj procedury callback w zalezności od zdarzeń jakie zaszły.
