@@ -9,9 +9,9 @@ class cube
     public:
         int x, y, z;
         bool exists;
-        GLuint texture;
+        unsigned int texture;
         cube();
-        cube(int x, int y, int z, GLuint tex);
+        cube(int x, int y, int z, unsigned int tex);
 };
 
 #endif //CUBE_H

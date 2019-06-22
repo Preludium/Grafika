@@ -1,6 +1,6 @@
 #include "cube.h"
 
-cube::cube(int x, int y, int z,  GLuint tex)
+cube::cube(int x, int y, int z,  unsigned int tex)
 {
     this->x = x;
     this->y = y;

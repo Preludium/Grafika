@@ -136,7 +136,7 @@ void freeOpenGLProgram(GLFWwindow* window) {
 
 void drawMap();
 void drawMatrices();
-void drawCube(int, int, int, GLuint);
+void drawCube(cube);
 void chooseModel(int);
 bool canFall();
 
@@ -199,9 +199,9 @@ int main(void)
         {
             for(int k = 1; k < 8; ++k)
             {
-                cubemap[j][0][k].texture = text[rand()%7];
-                cubemap[j][k][1].texture = text[rand()%7];
-                cubemap[1][j][k].texture = text[rand()%7];
+                cubemap[j][0][k].texture = rand()%7;
+                cubemap[j][k][1].texture = rand()%7;
+                cubemap[1][j][k].texture = rand()%7;
                 cubemap[j][0][k].exists = true;
                 cubemap[j][k][1].exists = true;
                 cubemap[1][j][k].exists = true;
@@ -236,7 +236,7 @@ int main(void)
                 for(int k = 1; k < 8; ++k)  //dlugosc "wiersze"
                 {
                     if(cubemap[j][i][k].exists)
-                        drawCube(j, i, k, cubemap[j][i][k].texture);
+                        drawCube(cubemap[j][i][k]);
                         // cubemap[j][i][k].drawMe();
                 }
             }
@@ -283,7 +283,7 @@ void chooseModel(int chosen)            //wszedzie teraz trzeba dodac 1 do X i Z
         model = &single;
 
         mPos.clear();
-        mPos.push_back(cube(4,11,4,text[0]));
+        mPos.push_back(cube(4,11,4,0));
         break;
 
         case 2:     //DoubleCube
@@ -358,10 +358,10 @@ void chooseModel(int chosen)            //wszedzie teraz trzeba dodac 1 do X i Z
 
 
 // tworzymy klocek w punkcie "0x0x0" i przesuwamy w zaleznosci od wspolrzednych w tablicy
-void drawCube(int x, int y, int z, GLuint texture)
+void drawCube(cube klocek)
 {
 
-    float fx = float(x), fy = float(y), fz = float(z);
+    float fx = float(klocek.x), fy = float(klocek.y), fz = float(klocek.z);
     glm::mat4 M=glm::mat4(1.0f);
 
     float *verts = modelVerts;
@@ -378,7 +378,7 @@ void drawCube(int x, int y, int z, GLuint texture)
 
     glUniform1i(sp->u("textureMap0"),0);
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, texture);
+    glBindTexture(GL_TEXTURE_2D, text[klocek.texture]);
 
     glEnableVertexAttribArray(sp->a("vertex"));  //Włącz przesyłanie danych do atrybutu vertex
     glVertexAttribPointer(sp->a("vertex"),4,GL_FLOAT,false,0,verts); //Wskaż tablicę z danymi dla atrybutu vertex
