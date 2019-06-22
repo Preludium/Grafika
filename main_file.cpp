@@ -20,7 +20,7 @@
 #include "cube.h"
 #include "modele.h"
 #include "single.h"
-
+#include "bigcube.h"
 
 const int modelSize = 6;
 
@@ -34,7 +34,7 @@ float gd = 0;
 float pl = 0;
 
 Model *model;
-Single single;
+//Single single;
 
 ShaderProgram *sp;
 
@@ -57,10 +57,10 @@ void keyCallback(GLFWwindow* window,int key,int scancode,int action,int mods)
         if (key==GLFW_KEY_N) model->RotL();//angle_z+=PI/2;
         if (key==GLFW_KEY_M) model->RotR();//angle_z+=-PI/2;
 
-        if (key==GLFW_KEY_UP) model->MovUD(1, mPos, cubemap);//gd += 2.0f;
-        if (key==GLFW_KEY_DOWN) model->MovUD(-1, mPos, cubemap);//gd += -2.0f;
-        if (key==GLFW_KEY_LEFT) model->MovLR(1, mPos, cubemap);//pl += 2.0f;
-        if (key==GLFW_KEY_RIGHT) model->MovLR(-1, mPos, cubemap);//pl += -2.0f;
+        if (key==GLFW_KEY_UP) model->MovUD(1, cubemap);//gd += 2.0f;
+        if (key==GLFW_KEY_DOWN) model->MovUD(-1, cubemap);//gd += -2.0f;
+        if (key==GLFW_KEY_LEFT) model->MovLR(1, cubemap);//pl += 2.0f;
+        if (key==GLFW_KEY_RIGHT) model->MovLR(-1, cubemap);//pl += -2.0f;
 
         if (key==GLFW_KEY_Q) cam_z += PI/4;
         if (key==GLFW_KEY_E) cam_z += -PI/4;
@@ -187,10 +187,10 @@ int main(void)
                     if (k == 0 || k == 8)
                         cubemap[j][i][k].exists = true;
                     else
-                        cubemap[j][i][k].exists = false;                        
+                        cubemap[j][i][k].exists = false;
                 }
                 else
-                    cubemap[j][i][k].exists = false;                                    
+                    cubemap[j][i][k].exists = false;
             }
         }
     }
@@ -211,15 +211,21 @@ int main(void)
 
 
 	//Główna pętla
-    chooseModel(1);//rand() % modelSize + 1);
+    chooseModel(rand()%2);
 	glfwSetTime(0); //Zeruj timer
 	while (!glfwWindowShouldClose(window)) //Tak długo jak okno nie powinno zostać zamknięte
 	{
         if (round(glfwGetTime()*10)/10==1.5)
         {
+<<<<<<< HEAD
             if(model->falling(mPos, cubemap))
+=======
+            if(model->falling(cubemap))
+            {
+>>>>>>> a09749a4703c92a567f741e2ec5c27a0bf96e587
                 glfwSetTime(0);
             else
+<<<<<<< HEAD
                 if (endGame())
                 {
                     std::cout << "Koniec gry" << std::endl; // handler zakonczenia gry xD
@@ -230,6 +236,19 @@ int main(void)
                     checkSurfaces();
                     chooseModel(1);
                 }
+=======
+            {
+                for (int i = 0; i < model->parts.size(); ++i){
+
+                    cubemap[model->parts[i].x][model->parts[i].y][model->parts[i].z].exists = true;
+                    cubemap[model->parts[i].x][model->parts[i].y][model->parts[i].z].texture = model->mytex;
+                }
+
+                delete model;
+                chooseModel(1);
+            }
+
+>>>>>>> a09749a4703c92a567f741e2ec5c27a0bf96e587
         }
 
 		drawMatrices(); //Wykonaj procedurę rysującą
@@ -247,6 +266,12 @@ int main(void)
                 }
             }
         }
+        for (int i = 0; i < model->parts.size(); ++i)
+        {
+           drawCube(model->parts[i]);
+        }
+
+
 
 		glfwSwapBuffers(window);
 		glfwPollEvents(); //Wykonaj procedury callback w zalezności od zdarzeń jakie zaszły.
@@ -328,32 +353,20 @@ void chooseModel(int chosen)            //wszedzie teraz trzeba dodac 1 do X i Z
 {
     switch(chosen)
     {
-        case 1:     //SingleCube
+        case 0:     //SingleCube
         //[11][3][3]
 
-        model = &single;
-
-        mPos.clear();
-        mPos.push_back(cube(4,11,4,0));
-        for (int i = 0; i < mPos.size(); ++i)
-        {
-            cubemap[mPos[i].x][mPos[i].y][mPos[i].z].exists = true;
-            cubemap[mPos[i].x][mPos[i].y][mPos[i].z].texture = mPos[i].texture;
-        }
+        model = new Single;
+        model->base = 1;
 
         break;
 
-        case 2:     //DoubleCube
-        //[11][3,4][3]
-        // map[3][11][3] = 1;
-        // map[4][11][3] = 1;
-        mPos.clear();
-        mPos.reserve(2);
-        mPos.push_back(cube(3,11,3,text[0]));
-        mPos.push_back(cube(4,11,3,text[0]));
+        case 1:     //DoubleCube
+        model = new bigcube;
+        model->base = 4;
         break;
 
-        case 3:     //TripleCube
+        case 2:     //TripleCube
         //[11][2,3,4][3]
         // map[2][11][3] = 1;
         // map[3][11][3] = 1;
@@ -366,7 +379,7 @@ void chooseModel(int chosen)            //wszedzie teraz trzeba dodac 1 do X i Z
         mPos.push_back(cube(4,11,3,text[0]));
         break;
 
-        case 4:     //QuadrupleCube
+        case 3:     //QuadrupleCube
         //[11][2,3,4,5][3]
         // map[2][11][3] = 1;
         // map[3][11][3] = 1;
@@ -381,7 +394,7 @@ void chooseModel(int chosen)            //wszedzie teraz trzeba dodac 1 do X i Z
         mPos.push_back(cube(5,11,3,text[0]));
         break;
 
-        case 5:     //TriangleCube
+        case 4:     //TriangleCube
         //[11][3][2,3], [11][2][3], [11][4][3]
         // map[3][11][2] = 1;
         // map[3][11][3] = 1;
@@ -396,7 +409,7 @@ void chooseModel(int chosen)            //wszedzie teraz trzeba dodac 1 do X i Z
         mPos.push_back(cube(4,11,3,text[0]));
         break;
 
-        case 6:     //StrangeCube
+        case 5:     //StrangeCube
         //[11][2,3,4][3], [11][2][2]
         // map[2][11][3] = 1;
         // map[3][11][3] = 1;
@@ -411,6 +424,14 @@ void chooseModel(int chosen)            //wszedzie teraz trzeba dodac 1 do X i Z
         mPos.push_back(cube(2,11,2,text[0]));
         break;
     }
+
+
+        model->mytex = rand()%7;
+
+        for (int i = 0; i < model->parts.size(); ++i)
+        {
+           model->parts[i].texture = model->mytex;
+        }
 }
 
 

@@ -5,17 +5,15 @@ Model::Model()
     //ctor
 }
 
-void Model::MovLR(int dir, std::vector<cube> &mPos, cube (&cubemap)[9][12][9])
+void Model::MovLR(int dir, cube (&cubemap)[9][12][9])
 {
-    bool doMove = true;
-    for (int i = 0; i < mPos.size(); ++i)
+        for (int i = 0; i < parts.size(); ++i)
     {
         try
         {
-            if (cubemap[mPos[i].x + dir][mPos[i].y][mPos[i].z].exists || mPos[i].x + dir == 0 || mPos[i].x + dir == 8)
+            if (cubemap[parts[i].x + dir][parts[i].y][parts[i].z].exists || parts[i].x + dir == 0 || parts[i].x + dir == 8)
             {
-                doMove = false;
-                break;
+                return;
             }
         }
         catch (const std::out_of_range& oor)
@@ -23,29 +21,24 @@ void Model::MovLR(int dir, std::vector<cube> &mPos, cube (&cubemap)[9][12][9])
             std::cout << "no to poleciales gosciu\n";
         }
     }
-    if (doMove)
+
+    for (int i = 0; i < parts.size(); ++i)
     {
-        for (int i = 0; i < mPos.size(); ++i)
-        {
-            cubemap[mPos[i].x + dir][mPos[i].y][mPos[i].z].exists = true;
-            cubemap[mPos[i].x][mPos[i].y][mPos[i].z].exists = false;
-            cubemap[mPos[i].x + dir][mPos[i].y][mPos[i].z].texture = mPos[i].texture;
-            mPos[i].x += dir;
-        }
+        parts[i].x += dir;
     }
+
 }
 
-void Model::MovUD(int dir, std::vector<cube> &mPos, cube (&cubemap)[9][12][9])
+void Model::MovUD(int dir, cube (&cubemap)[9][12][9])
 {
-    bool doMove = true;
-    for (int i = 0; i < mPos.size(); ++i)
-    { 
+
+    for (int i = 0; i < parts.size(); ++i)
+    {
         try
         {
-            if (cubemap[mPos[i].x][mPos[i].y][mPos[i].z + dir].exists || mPos[i].z + dir == 0 || mPos[i].z + dir == 8)
+            if (cubemap[parts[i].x][parts[i].y][parts[i].z + dir].exists || parts[i].z + dir == 0 || parts[i].z + dir == 8)
             {
-                doMove = false;
-                break;
+                return;
             }
         }
         catch (const std::out_of_range& oor)
@@ -53,29 +46,23 @@ void Model::MovUD(int dir, std::vector<cube> &mPos, cube (&cubemap)[9][12][9])
             std::cout << "no to poleciales gosciu\n";
         }
     }
-    if (doMove)
+
+    for (int i = 0; i < parts.size(); ++i)
     {
-        for (int i = 0; i < mPos.size(); ++i)
-        {
-            cubemap[mPos[i].x][mPos[i].y][mPos[i].z + dir].exists = true;
-            cubemap[mPos[i].x][mPos[i].y][mPos[i].z].exists = false;
-            cubemap[mPos[i].x][mPos[i].y][mPos[i].z + dir].texture = mPos[i].texture;
-            mPos[i].z += dir;
-        }
+        parts[i].z += dir;
     }
+
 }
 
-bool Model::falling(std::vector<cube> &mPos, cube (&cubemap)[9][12][9])
+bool Model::falling(cube (&cubemap)[9][12][9])
 {
-    bool doFall = true;
-    for (int i = 0; i < mPos.size(); ++i)
+    for (int i = 0; i < this->base; ++i)
     {
         try
         {
-            if (cubemap[mPos[i].x][mPos[i].y - 1][mPos[i].z].exists)
+            if (cubemap[parts[i].x][parts[i].y - 1][parts[i].z].exists)
             {
-                doFall = false;
-                break;
+                return false;
             }
         }
         catch (const std::out_of_range& oor)
@@ -83,19 +70,10 @@ bool Model::falling(std::vector<cube> &mPos, cube (&cubemap)[9][12][9])
             std::cout << "no to poleciales gosciu\n";
         }
     }
-    if (doFall)
+
+    for (int i = 0; i < parts.size(); ++i)
     {
-        for (int i = 0; i < mPos.size(); ++i)
-        {
-            cubemap[mPos[i].x][mPos[i].y - 1][mPos[i].z].exists = true;
-            cubemap[mPos[i].x][mPos[i].y][mPos[i].z].exists = false;
-            cubemap[mPos[i].x][mPos[i].y - 1][mPos[i].z].texture = mPos[i].texture;
-            mPos[i].y += -1;
-        }
-        return true;
+        parts[i].y += -1;
     }
-    else
-    {
-        return false;
-    }
+    return true;
 }

@@ -8,6 +8,15 @@ cube::cube(int x, int y, int z,  unsigned int tex)
     this->texture = tex;
 }
 
+
+cube::cube(int x, int y, int z)
+{
+    this->x = x;
+    this->y = y;
+    this->z = z;
+}
+
+
 cube::cube()
 {
 
