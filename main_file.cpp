@@ -20,7 +20,7 @@
 #include "cube.h"
 #include "modele.h"
 #include "single.h"
-
+#include "bigcube.h"
 
 const int modelSize = 6;
 
@@ -34,7 +34,7 @@ float gd = 0;
 float pl = 0;
 
 Model *model;
-Single single;
+//Single single;
 
 ShaderProgram *sp;
 
@@ -209,7 +209,7 @@ int main(void)
 
 
 	//Główna pętla
-    chooseModel(1);//rand() % modelSize + 1);
+    chooseModel(rand()%2);
 	glfwSetTime(0); //Zeruj timer
 	while (!glfwWindowShouldClose(window)) //Tak długo jak okno nie powinno zostać zamknięte
 	{
@@ -288,25 +288,20 @@ void chooseModel(int chosen)            //wszedzie teraz trzeba dodac 1 do X i Z
 {
     switch(chosen)
     {
-        case 1:     //SingleCube
+        case 0:     //SingleCube
         //[11][3][3]
 
         model = new Single;
-
+        model->base = 1;
 
         break;
 
-        case 2:     //DoubleCube
-        //[11][3,4][3]
-        // map[3][11][3] = 1;
-        // map[4][11][3] = 1;
-        mPos.clear();
-        mPos.reserve(2);
-        mPos.push_back(cube(3,11,3,text[0]));
-        mPos.push_back(cube(4,11,3,text[0]));
+        case 1:     //DoubleCube
+        model = new bigcube;
+        model->base = 4;
         break;
 
-        case 3:     //TripleCube
+        case 2:     //TripleCube
         //[11][2,3,4][3]
         // map[2][11][3] = 1;
         // map[3][11][3] = 1;
@@ -319,7 +314,7 @@ void chooseModel(int chosen)            //wszedzie teraz trzeba dodac 1 do X i Z
         mPos.push_back(cube(4,11,3,text[0]));
         break;
 
-        case 4:     //QuadrupleCube
+        case 3:     //QuadrupleCube
         //[11][2,3,4,5][3]
         // map[2][11][3] = 1;
         // map[3][11][3] = 1;
@@ -334,7 +329,7 @@ void chooseModel(int chosen)            //wszedzie teraz trzeba dodac 1 do X i Z
         mPos.push_back(cube(5,11,3,text[0]));
         break;
 
-        case 5:     //TriangleCube
+        case 4:     //TriangleCube
         //[11][3][2,3], [11][2][3], [11][4][3]
         // map[3][11][2] = 1;
         // map[3][11][3] = 1;
@@ -349,7 +344,7 @@ void chooseModel(int chosen)            //wszedzie teraz trzeba dodac 1 do X i Z
         mPos.push_back(cube(4,11,3,text[0]));
         break;
 
-        case 6:     //StrangeCube
+        case 5:     //StrangeCube
         //[11][2,3,4][3], [11][2][2]
         // map[2][11][3] = 1;
         // map[3][11][3] = 1;

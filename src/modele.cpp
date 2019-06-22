@@ -56,8 +56,7 @@ void Model::MovUD(int dir, cube (&cubemap)[9][12][9])
 
 bool Model::falling(cube (&cubemap)[9][12][9])
 {
-    bool doFall = true;
-    for (int i = 0; i < parts.size(); ++i)
+    for (int i = 0; i < this->base; ++i)
     {
         try
         {

@@ -2,7 +2,7 @@
 
 Single::Single()
 {
-    parts.push_back(cube(4,11,4));
+    parts.push_back(cube(4,12,4));
 }
 
 
