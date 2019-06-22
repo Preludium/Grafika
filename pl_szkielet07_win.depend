@@ -1994,7 +1994,7 @@
 	<iostream>
 	"lodepng.h"
 
-1561231372 source:c:\users\barte\documents\studia\semestr 4\gkiw\grafika\main_file.cpp
+1561237588 source:c:\users\barte\documents\studia\semestr 4\gkiw\grafika\main_file.cpp
 	<GL/glew.h>
 	<GLFW/glfw3.h>
 	<glm/glm.hpp>
@@ -3001,10 +3001,10 @@
 1561231345 c:\users\barte\documents\studia\semestr 4\gkiw\grafika\include\one.h
 	<modele.h>
 
-1561233116 source:c:\users\barte\documents\studia\semestr 4\gkiw\grafika\src\one.cpp
+1561235580 source:c:\users\barte\documents\studia\semestr 4\gkiw\grafika\src\one.cpp
 	"one.h"
 
-1561231723 source:c:\users\barte\documents\studia\semestr 4\gkiw\grafika\src\two.cpp
+1561237588 source:c:\users\barte\documents\studia\semestr 4\gkiw\grafika\src\two.cpp
 	"two.h"
 
 1561231583 c:\users\barte\documents\studia\semestr 4\gkiw\grafika\include\two.h
@@ -3013,7 +3013,7 @@
 1561231588 c:\users\barte\documents\studia\semestr 4\gkiw\grafika\include\three.h
 	<modele.h>
 
-1561231710 source:c:\users\barte\documents\studia\semestr 4\gkiw\grafika\src\three.cpp
+1561238023 source:c:\users\barte\documents\studia\semestr 4\gkiw\grafika\src\three.cpp
 	"three.h"
 
 1561231609 c:\users\barte\documents\studia\semestr 4\gkiw\grafika\include\four.h

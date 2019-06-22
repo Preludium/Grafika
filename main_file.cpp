@@ -217,7 +217,7 @@ int main(void)
 */
 
 	//Główna pętla
-    chooseModel(2);
+    chooseModel(5);
 	glfwSetTime(0); //Zeruj timer
 	while (!glfwWindowShouldClose(window)) //Tak długo jak okno nie powinno zostać zamknięte
 	{
@@ -247,7 +247,7 @@ int main(void)
                 else
                 {
                     checkSurfaces();
-                    chooseModel(2);
+                    chooseModel(5);
                 }
             }
 
