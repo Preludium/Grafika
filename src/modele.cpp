@@ -4,6 +4,10 @@ Model::Model()
 {
     //ctor
 }
+Model::~Model()
+{
+    //ctor
+}
 
 void Model::MovLR(int dir, cube (&cubemap)[9][12][9])
 {
@@ -56,7 +60,7 @@ void Model::MovUD(int dir, cube (&cubemap)[9][12][9])
 
 bool Model::falling(cube (&cubemap)[9][12][9])
 {
-    for (int i = 0; i < this->base; ++i)
+    for (int i = 0; i < parts.size(); ++i)
     {
         try
         {
