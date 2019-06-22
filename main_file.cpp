@@ -366,7 +366,7 @@ void chooseModel(int chosen)            //wszedzie teraz trzeba dodac 1 do X i Z
     }
 
 
-        model->mytex = text[rand()%7];
+        model->mytex = rand()%7;
 
         for (int i = 0; i < model->parts.size(); ++i)
         {
