@@ -14,13 +14,13 @@ four::~four()
 }
 
 
-void four::RotL()
+void four::RotL(cube (&cubemap)[9][12][9])
 {
     //TBC
 }
 
 
-void four::RotR()
+void four::RotR(cube (&cubemap)[9][12][9])
 {
     //TBC
 }

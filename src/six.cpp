@@ -15,13 +15,13 @@ six::~six()
 }
 
 
-void six::RotL()
+void six::RotL(cube (&cubemap)[9][12][9])
 {
     //TBC
 }
 
 
-void six::RotR()
+void six::RotR(cube (&cubemap)[9][12][9])
 {
     //TBC
 }

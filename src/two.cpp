@@ -16,13 +16,13 @@ two::~two()
 }
 
 
-void two::RotL()
+void two::RotL(cube (&cubemap)[9][12][9])
 {
     //TBC
 }
 
 
-void two::RotR()
+void two::RotR(cube (&cubemap)[9][12][9])
 {
     //TBC
 }

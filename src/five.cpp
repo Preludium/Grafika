@@ -13,13 +13,13 @@ five::~five()
     //dtor
 }
 
-void five::RotL()
+void five::RotL(cube (&cubemap)[9][12][9])
 {
     //TBC
 }
 
 
-void five::RotR()
+void five::RotR(cube (&cubemap)[9][12][9])
 {
     //TBC
 }
