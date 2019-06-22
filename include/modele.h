@@ -10,14 +10,9 @@ class Model
         Model();
         virtual void RotL()=0;
         virtual void RotR()=0;
-        virtual void MovLR(int, std::vector<cube> &, cube (&cubemap)[9][12][9]) = 0;
-        virtual void MovUD(int, std::vector<cube> &, cube (&cubemap)[9][12][9]) = 0;
-        virtual bool falling()=0;
-
-
-    protected:
-
-    private:
+        void MovLR(int, std::vector<cube> &, cube (&cubemap)[9][12][9]);
+        void MovUD(int, std::vector<cube> &, cube (&cubemap)[9][12][9]);
+        bool falling(std::vector<cube> &, cube (&cubemap)[9][12][9]);
 };
 
 #endif // MODELE_H
