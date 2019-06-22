@@ -60,7 +60,7 @@ bool Model::falling(cube (&cubemap)[9][12][9])
     {
         try
         {
-            if (cubemap[parts[i].x][parts[i].y - 1][parts[i].z].exists)
+            if (cubemap[parts[i].x][parts[i].y - 1][parts[i].z].exists || parts[i].y == 0)
             {
                 return false;
             }

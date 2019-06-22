@@ -210,7 +210,7 @@ int main(void)
 
 
 	//Główna pętla
-    chooseModel(rand()%2);
+    chooseModel(0);//rand()%2);
 	glfwSetTime(0); //Zeruj timer
 	while (!glfwWindowShouldClose(window)) //Tak długo jak okno nie powinno zostać zamknięte
 	{
@@ -264,6 +264,7 @@ int main(void)
                 }
             }
         }
+        
         for (int i = 0; i < model->parts.size(); ++i)
         {
            drawCube(model->parts[i]);
