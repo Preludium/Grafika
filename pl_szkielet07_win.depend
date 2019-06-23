@@ -985,7 +985,7 @@
 	<OpenGL/glu.h>
 	<GL/glu.h>
 
-1561307627 source:c:\users\mikol\desktop\tetris\main_file.cpp
+1561331318 source:c:\users\mikol\desktop\tetris\main_file.cpp
 	<GL/glew.h>
 	<GLFW/glfw3.h>
 	<glm/glm.hpp>
@@ -1013,6 +1013,7 @@
 	"five.h"
 	"six.h"
 	"seven.h"
+	"test.h"
 
 1561221359 c:\users\mikol\desktop\tetris\glfw\include\glfw\glfw3.h
 	<stddef.h>
@@ -3091,9 +3092,15 @@
 1561307431 source:c:\users\mikol\desktop\tetris\src\seven.cpp
 	"seven.h"
 
-1561299303 source:c:\users\mikol\desktop\tetris\src\scoreboard.cpp
+1561329704 source:c:\users\mikol\desktop\tetris\src\scoreboard.cpp
 	"scoreboard.h"
 
-1561301019 c:\users\mikol\desktop\tetris\include\scoreboard.h
+1561329660 c:\users\mikol\desktop\tetris\include\scoreboard.h
 	<iostream>
+
+1561330546 c:\users\mikol\desktop\tetris\include\test.h
+	<modele.h>
+
+1561330900 source:c:\users\mikol\desktop\tetris\src\test.cpp
+	"test.h"
 

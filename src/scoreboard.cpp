@@ -30,3 +30,9 @@ void ScoreBoard::showScoreBoard()
 {
     std::cout << this->name << "\t" << this->score << std::endl;
 }
+
+
+void ScoreBoard::clearScore()
+{
+    this->score = 0;
+}

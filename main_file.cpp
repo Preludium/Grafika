@@ -30,11 +30,13 @@
 #include "five.h"
 #include "six.h"
 #include "seven.h"
+#include "test.h"
 
 
 float cam_z=0;
 float aspectRatio=1;
 
+bool endGameMode = false;
 bool newGame = false;
 Model *model;
 ShaderProgram *sp;
@@ -66,17 +68,17 @@ void error_callback(int error, const char* description)
 void keyCallback(GLFWwindow* window,int key,int scancode,int action,int mods)
 {
     if (action==GLFW_PRESS) {
-        if (key==GLFW_KEY_N) model->RotL(cubemap);//angle_z+=PI/2;
-        if (key==GLFW_KEY_M) model->RotR(cubemap);//angle_z+=-PI/2;
+        if (key==GLFW_KEY_N && !endGameMode) model->RotL(cubemap);//angle_z+=PI/2;
+        if (key==GLFW_KEY_M && !endGameMode) model->RotR(cubemap);//angle_z+=-PI/2;
 
-        if (key==GLFW_KEY_SPACE) model->toBottom(cubemap);
-        if (key==GLFW_KEY_LEFT_CONTROL) model->falling(cubemap);
+        if (key==GLFW_KEY_SPACE && !endGameMode) model->toBottom(cubemap);
+        if (key==GLFW_KEY_LEFT_CONTROL && !endGameMode) model->falling(cubemap);
         if (key==GLFW_KEY_ESCAPE) startNewGame();
 
-        if (key==GLFW_KEY_UP) model->MovUD(1, cubemap);//gd += 2.0f;
-        if (key==GLFW_KEY_DOWN) model->MovUD(-1, cubemap);//gd += -2.0f;
-        if (key==GLFW_KEY_LEFT) model->MovLR(1, cubemap);//pl += 2.0f;
-        if (key==GLFW_KEY_RIGHT) model->MovLR(-1, cubemap);//pl += -2.0f;
+        if (key==GLFW_KEY_UP && !endGameMode) model->MovUD(1, cubemap);//gd += 2.0f;
+        if (key==GLFW_KEY_DOWN && !endGameMode) model->MovUD(-1, cubemap);//gd += -2.0f;
+        if (key==GLFW_KEY_LEFT && !endGameMode) model->MovLR(1, cubemap);//pl += 2.0f;
+        if (key==GLFW_KEY_RIGHT && !endGameMode) model->MovLR(-1, cubemap);//pl += -2.0f;
 
         if (key==GLFW_KEY_Q) cam_z += PI/4;
         if (key==GLFW_KEY_E) cam_z += -PI/4;
@@ -181,12 +183,13 @@ int main(void)
 
 	initOpenGLProgram(window); //Operacje inicjujące
 
+    topScores.push_back(ScoreBoard());
     startNewGame();
     newGame = false;
 
 
 	//Główna pętla
-    chooseModel(rand()%9);
+    chooseModel(rand() % 10);
 	glfwSetTime(0); //Zeruj timer
 	while (!glfwWindowShouldClose(window)) //Tak długo jak okno nie powinno zostaĠ Ǡzamknięte
 	{
@@ -216,8 +219,8 @@ int main(void)
 
                 if (endGame())
                 {
-                    std::cout << "Koniec gry" << std::endl;
-
+                    std::cout << "Game Over" << std::endl;
+                    endGameMode = true;
                     // wyswietl wszystki wyniki
                     topScores.back().updateName();
                     showTopScores();
@@ -242,14 +245,16 @@ int main(void)
                         glfwSwapBuffers(window);
 		                glfwPollEvents();
                     }
+                    topScores.push_back(ScoreBoard());
                     newGame = false;
+                    endGameMode = false;
                     glfwSetTime(0);
                     continue;
                 }
                 else
                 {
                     checkSurfaces();
-                    chooseModel(rand()%9);
+                    chooseModel(rand() % 10);
                     glfwSetTime(0);
                 }
             }
@@ -307,7 +312,6 @@ void showTopScores()
         {
             std::cout << std::endl;
         }
-        
     }
 
     std::cout << "Press ESC to start new game" << std::endl;
@@ -319,7 +323,7 @@ void updateConsole()
     // wyczysc konsole
     system("cls");
 
-    std::cout << "Nowa gra" << std::endl;
+    std::cout << "New game" << std::endl;
     std::cout << "Current score: ";
     topScores.back().showScore();
 }
@@ -363,7 +367,8 @@ void startNewGame()
         }
     }
 
-    topScores.push_back(ScoreBoard());
+    // topScores.push_back(ScoreBoard());
+    topScores.back().clearScore();
     updateConsole();
 
     newGame = true;
@@ -421,6 +426,7 @@ void checkSurfaces()
         {
             deleteSurface(i);
             topScores.back().updateScore(100);
+            updateConsole();
         }
     }
 }
@@ -429,7 +435,7 @@ void checkSurfaces()
 void chooseModel(int chosen)
 {
     // std::cout << chosen << std::endl;
-    switch(chosen)
+    switch(chosen - 1)
     {
         case 0:
         model = new Single;
@@ -465,6 +471,10 @@ void chooseModel(int chosen)
 
         case 8:
         model = new seven;
+        break;
+
+        default:
+        model = new test;
         break;
 
     }

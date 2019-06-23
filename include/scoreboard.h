@@ -15,6 +15,7 @@ class ScoreBoard
         void updateName();
         void showScore();
         void showScoreBoard();
+        void clearScore();
 
         bool operator<(const ScoreBoard& other)
         {

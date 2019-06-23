@@ -66,6 +66,7 @@
 		<Unit filename="include/seven.h" />
 		<Unit filename="include/single.h" />
 		<Unit filename="include/six.h" />
+		<Unit filename="include/test.h" />
 		<Unit filename="include/three.h" />
 		<Unit filename="include/two.h" />
 		<Unit filename="lodepng.cpp" />
@@ -85,6 +86,7 @@
 		<Unit filename="src/seven.cpp" />
 		<Unit filename="src/single.cpp" />
 		<Unit filename="src/six.cpp" />
+		<Unit filename="src/test.cpp" />
 		<Unit filename="src/three.cpp" />
 		<Unit filename="src/two.cpp" />
 		<Unit filename="vertex.glsl" />
