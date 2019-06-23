@@ -8,8 +8,8 @@ class bigcube : public Model
 {
     public:
         bigcube();
-        void RotL();
-        void RotR();
+        virtual void RotL(cube (&cubemap)[9][12][9]);
+        virtual void RotR(cube (&cubemap)[9][12][9]);
         virtual ~bigcube();
 
     protected:

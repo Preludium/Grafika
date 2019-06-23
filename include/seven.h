@@ -1,20 +1,20 @@
-#ifndef ONE_H
-#define ONE_H
+#ifndef SEVEN_H
+#define SEVEN_H
 
 #include <modele.h>
 
 
-class one : public Model
+class seven : public Model
 {
     public:
-        one();
+        seven();
         virtual void RotL(cube (&cubemap)[9][12][9]);
         virtual void RotR(cube (&cubemap)[9][12][9]);
-        virtual ~one();
+        virtual ~seven();
 
     protected:
 
     private:
 };
 
-#endif // ONE_H
+#endif // SEVEN_H

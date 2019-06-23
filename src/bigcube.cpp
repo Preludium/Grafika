@@ -16,13 +16,13 @@ bigcube::~bigcube()
 {
     //dtor
 }
-void bigcube::RotL()
+void bigcube::RotL(cube (&cubemap)[9][12][9])
 {
     //tu niczego sie nie spodziewamy
 }
 
 
-void bigcube::RotR()
+void bigcube::RotR(cube (&cubemap)[9][12][9])
 {
     //tu niczego sie nie spodziewamy
 }

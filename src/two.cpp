@@ -16,13 +16,58 @@ two::~two()
 }
 
 
-void two::RotL()
+void two::RotL(cube (&cubemap)[9][12][9])
 {
-    //TBC
+    switch(state)
+    {
+    case 0:
+        parts[2].x -= 2;
+        this->state = 3;
+        break;
+
+    case 1:
+
+        parts[0].z -= 2;
+        this->state = 0;
+        break;
+
+    case 2:
+        parts[2].x += 2;
+        this->state = 1;
+        break;
+
+    case 3:
+        parts[0].z += 2;
+        this->state = 2;
+        break;
+    }
 }
 
 
-void two::RotR()
+void two::RotR(cube (&cubemap)[9][12][9])
 {
-    //TBC
+    switch(state)
+    {
+    case 0:
+
+        parts[0].z += 2;
+        this->state = 1;
+        break;
+
+    case 1:
+
+        parts[2].x -= 2;
+        this->state = 2;
+        break;
+
+    case 2:
+        parts[0].z -= 2;
+        this->state = 3;
+        break;
+
+    case 3:
+        parts[2].x += 2;
+        this->state = 0;
+        break;
+    }
 }

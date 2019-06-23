@@ -27,6 +27,7 @@
 #include "four.h"
 #include "five.h"
 #include "six.h"
+#include "seven.h"
 
 const int modelSize = 6;
 
@@ -60,8 +61,10 @@ void error_callback(int error, const char* description)
 void keyCallback(GLFWwindow* window,int key,int scancode,int action,int mods)
 {
     if (action==GLFW_PRESS) {
-        if (key==GLFW_KEY_N) model->RotL();//angle_z+=PI/2;
-        if (key==GLFW_KEY_M) model->RotR();//angle_z+=-PI/2;
+        if (key==GLFW_KEY_N) model->RotL(cubemap);//angle_z+=PI/2;
+        if (key==GLFW_KEY_M) model->RotR(cubemap);//angle_z+=-PI/2;
+
+        if (key==GLFW_KEY_SPACE) model->toBottom(cubemap);
 
         if (key==GLFW_KEY_UP) model->MovUD(1, cubemap);//gd += 2.0f;
         if (key==GLFW_KEY_DOWN) model->MovUD(-1, cubemap);//gd += -2.0f;
@@ -216,14 +219,10 @@ int main(void)
 */
 
 	//Główna pętla
-    chooseModel(rand()%8);
+    chooseModel(rand()%9);
 	glfwSetTime(0); //Zeruj timer
 	while (!glfwWindowShouldClose(window)) //Tak długo jak okno nie powinno zostać zamknięte
 	{
-        // if(model->falling(mPos, cubemap))
-        // {
-        //     chooseModel(1);//rand() % modelSize + 1);
-        // }
 
         if (round(glfwGetTime()*10)/10==1.5)
         {
@@ -240,7 +239,6 @@ int main(void)
                 }
 
                 delete model;
-                chooseModel(rand()%8);
 
                 if (endGame())
                 {
@@ -251,7 +249,7 @@ int main(void)
                 else
                 {
                     checkSurfaces();
-                    chooseModel(rand()%8);
+                    chooseModel(rand()%9);
                 }
             }
 
@@ -394,11 +392,15 @@ void chooseModel(int chosen)            //wszedzie teraz trzeba dodac 1 do X i Z
         model = new six;
         break;
 
+        case 8:
+        model = new seven;
+        break;
+
     }
 
 
         model->mytex = rand()%7;
-
+        model->state = 0;
         for (int i = 0; i < model->parts.size(); ++i)
         {
            model->parts[i].texture = model->mytex;

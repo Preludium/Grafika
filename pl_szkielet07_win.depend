@@ -985,7 +985,7 @@
 	<OpenGL/glu.h>
 	<GL/glu.h>
 
-1561222317 source:c:\users\mikol\desktop\tetris\main_file.cpp
+1561283499 source:c:\users\mikol\desktop\tetris\main_file.cpp
 	<GL/glew.h>
 	<GLFW/glfw3.h>
 	<glm/glm.hpp>
@@ -1010,6 +1010,7 @@
 	"four.h"
 	"five.h"
 	"six.h"
+	"seven.h"
 
 1561221359 c:\users\mikol\desktop\tetris\glfw\include\glfw\glfw3.h
 	<stddef.h>
@@ -2000,7 +2001,7 @@
 	<iostream>
 	"lodepng.h"
 
-1561219258 source:c:\users\barte\documents\studia\semestr 4\gkiw\grafika\main_file.cpp
+1561279866 source:c:\users\barte\documents\studia\semestr 4\gkiw\grafika\main_file.cpp
 	<GL/glew.h>
 	<GLFW/glfw3.h>
 	<glm/glm.hpp>
@@ -2025,6 +2026,7 @@
 	"four.h"
 	"five.h"
 	"six.h"
+	"seven.h"
 
 1558621851 c:\users\barte\documents\studia\semestr 4\gkiw\grafika\glew\include\gl\glew.h
 	<stddef.h>
@@ -2954,33 +2956,33 @@
 1561220551 source:c:\users\barte\documents\studia\semestr 4\gkiw\grafika\src\modele.cpp
 	"modele.h"
 
-1561220265 c:\users\barte\documents\studia\semestr 4\gkiw\grafika\include\modele.h
+1561231345 c:\users\barte\documents\studia\semestr 4\gkiw\grafika\include\modele.h
 	"cube.h"
 	<vector>
 	<stdexcept>
 	<iostream>
 
-1561221359 c:\users\mikol\desktop\tetris\include\modele.h
+1561283273 c:\users\mikol\desktop\tetris\include\modele.h
 	"cube.h"
 	<vector>
 	<stdexcept>
 	<iostream>
 
-1561221359 c:\users\mikol\desktop\tetris\include\single.h
+1561282257 c:\users\mikol\desktop\tetris\include\single.h
 	"modele.h"
 	"cube.h"
 	<vector>
 
-1561221359 source:c:\users\mikol\desktop\tetris\src\modele.cpp
+1561283487 source:c:\users\mikol\desktop\tetris\src\modele.cpp
 	"modele.h"
 
-1561221359 source:c:\users\mikol\desktop\tetris\src\single.cpp
+1561282257 source:c:\users\mikol\desktop\tetris\src\single.cpp
 	"single.h"
 
 1561208421 c:\users\barte\documents\studia\semestr 4\gkiw\grafika\include\cube.h
 	<GLFW/glfw3.h>
 
-1561207525 c:\users\barte\documents\studia\semestr 4\gkiw\grafika\include\single.h
+1561231595 c:\users\barte\documents\studia\semestr 4\gkiw\grafika\include\single.h
 	"modele.h"
 	"cube.h"
 	<vector>
@@ -2988,90 +2990,102 @@
 1561208357 source:c:\users\barte\documents\studia\semestr 4\gkiw\grafika\src\cube.cpp
 	"cube.h"
 
-1561211991 source:c:\users\barte\documents\studia\semestr 4\gkiw\grafika\src\single.cpp
+1561231703 source:c:\users\barte\documents\studia\semestr 4\gkiw\grafika\src\single.cpp
 	"single.h"
 
-1561211894 c:\users\barte\documents\studia\semestr 4\gkiw\grafika\include\bigcube.h
+1561231620 c:\users\barte\documents\studia\semestr 4\gkiw\grafika\include\bigcube.h
 	<modele.h>
 
-1561211907 source:c:\users\barte\documents\studia\semestr 4\gkiw\grafika\src\bigcube.cpp
+1561231671 source:c:\users\barte\documents\studia\semestr 4\gkiw\grafika\src\bigcube.cpp
 	"bigcube.h"
 
-1561221359 c:\users\mikol\desktop\tetris\include\bigcube.h
+1561282257 c:\users\mikol\desktop\tetris\include\bigcube.h
 	<modele.h>
 
-1561221359 source:c:\users\mikol\desktop\tetris\src\bigcube.cpp
+1561282257 source:c:\users\mikol\desktop\tetris\src\bigcube.cpp
 	"bigcube.h"
 
-1561214665 c:\users\barte\documents\studia\semestr 4\gkiw\grafika\include\one.h
+1561231345 c:\users\barte\documents\studia\semestr 4\gkiw\grafika\include\one.h
 	<modele.h>
 
-1561215144 source:c:\users\barte\documents\studia\semestr 4\gkiw\grafika\src\one.cpp
+1561235580 source:c:\users\barte\documents\studia\semestr 4\gkiw\grafika\src\one.cpp
 	"one.h"
 
-1561215144 source:c:\users\barte\documents\studia\semestr 4\gkiw\grafika\src\two.cpp
+1561237588 source:c:\users\barte\documents\studia\semestr 4\gkiw\grafika\src\two.cpp
 	"two.h"
 
-1561214969 c:\users\barte\documents\studia\semestr 4\gkiw\grafika\include\two.h
+1561231583 c:\users\barte\documents\studia\semestr 4\gkiw\grafika\include\two.h
 	<modele.h>
 
-1561215619 c:\users\barte\documents\studia\semestr 4\gkiw\grafika\include\three.h
+1561231588 c:\users\barte\documents\studia\semestr 4\gkiw\grafika\include\three.h
 	<modele.h>
 
-1561215619 source:c:\users\barte\documents\studia\semestr 4\gkiw\grafika\src\three.cpp
+1561238023 source:c:\users\barte\documents\studia\semestr 4\gkiw\grafika\src\three.cpp
 	"three.h"
 
-1561216720 c:\users\barte\documents\studia\semestr 4\gkiw\grafika\include\four.h
+1561231609 c:\users\barte\documents\studia\semestr 4\gkiw\grafika\include\four.h
 	<modele.h>
 
-1561216720 source:c:\users\barte\documents\studia\semestr 4\gkiw\grafika\src\four.cpp
+1561278566 source:c:\users\barte\documents\studia\semestr 4\gkiw\grafika\src\four.cpp
 	"four.h"
 
-1561217644 c:\users\barte\documents\studia\semestr 4\gkiw\grafika\include\five.h
+1561231612 c:\users\barte\documents\studia\semestr 4\gkiw\grafika\include\five.h
 	<modele.h>
 
-1561218009 source:c:\users\barte\documents\studia\semestr 4\gkiw\grafika\src\five.cpp
+1561278798 source:c:\users\barte\documents\studia\semestr 4\gkiw\grafika\src\five.cpp
 	"five.h"
 
-1561218529 source:c:\users\barte\documents\studia\semestr 4\gkiw\grafika\src\six.cpp
+1561279094 source:c:\users\barte\documents\studia\semestr 4\gkiw\grafika\src\six.cpp
 	"six.h"
 
-1561218369 c:\users\barte\documents\studia\semestr 4\gkiw\grafika\include\six.h
+1561231597 c:\users\barte\documents\studia\semestr 4\gkiw\grafika\include\six.h
 	<modele.h>
 
-1561221359 c:\users\mikol\desktop\tetris\include\one.h
+1561280352 source:c:\users\barte\documents\studia\semestr 4\gkiw\grafika\src\seven.cpp
+	"seven.h"
+
+1561231603 c:\users\barte\documents\studia\semestr 4\gkiw\grafika\include\seven.h
 	<modele.h>
 
-1561221359 c:\users\mikol\desktop\tetris\include\two.h
+1561282257 c:\users\mikol\desktop\tetris\include\one.h
 	<modele.h>
 
-1561221359 c:\users\mikol\desktop\tetris\include\three.h
+1561282257 c:\users\mikol\desktop\tetris\include\two.h
 	<modele.h>
 
-1561221359 c:\users\mikol\desktop\tetris\include\four.h
+1561282257 c:\users\mikol\desktop\tetris\include\three.h
 	<modele.h>
 
-1561221359 c:\users\mikol\desktop\tetris\include\five.h
+1561282257 c:\users\mikol\desktop\tetris\include\four.h
 	<modele.h>
 
-1561221359 c:\users\mikol\desktop\tetris\include\six.h
+1561282257 c:\users\mikol\desktop\tetris\include\five.h
 	<modele.h>
 
-1561221359 source:c:\users\mikol\desktop\tetris\src\five.cpp
+1561282257 c:\users\mikol\desktop\tetris\include\six.h
+	<modele.h>
+
+1561282257 source:c:\users\mikol\desktop\tetris\src\five.cpp
 	"five.h"
 
-1561221359 source:c:\users\mikol\desktop\tetris\src\four.cpp
+1561282257 source:c:\users\mikol\desktop\tetris\src\four.cpp
 	"four.h"
 
-1561221359 source:c:\users\mikol\desktop\tetris\src\one.cpp
+1561282257 source:c:\users\mikol\desktop\tetris\src\one.cpp
 	"one.h"
 
-1561221359 source:c:\users\mikol\desktop\tetris\src\six.cpp
+1561282257 source:c:\users\mikol\desktop\tetris\src\six.cpp
 	"six.h"
 
-1561221359 source:c:\users\mikol\desktop\tetris\src\three.cpp
+1561282257 source:c:\users\mikol\desktop\tetris\src\three.cpp
 	"three.h"
 
-1561221359 source:c:\users\mikol\desktop\tetris\src\two.cpp
+1561282257 source:c:\users\mikol\desktop\tetris\src\two.cpp
 	"two.h"
+
+1561282257 c:\users\mikol\desktop\tetris\include\seven.h
+	<modele.h>
+
+1561282257 source:c:\users\mikol\desktop\tetris\src\seven.cpp
+	"seven.h"
 
