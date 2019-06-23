@@ -200,7 +200,8 @@ int main(void)
             else
             {
                 // zaktualizuj wynik
-                topScores.back().updateScore(model->points);
+                int points = model->getPoints();
+                topScores.back().updateScore(points);
                 updateConsole();
 
 
@@ -422,8 +423,9 @@ void checkSurfaces()
 }
 
 
-void chooseModel(int chosen)            //wszedzie teraz trzeba dodac 1 do X i Z  bo dodatkowe wiersze w tablicy| single uwzgledniony
+void chooseModel(int chosen)
 {
+    // std::cout << chosen << std::endl;
     switch(chosen)
     {
         case 0:

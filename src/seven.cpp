@@ -2,6 +2,7 @@
 
 seven::seven()
 {
+    this->points = 50;
     parts.push_back(cube(3,11,3));
     parts.push_back(cube(3,11,4));
     parts.push_back(cube(4,11,4));
@@ -12,6 +13,11 @@ seven::seven()
 seven::~seven()
 {
     //dtor
+}
+
+int seven::getPoints()
+{
+    return this->points;
 }
 
 void seven::RotL(cube (&cubemap)[9][12][9])

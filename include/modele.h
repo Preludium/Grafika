@@ -9,12 +9,14 @@
 class Model
 {
     public:
-        Model();
         int mytex;
-        int points = 10;
-        virtual ~Model();
+        // int points;
         int state;
         std::vector<cube> parts;
+        
+        Model();
+        virtual ~Model();
+        virtual int getPoints()=0;
         virtual void RotL(cube (&cubemap)[9][12][9])=0;
         virtual void RotR(cube (&cubemap)[9][12][9])=0;
         void MovLR(int, cube (&cubemap)[9][12][9]);

@@ -2,8 +2,9 @@
 
 Model::Model()
 {
-    //ctor
+    // this->points = 10;
 }
+
 Model::~Model()
 {
     //ctor

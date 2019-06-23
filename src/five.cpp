@@ -2,6 +2,7 @@
 
 five::five()
 {
+    this->points = 40;
     parts.push_back(cube(4,9,4));
     parts.push_back(cube(4,10,4));
     parts.push_back(cube(4,11,4));
@@ -11,6 +12,11 @@ five::five()
 five::~five()
 {
     //dtor
+}
+
+int five::getPoints()
+{
+    return this->points;
 }
 
 void five::RotL(cube (&cubemap)[9][12][9])

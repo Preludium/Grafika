@@ -2,14 +2,20 @@
 
 bigcube::bigcube()
 {
-   parts.push_back(cube(4,10,4));
-   parts.push_back(cube(4,10,5));
-   parts.push_back(cube(5,10,4));
-   parts.push_back(cube(5,10,5));
-   parts.push_back(cube(4,11,4));
-   parts.push_back(cube(4,11,5));
-   parts.push_back(cube(5,11,4));
-   parts.push_back(cube(5,11,5));
+    this->points = 80;
+    parts.push_back(cube(4,10,4));
+    parts.push_back(cube(4,10,5));
+    parts.push_back(cube(5,10,4));
+    parts.push_back(cube(5,10,5));
+    parts.push_back(cube(4,11,4));
+    parts.push_back(cube(4,11,5));
+    parts.push_back(cube(5,11,4));
+    parts.push_back(cube(5,11,5));
+}
+
+int bigcube::getPoints()
+{
+    return this->points;
 }
 
 bigcube::~bigcube()

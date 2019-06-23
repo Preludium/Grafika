@@ -2,7 +2,13 @@
 
 Single::Single()
 {
+    this->points = 10;
     parts.push_back(cube(4,11,4));
+}
+
+int Single::getPoints()
+{
+    return this->points;
 }
 
 

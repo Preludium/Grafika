@@ -2,6 +2,7 @@
 
 six::six()
 {
+    this->points = 50;
     parts.push_back(cube(4,9,4));
     parts.push_back(cube(4,10,4));
     parts.push_back(cube(4,11,4));
@@ -14,6 +15,10 @@ six::~six()
     //dtor
 }
 
+int six::getPoints()
+{
+    return this->points;
+}
 
 void six::RotL(cube (&cubemap)[9][12][9])
 {
