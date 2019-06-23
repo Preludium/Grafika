@@ -13,10 +13,12 @@
 #include "constants.h"
 #include "lodepng.h"
 #include "shaderprogram.h"
+#include <algorithm>    // std::sort
 
 #include "model.h"
 #include "map.h"
 
+#include "scoreboard.h"
 #include "cube.h"
 #include "modele.h"
 #include "single.h"
@@ -29,6 +31,7 @@
 #include "six.h"
 #include "seven.h"
 
+
 float cam_z=0;
 float aspectRatio=1;
 
@@ -39,6 +42,8 @@ std::vector<cube> mPos;
 GLuint text[7];
 cube cubemap[9][12][9];
 
+std::vector<ScoreBoard> topScores;
+
 void drawMap();
 void drawMatrices();
 void drawCube(cube);
@@ -47,6 +52,8 @@ bool endGame();
 void checkSurfaces();
 void deleteSurface(int);
 void startNewGame();
+void updateConsole();
+void showTopScores();
 
 
 //Procedura obsługi błędów
@@ -177,6 +184,7 @@ int main(void)
     startNewGame();
     newGame = false;
 
+
 	//Główna pętla
     chooseModel(rand()%9);
 	glfwSetTime(0); //Zeruj timer
@@ -191,17 +199,29 @@ int main(void)
             }
             else
             {
-                for (int i = 0; i < model->parts.size(); ++i){
+                // zaktualizuj wynik
+                topScores.back().updateScore(model->points);
+                updateConsole();
 
+
+                for (int i = 0; i < model->parts.size(); ++i)
+                {
                     cubemap[model->parts[i].x][model->parts[i].y][model->parts[i].z].exists = true;
                     cubemap[model->parts[i].x][model->parts[i].y][model->parts[i].z].texture = model->mytex;
                 }
 
                 delete model;
 
+
                 if (endGame())
                 {
                     std::cout << "Koniec gry" << std::endl;
+
+                    // wyswietl wszystki wyniki
+                    topScores.back().updateName();
+                    showTopScores();
+
+
                     newGame = false;
                     while(!newGame)
                     {
@@ -222,7 +242,6 @@ int main(void)
 		                glfwPollEvents();
                     }
                     newGame = false;
-                    std::cout << "wykurwiam z tej petli" << std::endl;
                     glfwSetTime(0);
                     continue;
                 }
@@ -230,6 +249,7 @@ int main(void)
                 {
                     checkSurfaces();
                     chooseModel(rand()%9);
+                    glfwSetTime(0);
                 }
             }
 
@@ -268,6 +288,39 @@ int main(void)
 }
 
 
+void showTopScores()
+{
+    std::cout << std::endl << ":::  Top 10 Scores  :::" << std::endl;
+    std::sort(topScores.rbegin(), topScores.rend());
+
+    for (int i = 0; i < topScores.size(); ++i)
+    {
+        if (i < 10)
+        {
+            std::cout << i + 1 << ". ";
+            topScores[i].showScoreBoard();
+        }
+        else
+        {
+            topScores.pop_back();
+        }
+    }
+
+    std::cout << "Press ESC to start new game" << std::endl;
+}
+
+
+void updateConsole()
+{
+    // wyczysc konsole
+    system("cls");
+
+    std::cout << "Nowa gra" << std::endl;
+    std::cout << "Current score: ";
+    topScores.back().showScore();
+}
+
+
 bool endGame()
 {
     for (int i = 1; i < 8; ++i)
@@ -281,10 +334,9 @@ bool endGame()
     return false;
 }
 
+
 void startNewGame()
 {
-    //delete model;
-
     for(int i = 0; i < 12; ++i) //wysokosc
     {
         for (int j = 0; j < 9; ++j) //szerokosc "kolumny"
@@ -307,8 +359,10 @@ void startNewGame()
         }
     }
 
+    topScores.push_back(ScoreBoard());
+    updateConsole();
+
     newGame = true;
-    std::cout << "Nowa gra" << std::endl;
     chooseModel(rand() % 9);
 }
 
@@ -360,7 +414,10 @@ void checkSurfaces()
         }
 
         if (toClear)
+        {
             deleteSurface(i);
+            topScores.back().updateScore(100);
+        }
     }
 }
 

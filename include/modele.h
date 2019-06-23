@@ -11,6 +11,7 @@ class Model
     public:
         Model();
         int mytex;
+        int points = 10;
         virtual ~Model();
         int state;
         std::vector<cube> parts;
