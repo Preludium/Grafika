@@ -985,7 +985,7 @@
 	<OpenGL/glu.h>
 	<GL/glu.h>
 
-1561283499 source:c:\users\mikol\desktop\tetris\main_file.cpp
+1561291758 source:c:\users\mikol\desktop\tetris\main_file.cpp
 	<GL/glew.h>
 	<GLFW/glfw3.h>
 	<glm/glm.hpp>
@@ -2962,7 +2962,7 @@
 	<stdexcept>
 	<iostream>
 
-1561283273 c:\users\mikol\desktop\tetris\include\modele.h
+1561284510 c:\users\mikol\desktop\tetris\include\modele.h
 	"cube.h"
 	<vector>
 	<stdexcept>
@@ -2973,10 +2973,10 @@
 	"cube.h"
 	<vector>
 
-1561283487 source:c:\users\mikol\desktop\tetris\src\modele.cpp
+1561289449 source:c:\users\mikol\desktop\tetris\src\modele.cpp
 	"modele.h"
 
-1561282257 source:c:\users\mikol\desktop\tetris\src\single.cpp
+1561287350 source:c:\users\mikol\desktop\tetris\src\single.cpp
 	"single.h"
 
 1561208421 c:\users\barte\documents\studia\semestr 4\gkiw\grafika\include\cube.h
@@ -3002,7 +3002,7 @@
 1561282257 c:\users\mikol\desktop\tetris\include\bigcube.h
 	<modele.h>
 
-1561282257 source:c:\users\mikol\desktop\tetris\src\bigcube.cpp
+1561287363 source:c:\users\mikol\desktop\tetris\src\bigcube.cpp
 	"bigcube.h"
 
 1561231345 c:\users\barte\documents\studia\semestr 4\gkiw\grafika\include\one.h
@@ -3065,27 +3065,27 @@
 1561282257 c:\users\mikol\desktop\tetris\include\six.h
 	<modele.h>
 
-1561282257 source:c:\users\mikol\desktop\tetris\src\five.cpp
+1561287480 source:c:\users\mikol\desktop\tetris\src\five.cpp
 	"five.h"
 
-1561282257 source:c:\users\mikol\desktop\tetris\src\four.cpp
+1561287495 source:c:\users\mikol\desktop\tetris\src\four.cpp
 	"four.h"
 
-1561282257 source:c:\users\mikol\desktop\tetris\src\one.cpp
+1561287394 source:c:\users\mikol\desktop\tetris\src\one.cpp
 	"one.h"
 
-1561282257 source:c:\users\mikol\desktop\tetris\src\six.cpp
+1561287531 source:c:\users\mikol\desktop\tetris\src\six.cpp
 	"six.h"
 
-1561282257 source:c:\users\mikol\desktop\tetris\src\three.cpp
+1561287545 source:c:\users\mikol\desktop\tetris\src\three.cpp
 	"three.h"
 
-1561282257 source:c:\users\mikol\desktop\tetris\src\two.cpp
+1561287560 source:c:\users\mikol\desktop\tetris\src\two.cpp
 	"two.h"
 
 1561282257 c:\users\mikol\desktop\tetris\include\seven.h
 	<modele.h>
 
-1561282257 source:c:\users\mikol\desktop\tetris\src\seven.cpp
+1561287511 source:c:\users\mikol\desktop\tetris\src\seven.cpp
 	"seven.h"
 

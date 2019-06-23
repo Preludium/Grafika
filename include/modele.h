@@ -10,7 +10,7 @@ class Model
 {
     public:
         Model();
-        GLuint mytex;
+        int mytex;
         virtual ~Model();
         int state;
         std::vector<cube> parts;

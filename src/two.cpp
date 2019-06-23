@@ -2,11 +2,11 @@
 
 two::two()
 {
-    parts.push_back(cube(4,12,3));
-    parts.push_back(cube(4,12,4));
+    parts.push_back(cube(4,10,3));
+    parts.push_back(cube(4,10,4));
 
-    parts.push_back(cube(5,12,4));
-    parts.push_back(cube(4,13,4));
+    parts.push_back(cube(5,10,4));
+    parts.push_back(cube(4,11,4));
 
 }
 

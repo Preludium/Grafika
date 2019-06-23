@@ -29,27 +29,25 @@
 #include "six.h"
 #include "seven.h"
 
-const int modelSize = 6;
-
 float cam_z=0;
 float aspectRatio=1;
-float angle_x=0; //Aktualny kąt obrotu obiektu
-float angle_y=0;
-float angle_z=0; //Aktualny kąt obrotu obiektu
 
-float gd = 0;
-float pl = 0;
-
+bool newGame = false;
 Model *model;
-//Single single;
-
 ShaderProgram *sp;
-
 std::vector<cube> mPos;
-
 GLuint text[7];
-
 cube cubemap[9][12][9];
+
+void drawMap();
+void drawMatrices();
+void drawCube(cube);
+void chooseModel(int);
+bool endGame();
+void checkSurfaces();
+void deleteSurface(int);
+void startNewGame();
+
 
 //Procedura obsługi błędów
 void error_callback(int error, const char* description)
@@ -65,6 +63,8 @@ void keyCallback(GLFWwindow* window,int key,int scancode,int action,int mods)
         if (key==GLFW_KEY_M) model->RotR(cubemap);//angle_z+=-PI/2;
 
         if (key==GLFW_KEY_SPACE) model->toBottom(cubemap);
+        if (key==GLFW_KEY_LEFT_CONTROL) model->falling(cubemap);
+        if (key==GLFW_KEY_ESCAPE) startNewGame();
 
         if (key==GLFW_KEY_UP) model->MovUD(1, cubemap);//gd += 2.0f;
         if (key==GLFW_KEY_DOWN) model->MovUD(-1, cubemap);//gd += -2.0f;
@@ -142,13 +142,6 @@ void freeOpenGLProgram(GLFWwindow* window) {
     delete sp;
 }
 
-void drawMap();
-void drawMatrices();
-void drawCube(cube);
-void chooseModel(int);
-bool endGame();
-void checkSurfaces();
-void deleteSurface(int);
 
 int main(void)
 {
@@ -181,47 +174,13 @@ int main(void)
 
 	initOpenGLProgram(window); //Operacje inicjujące
 
-    for(int i = 0; i < 12; ++i) //wysokosc
-    {
-        for (int j = 0; j < 9; ++j) //szerokosc "kolumny"
-        {
-            for(int k = 0; k < 9; ++k)  //dlugosc "wiersze"
-            {
-                cubemap[j][i][k].x = j;
-                cubemap[j][i][k].y = i;
-                cubemap[j][i][k].z = k;
-                if (j == 0 || j == 8)
-                {
-                    if (k == 0 || k == 8)
-                        cubemap[j][i][k].exists = true;
-                    else
-                        cubemap[j][i][k].exists = false;
-                }
-                else
-                    cubemap[j][i][k].exists = false;
-            }
-        }
-    }
-/*
-    //próba zabawy z mapą
-    for (int j = 1; j < 8; ++j)
-        {
-            for(int k = 1; k < 8; ++k)
-            {
-                cubemap[j][0][k].texture = rand()%7;
-                cubemap[j][k][1].texture = rand()%7;
-                cubemap[1][j][k].texture = rand()%7;
-                cubemap[j][0][k].exists = true;
-                cubemap[j][k][1].exists = true;
-                cubemap[1][j][k].exists = true;
-            }
-        }
-*/
+    startNewGame();
+    newGame = false;
 
 	//Główna pętla
     chooseModel(rand()%9);
 	glfwSetTime(0); //Zeruj timer
-	while (!glfwWindowShouldClose(window)) //Tak długo jak okno nie powinno zostać zamknięte
+	while (!glfwWindowShouldClose(window)) //Tak długo jak okno nie powinno zostaĠ Ǡzamknięte
 	{
 
         if (round(glfwGetTime()*10)/10==1.5)
@@ -242,9 +201,30 @@ int main(void)
 
                 if (endGame())
                 {
-
-                    std::cout << "Koniec gry" << std::endl; // handler zakonczenia gry xD
-                    system("pause");
+                    std::cout << "Koniec gry" << std::endl;
+                    newGame = false;
+                    while(!newGame)
+                    {
+                        drawMatrices(); //Wykonaj procedurę rysującą
+                        drawMap();
+                        for(int i = 0; i < 12; ++i) //wysokosc
+                        {
+                            for (int j = 1; j < 8; ++j) //szerokosc "kolumny"
+                            {
+                                for(int k = 1; k < 8; ++k)  //dlugosc "wiersze"
+                                {
+                                    if(cubemap[j][i][k].exists)
+                                        drawCube(cubemap[j][i][k]);
+                                }
+                            }
+                        }
+                        glfwSwapBuffers(window);
+		                glfwPollEvents();
+                    }
+                    newGame = false;
+                    std::cout << "wykurwiam z tej petli" << std::endl;
+                    glfwSetTime(0);
+                    continue;
                 }
                 else
                 {
@@ -270,13 +250,11 @@ int main(void)
                 }
             }
         }
-        
+
         for (int i = 0; i < model->parts.size(); ++i)
         {
            drawCube(model->parts[i]);
         }
-
-
 
 		glfwSwapBuffers(window);
 		glfwPollEvents(); //Wykonaj procedury callback w zalezności od zdarzeń jakie zaszły.
@@ -301,6 +279,37 @@ bool endGame()
         }
     }
     return false;
+}
+
+void startNewGame()
+{
+    //delete model;
+
+    for(int i = 0; i < 12; ++i) //wysokosc
+    {
+        for (int j = 0; j < 9; ++j) //szerokosc "kolumny"
+        {
+            for(int k = 0; k < 9; ++k)  //dlugosc "wiersze"
+            {
+                cubemap[j][i][k].x = j;
+                cubemap[j][i][k].y = i;
+                cubemap[j][i][k].z = k;
+                if (j == 0 || j == 8)
+                {
+                    if (k == 0 || k == 8)
+                        cubemap[j][i][k].exists = true;
+                    else
+                        cubemap[j][i][k].exists = false;
+                }
+                else
+                    cubemap[j][i][k].exists = false;
+            }
+        }
+    }
+
+    newGame = true;
+    std::cout << "Nowa gra" << std::endl;
+    chooseModel(rand() % 9);
 }
 
 void deleteSurface(int i)
@@ -399,12 +408,12 @@ void chooseModel(int chosen)            //wszedzie teraz trzeba dodac 1 do X i Z
     }
 
 
-        model->mytex = rand()%7;
-        model->state = 0;
-        for (int i = 0; i < model->parts.size(); ++i)
-        {
-           model->parts[i].texture = model->mytex;
-        }
+    model->mytex = rand()%7;
+    model->state = 0;
+    for (int i = 0; i < model->parts.size(); ++i)
+    {
+       model->parts[i].texture = model->mytex;
+    }
 }
 
 

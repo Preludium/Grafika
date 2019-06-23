@@ -2,11 +2,11 @@
 
 seven::seven()
 {
-    parts.push_back(cube(3,12,3));
-    parts.push_back(cube(3,12,4));
-    parts.push_back(cube(4,12,4));
-    parts.push_back(cube(5,12,4));
-    parts.push_back(cube(5,12,5));
+    parts.push_back(cube(3,11,3));
+    parts.push_back(cube(3,11,4));
+    parts.push_back(cube(4,11,4));
+    parts.push_back(cube(5,11,4));
+    parts.push_back(cube(5,11,5));
 }
 
 seven::~seven()

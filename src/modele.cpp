@@ -86,8 +86,5 @@ bool Model::falling(cube (&cubemap)[9][12][9])
 
 void Model::toBottom(cube (&cubemap)[9][12][9])
 {
-    while(this->falling(cubemap))
-    {
-        
-    }
+    while(this->falling(cubemap));
 }

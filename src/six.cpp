@@ -2,11 +2,11 @@
 
 six::six()
 {
-    parts.push_back(cube(4,12,4));
-    parts.push_back(cube(4,13,4));
-    parts.push_back(cube(4,14,4));
-    parts.push_back(cube(5,12,4));
-    parts.push_back(cube(5,14,4));
+    parts.push_back(cube(4,9,4));
+    parts.push_back(cube(4,10,4));
+    parts.push_back(cube(4,11,4));
+    parts.push_back(cube(5,9,4));
+    parts.push_back(cube(5,11,4));
 }
 
 six::~six()

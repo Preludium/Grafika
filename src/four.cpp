@@ -2,10 +2,10 @@
 
 four::four()
 {
-    parts.push_back(cube(3,12,4));
-    parts.push_back(cube(4,12,4));
-    parts.push_back(cube(4,13,4));
-    parts.push_back(cube(4,13,5));
+    parts.push_back(cube(3,10,4));
+    parts.push_back(cube(4,10,4));
+    parts.push_back(cube(4,11,4));
+    parts.push_back(cube(4,11,5));
 }
 
 four::~four()
