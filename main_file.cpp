@@ -216,11 +216,7 @@ int main(void)
 */
 
 	//Główna pętla
-<<<<<<< HEAD
-    chooseModel(0);//rand()%2);
-=======
     chooseModel(rand()%8);
->>>>>>> c5d8cbfe7dfae6c753d73cbe2cadb603c1ab0b39
 	glfwSetTime(0); //Zeruj timer
 	while (!glfwWindowShouldClose(window)) //Tak długo jak okno nie powinno zostać zamknięte
 	{
@@ -264,7 +260,7 @@ int main(void)
 		drawMatrices(); //Wykonaj procedurę rysującą
         drawMap();
 
-        // //DrawBlocks
+        //DrawBlocks
         for(int i = 0; i < 12; ++i) //wysokosc
         {
             for (int j = 1; j < 8; ++j) //szerokosc "kolumny"
