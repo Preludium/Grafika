@@ -62,6 +62,7 @@
 		<Unit filename="include/four.h" />
 		<Unit filename="include/modele.h" />
 		<Unit filename="include/one.h" />
+		<Unit filename="include/scoreboard.h" />
 		<Unit filename="include/seven.h" />
 		<Unit filename="include/single.h" />
 		<Unit filename="include/six.h" />
@@ -80,6 +81,7 @@
 		<Unit filename="src/four.cpp" />
 		<Unit filename="src/modele.cpp" />
 		<Unit filename="src/one.cpp" />
+		<Unit filename="src/scoreboard.cpp" />
 		<Unit filename="src/seven.cpp" />
 		<Unit filename="src/single.cpp" />
 		<Unit filename="src/six.cpp" />

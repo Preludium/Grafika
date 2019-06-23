@@ -293,18 +293,21 @@ void showTopScores()
 {
     std::cout << std::endl << ":::  Top 10 Scores  :::" << std::endl;
     std::sort(topScores.rbegin(), topScores.rend());
+    if (topScores.size() > 10)
+        topScores.pop_back();
 
-    for (int i = 0; i < topScores.size(); ++i)
+    for (int i = 0; i < 10; ++i)
     {
-        if (i < 10)
+        std::cout << i + 1 << ". ";
+        if (topScores.size() >= i + 1)
         {
-            std::cout << i + 1 << ". ";
             topScores[i].showScoreBoard();
         }
         else
         {
-            topScores.pop_back();
+            std::cout << std::endl;
         }
+        
     }
 
     std::cout << "Press ESC to start new game" << std::endl;
