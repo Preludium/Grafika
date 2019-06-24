@@ -10,8 +10,8 @@ class two : public Model
         two();
         int points;
         virtual int getPoints();
-        virtual void RotL(cube (&cubemap)[9][12][9]);
-        virtual void RotR(cube (&cubemap)[9][12][9]);
+        virtual void RotL(cube (&cubemap)[9][15][9]);
+        virtual void RotR(cube (&cubemap)[9][15][9]);
         virtual ~two();
 
     protected:

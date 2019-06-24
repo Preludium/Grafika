@@ -42,7 +42,7 @@ Model *model;
 ShaderProgram *sp;
 std::vector<cube> mPos;
 GLuint text[7];
-cube cubemap[9][12][9];
+cube cubemap[9][15][9];
 
 std::vector<ScoreBoard> topScores;
 
@@ -189,7 +189,7 @@ int main(void)
 
 
 	//Główna pętla
-    chooseModel(rand() % 10);
+    chooseModel(8);
 	glfwSetTime(0); //Zeruj timer
 	while (!glfwWindowShouldClose(window)) //Tak długo jak okno nie powinno zostaĠ Ǡzamknięte
 	{
@@ -231,7 +231,7 @@ int main(void)
                     {
                         drawMatrices(); //Wykonaj procedurę rysującą
                         drawMap();
-                        for(int i = 0; i < 12; ++i) //wysokosc
+                        for(int i = 0; i < 15; ++i) //wysokosc
                         {
                             for (int j = 1; j < 8; ++j) //szerokosc "kolumny"
                             {
@@ -254,7 +254,7 @@ int main(void)
                 else
                 {
                     checkSurfaces();
-                    chooseModel(rand() % 10);
+                    chooseModel(8);
                     glfwSetTime(0);
                 }
             }
@@ -265,7 +265,7 @@ int main(void)
         drawMap();
 
         //DrawBlocks
-        for(int i = 0; i < 12; ++i) //wysokosc
+        for(int i = 0; i < 15; ++i) //wysokosc
         {
             for (int j = 1; j < 8; ++j) //szerokosc "kolumny"
             {
@@ -345,7 +345,7 @@ bool endGame()
 
 void startNewGame()
 {
-    for(int i = 0; i < 12; ++i) //wysokosc
+    for(int i = 0; i < 15; ++i) //wysokosc
     {
         for (int j = 0; j < 9; ++j) //szerokosc "kolumny"
         {
@@ -377,13 +377,13 @@ void startNewGame()
 
 void deleteSurface(int i)
 {
-    for (; i < 12; ++i)
+    for (; i < 15; ++i)
     {
         for (int j = 1; j < 8; ++j)
         {
             for (int k = 1; k < 8; ++k)
             {
-                if (i == 11)
+                if (i == 14)
                 {
                     cubemap[j][i][k].exists == false;
                 }
@@ -435,7 +435,7 @@ void checkSurfaces()
 void chooseModel(int chosen)
 {
     // std::cout << chosen << std::endl;
-    switch(chosen - 1)
+    switch(chosen)
     {
         case 0:
         model = new Single;

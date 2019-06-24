@@ -3,11 +3,11 @@
 one::one()
 {
     this->points = 40;
-   parts.push_back(cube(4,9,4));
-   parts.push_back(cube(4,10,4));
+   parts.push_back(cube(4,12,4));
+   parts.push_back(cube(4,13,4));
 
-   parts.push_back(cube(5,10,4));
-   parts.push_back(cube(5,11,4));
+   parts.push_back(cube(5,13,4));
+   parts.push_back(cube(5,14,4));
 
 }
 
@@ -21,7 +21,7 @@ int one::getPoints()
     return this->points;
 }
 
-void one::RotL(cube (&cubemap)[9][12][9])
+void one::RotL(cube (&cubemap)[9][15][9])
 {
     switch(state)
     {
@@ -89,7 +89,7 @@ void one::RotL(cube (&cubemap)[9][12][9])
 }
 
 
-void one::RotR(cube (&cubemap)[9][12][9])
+void one::RotR(cube (&cubemap)[9][15][9])
 {
     switch(state)
     {
