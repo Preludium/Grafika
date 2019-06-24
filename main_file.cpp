@@ -189,11 +189,7 @@ int main(void)
 
 
 	//Główna pętla
-<<<<<<< HEAD
     chooseModel(rand() % 9);
-=======
-    chooseModel(8);
->>>>>>> 2c56f4992ab56950203d532c4b17e70b17355796
 	glfwSetTime(0); //Zeruj timer
 	while (!glfwWindowShouldClose(window)) //Tak długo jak okno nie powinno zostaĠ Ǡzamknięte
 	{
@@ -260,11 +256,7 @@ int main(void)
                 else
                 {
                     checkSurfaces();
-<<<<<<< HEAD
                     chooseModel(rand() % 9);
-=======
-                    chooseModel(8);
->>>>>>> 2c56f4992ab56950203d532c4b17e70b17355796
                     glfwSetTime(0);
                 }
             }
