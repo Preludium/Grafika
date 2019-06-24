@@ -26,13 +26,13 @@ int test::getPoints()
     return this->points;
 }
 
-void test::RotL(cube (&cubemap)[9][12][9])
+void test::RotL(cube (&cubemap)[9][15][9])
 {
-    
+
 }
 
 
-void test::RotR(cube (&cubemap)[9][12][9])
+void test::RotR(cube (&cubemap)[9][15][9])
 {
-    
+
 }

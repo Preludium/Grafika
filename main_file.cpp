@@ -42,7 +42,7 @@ Model *model;
 ShaderProgram *sp;
 std::vector<cube> mPos;
 GLuint text[7];
-cube cubemap[9][12][9];
+cube cubemap[9][15][9];
 
 std::vector<ScoreBoard> topScores;
 
@@ -189,7 +189,7 @@ int main(void)
 
 
 	//Główna pętla
-    chooseModel(rand() % 10);
+    chooseModel(rand() % 9);
 	glfwSetTime(0); //Zeruj timer
 	while (!glfwWindowShouldClose(window)) //Tak długo jak okno nie powinno zostaĠ Ǡzamknięte
 	{
@@ -231,7 +231,7 @@ int main(void)
                     {
                         drawMatrices(); //Wykonaj procedurę rysującą
                         drawMap();
-                        for(int i = 0; i < 12; ++i) //wysokosc
+                        for(int i = 0; i < 15; ++i) //wysokosc
                         {
                             for (int j = 1; j < 8; ++j) //szerokosc "kolumny"
                             {
@@ -246,6 +246,8 @@ int main(void)
 		                glfwPollEvents();
                     }
                     topScores.push_back(ScoreBoard());
+                    updateConsole();
+
                     newGame = false;
                     endGameMode = false;
                     glfwSetTime(0);
@@ -254,7 +256,7 @@ int main(void)
                 else
                 {
                     checkSurfaces();
-                    chooseModel(rand() % 10);
+                    chooseModel(rand() % 9);
                     glfwSetTime(0);
                 }
             }
@@ -265,7 +267,7 @@ int main(void)
         drawMap();
 
         //DrawBlocks
-        for(int i = 0; i < 12; ++i) //wysokosc
+        for(int i = 0; i < 15; ++i) //wysokosc
         {
             for (int j = 1; j < 8; ++j) //szerokosc "kolumny"
             {
@@ -345,7 +347,7 @@ bool endGame()
 
 void startNewGame()
 {
-    for(int i = 0; i < 12; ++i) //wysokosc
+    for(int i = 0; i < 15; ++i) //wysokosc
     {
         for (int j = 0; j < 9; ++j) //szerokosc "kolumny"
         {
@@ -367,8 +369,9 @@ void startNewGame()
         }
     }
 
-    // topScores.push_back(ScoreBoard());
-    topScores.back().clearScore();
+    if (!endGameMode)
+        topScores.back().clearScore();
+
     updateConsole();
 
     newGame = true;
@@ -377,13 +380,13 @@ void startNewGame()
 
 void deleteSurface(int i)
 {
-    for (; i < 12; ++i)
+    for (; i < 15; ++i)
     {
         for (int j = 1; j < 8; ++j)
         {
             for (int k = 1; k < 8; ++k)
             {
-                if (i == 11)
+                if (i == 14)
                 {
                     cubemap[j][i][k].exists == false;
                 }
@@ -435,7 +438,7 @@ void checkSurfaces()
 void chooseModel(int chosen)
 {
     // std::cout << chosen << std::endl;
-    switch(chosen - 1)
+    switch(chosen)
     {
         case 0:
         model = new Single;
@@ -539,14 +542,8 @@ void drawMap(){
     float *colors = map_colors;
     unsigned int vertexCount = map_vertsCount;
 
-    glm::mat4 lp=glm::mat4(1.0f);
-    lp=glm::translate(lp,glm::vec3(0.0f,20.0f,-20.0f));
-    lp=glm::rotate(lp,PI/4,glm::vec3(0.0f,1.0f,0.0f));
-    lp=glm::rotate(lp,cam_z,glm::vec3(0.0f,1.0f,0.0f));
-
     sp->use();
     glUniformMatrix4fv(sp->u("M"),1,false,glm::value_ptr(M));
-    glUniformMatrix4fv(sp->u("lp"),1,false,glm::value_ptr(lp));
 
     glEnableVertexAttribArray(sp->a("vertex"));  //Włącz przesyłanie danych do atrybutu vertex
     glVertexAttribPointer(sp->a("vertex"),4,GL_FLOAT,false,0,verts); //Wskaż tablicę z danymi dla atrybutu vertex
@@ -580,12 +577,11 @@ void drawMatrices()
 
     glm::mat4 P=glm::perspective(50.0f*PI/180.0f, aspectRatio, 0.01f, 100.0f);
 
-    glm::mat4 lp=glm::mat4(1.0f);
+    glm::mat4 lp1=glm::mat4(1.0f);
 
-    lp=glm::translate(lp,glm::vec3(0.0f,55.0f,-20.0f));     //obracac zrodlo swiatla razem z kamera
-    lp=glm::rotate(lp,PI/4,glm::vec3(0.0f,1.0f,0.0f));      // jest jeszcze jedno w drawMap
-
-    lp=glm::rotate(lp,cam_z,glm::vec3(0.0f,1.0f,0.0f));
+    lp1=glm::translate(lp1,glm::vec3(0.0f,55.0f,-20.0f));    
+    // lp1=glm::rotate(lp1,PI/4,glm::vec3(0.0f,1.0f,0.0f));      
+    lp1=glm::rotate(lp1,cam_z,glm::vec3(0.0f,1.0f,0.0f));
 
 	// V=glm::rotate(V,PI/4,glm::vec3(0.0f,1.0f,0.0f)); //kamera
 	V=glm::rotate(V,cam_z,glm::vec3(0.0f,1.0f,0.0f)); //kamera
@@ -593,5 +589,37 @@ void drawMatrices()
     sp->use();
     glUniformMatrix4fv(sp->u("P"),1,false,glm::value_ptr(P));
     glUniformMatrix4fv(sp->u("V"),1,false,glm::value_ptr(V));
-    glUniformMatrix4fv(sp->u("lp"),1,false,glm::value_ptr(lp));
+    glUniformMatrix4fv(sp->u("lp"),1,false,glm::value_ptr(lp1));
+
+    glm::mat4 lp2=glm::mat4(1.0f);
+    lp2=glm::translate(lp2,glm::vec3(0.0f,20.0f,-20.0f));
+    lp2=glm::rotate(lp2,PI/2,glm::vec3(0.0f,1.0f,0.0f));
+    lp2=glm::rotate(lp2,cam_z,glm::vec3(0.0f,1.0f,0.0f));
+
+    sp->use();
+    glUniformMatrix4fv(sp->u("lp"),1,false,glm::value_ptr(lp2));
+
+    glm::mat4 lp3=glm::mat4(1.0f);
+    lp3=glm::translate(lp3,glm::vec3(0.0f,20.0f,-20.0f));
+    lp3=glm::rotate(lp3,-PI/2,glm::vec3(0.0f,1.0f,0.0f));
+    lp3=glm::rotate(lp3,cam_z,glm::vec3(0.0f,1.0f,0.0f));
+
+    sp->use();
+    glUniformMatrix4fv(sp->u("lp"),1,false,glm::value_ptr(lp3));
+
+    glm::mat4 lp4=glm::mat4(1.0f);
+    lp4=glm::translate(lp4,glm::vec3(0.0f,55.0f,-20.0f));
+    lp4=glm::rotate(lp4,-PI/2,glm::vec3(0.0f,1.0f,0.0f));
+    lp4=glm::rotate(lp4,cam_z,glm::vec3(0.0f,1.0f,0.0f));
+
+    sp->use();
+    glUniformMatrix4fv(sp->u("lp"),1,false,glm::value_ptr(lp4));
+
+    glm::mat4 lp5=glm::mat4(1.0f);
+    lp5=glm::translate(lp5,glm::vec3(0.0f,55.0f,-20.0f));
+    lp5=glm::rotate(lp5,PI/2,glm::vec3(0.0f,1.0f,0.0f));
+    lp5=glm::rotate(lp5,cam_z,glm::vec3(0.0f,1.0f,0.0f));
+
+    sp->use();
+    glUniformMatrix4fv(sp->u("lp"),1,false,glm::value_ptr(lp5));
 }

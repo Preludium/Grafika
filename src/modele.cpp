@@ -10,7 +10,7 @@ Model::~Model()
     //ctor
 }
 
-void Model::MovLR(int dir, cube (&cubemap)[9][12][9])
+void Model::MovLR(int dir, cube (&cubemap)[9][15][9])
 {
         for (int i = 0; i < parts.size(); ++i)
     {
@@ -34,7 +34,7 @@ void Model::MovLR(int dir, cube (&cubemap)[9][12][9])
 
 }
 
-void Model::MovUD(int dir, cube (&cubemap)[9][12][9])
+void Model::MovUD(int dir, cube (&cubemap)[9][15][9])
 {
 
     for (int i = 0; i < parts.size(); ++i)
@@ -59,7 +59,7 @@ void Model::MovUD(int dir, cube (&cubemap)[9][12][9])
 
 }
 
-bool Model::falling(cube (&cubemap)[9][12][9])
+bool Model::falling(cube (&cubemap)[9][15][9])
 {
     for (int i = 0; i < parts.size(); ++i)
     {
@@ -85,7 +85,7 @@ bool Model::falling(cube (&cubemap)[9][12][9])
 
 
 
-void Model::toBottom(cube (&cubemap)[9][12][9])
+void Model::toBottom(cube (&cubemap)[9][15][9])
 {
     while(this->falling(cubemap));
 }

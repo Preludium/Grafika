@@ -3,11 +3,11 @@
 two::two()
 {
     this->points = 40;
-    parts.push_back(cube(4,10,3));
-    parts.push_back(cube(4,10,4));
+    parts.push_back(cube(4,12,3));
+    parts.push_back(cube(4,12,4));
 
-    parts.push_back(cube(5,10,4));
-    parts.push_back(cube(4,11,4));
+    parts.push_back(cube(5,12,4));
+    parts.push_back(cube(4,13,4));
 
 }
 
@@ -21,7 +21,7 @@ int two::getPoints()
     return this->points;
 }
 
-void two::RotL(cube (&cubemap)[9][12][9])
+void two::RotL(cube (&cubemap)[9][15][9])
 {
     switch(state)
     {
@@ -67,7 +67,7 @@ void two::RotL(cube (&cubemap)[9][12][9])
 }
 
 
-void two::RotR(cube (&cubemap)[9][12][9])
+void two::RotR(cube (&cubemap)[9][15][9])
 {
     switch(state)
     {

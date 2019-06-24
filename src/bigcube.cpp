@@ -3,14 +3,14 @@
 bigcube::bigcube()
 {
     this->points = 80;
-    parts.push_back(cube(4,10,4));
-    parts.push_back(cube(4,10,5));
-    parts.push_back(cube(5,10,4));
-    parts.push_back(cube(5,10,5));
-    parts.push_back(cube(4,11,4));
-    parts.push_back(cube(4,11,5));
-    parts.push_back(cube(5,11,4));
-    parts.push_back(cube(5,11,5));
+    parts.push_back(cube(4,12,4));
+    parts.push_back(cube(4,12,5));
+    parts.push_back(cube(5,12,4));
+    parts.push_back(cube(5,12,5));
+    parts.push_back(cube(4,13,4));
+    parts.push_back(cube(4,13,5));
+    parts.push_back(cube(5,13,4));
+    parts.push_back(cube(5,13,5));
 }
 
 int bigcube::getPoints()
@@ -22,13 +22,13 @@ bigcube::~bigcube()
 {
     //dtor
 }
-void bigcube::RotL(cube (&cubemap)[9][12][9])
+void bigcube::RotL(cube (&cubemap)[9][15][9])
 {
     //tu niczego sie nie spodziewamy
 }
 
 
-void bigcube::RotR(cube (&cubemap)[9][12][9])
+void bigcube::RotR(cube (&cubemap)[9][15][9])
 {
     //tu niczego sie nie spodziewamy
 }
