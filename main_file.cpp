@@ -40,7 +40,6 @@ bool endGameMode = false;
 bool newGame = false;
 Model *model;
 ShaderProgram *sp;
-std::vector<cube> mPos;
 GLuint text[7];
 cube cubemap[9][15][9];
 
@@ -221,7 +220,7 @@ int main(void)
                 {
                     std::cout << "Game Over" << std::endl;
                     endGameMode = true;
-                    // wyswietl wszystki wyniki
+                    // wyswietl wszystkie wyniki
                     topScores.back().updateName();
                     showTopScores();
 
@@ -402,8 +401,6 @@ void deleteSurface(int i)
 
 void checkSurfaces()
 {
-    // jesli cala powierzchnia pusta to nie ma co sprawdzac dalej
-    //w sumie wystarczy znalezc jeden pusty i mozna leciec dalej
     bool toClear;
 
     for (int i = 11; i >= 0; --i)
@@ -437,7 +434,6 @@ void checkSurfaces()
 
 void chooseModel(int chosen)
 {
-    // std::cout << chosen << std::endl;
     switch(chosen)
     {
         case 0:
@@ -504,9 +500,7 @@ void drawCube(cube klocek)
     float *normals = modelCubeNormals;
     unsigned int vertexCount = modelVertexCount;
 
-
     M = glm::translate(M, glm::vec3(2 * fx - 2, 2 * fy, 2 * fz - 2));
-
 
     sp->use();
     glUniformMatrix4fv(sp->u("M"),1,false,glm::value_ptr(M));
@@ -577,49 +571,19 @@ void drawMatrices()
 
     glm::mat4 P=glm::perspective(50.0f*PI/180.0f, aspectRatio, 0.01f, 100.0f);
 
-    glm::mat4 lp1=glm::mat4(1.0f);
+	V=glm::rotate(V,cam_z,glm::vec3(0.0f,1.0f,0.0f)); //kamera
 
+    glm::mat4 lp1=glm::mat4(1.0f);
     lp1=glm::translate(lp1,glm::vec3(0.0f,55.0f,-20.0f));    
-    // lp1=glm::rotate(lp1,PI/4,glm::vec3(0.0f,1.0f,0.0f));      
     lp1=glm::rotate(lp1,cam_z,glm::vec3(0.0f,1.0f,0.0f));
 
-	// V=glm::rotate(V,PI/4,glm::vec3(0.0f,1.0f,0.0f)); //kamera
-	V=glm::rotate(V,cam_z,glm::vec3(0.0f,1.0f,0.0f)); //kamera
+    glm::mat4 lp2=glm::mat4(1.0f);
+    lp2=glm::translate(lp2,glm::vec3(0.0f,20.0f,-20.0f));    
+    lp2=glm::rotate(lp2,cam_z,glm::vec3(0.0f,1.0f,0.0f));
 
     sp->use();
     glUniformMatrix4fv(sp->u("P"),1,false,glm::value_ptr(P));
     glUniformMatrix4fv(sp->u("V"),1,false,glm::value_ptr(V));
-    glUniformMatrix4fv(sp->u("lp"),1,false,glm::value_ptr(lp1));
-
-    glm::mat4 lp2=glm::mat4(1.0f);
-    lp2=glm::translate(lp2,glm::vec3(0.0f,20.0f,-20.0f));
-    lp2=glm::rotate(lp2,PI/2,glm::vec3(0.0f,1.0f,0.0f));
-    lp2=glm::rotate(lp2,cam_z,glm::vec3(0.0f,1.0f,0.0f));
-
-    sp->use();
-    glUniformMatrix4fv(sp->u("lp"),1,false,glm::value_ptr(lp2));
-
-    glm::mat4 lp3=glm::mat4(1.0f);
-    lp3=glm::translate(lp3,glm::vec3(0.0f,20.0f,-20.0f));
-    lp3=glm::rotate(lp3,-PI/2,glm::vec3(0.0f,1.0f,0.0f));
-    lp3=glm::rotate(lp3,cam_z,glm::vec3(0.0f,1.0f,0.0f));
-
-    sp->use();
-    glUniformMatrix4fv(sp->u("lp"),1,false,glm::value_ptr(lp3));
-
-    glm::mat4 lp4=glm::mat4(1.0f);
-    lp4=glm::translate(lp4,glm::vec3(0.0f,55.0f,-20.0f));
-    lp4=glm::rotate(lp4,-PI/2,glm::vec3(0.0f,1.0f,0.0f));
-    lp4=glm::rotate(lp4,cam_z,glm::vec3(0.0f,1.0f,0.0f));
-
-    sp->use();
-    glUniformMatrix4fv(sp->u("lp"),1,false,glm::value_ptr(lp4));
-
-    glm::mat4 lp5=glm::mat4(1.0f);
-    lp5=glm::translate(lp5,glm::vec3(0.0f,55.0f,-20.0f));
-    lp5=glm::rotate(lp5,PI/2,glm::vec3(0.0f,1.0f,0.0f));
-    lp5=glm::rotate(lp5,cam_z,glm::vec3(0.0f,1.0f,0.0f));
-
-    sp->use();
-    glUniformMatrix4fv(sp->u("lp"),1,false,glm::value_ptr(lp5));
+    glUniformMatrix4fv(sp->u("lp1"),1,false,glm::value_ptr(lp1));
+    glUniformMatrix4fv(sp->u("lp2"),1,false,glm::value_ptr(lp2));
 }
