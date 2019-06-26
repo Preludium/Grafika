@@ -2004,7 +2004,7 @@
 	<iostream>
 	"lodepng.h"
 
-1561373446 source:c:\users\barte\documents\studia\semestr 4\gkiw\grafika\main_file.cpp
+1561537527 source:c:\users\barte\documents\studia\semestr 4\gkiw\grafika\main_file.cpp
 	<GL/glew.h>
 	<GLFW/glfw3.h>
 	<glm/glm.hpp>
@@ -3047,7 +3047,7 @@
 1561367022 c:\users\barte\documents\studia\semestr 4\gkiw\grafika\include\six.h
 	<modele.h>
 
-1561377345 source:c:\users\barte\documents\studia\semestr 4\gkiw\grafika\src\seven.cpp
+1561377840 source:c:\users\barte\documents\studia\semestr 4\gkiw\grafika\src\seven.cpp
 	"seven.h"
 
 1561367072 c:\users\barte\documents\studia\semestr 4\gkiw\grafika\include\seven.h
